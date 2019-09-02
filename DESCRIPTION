@@ -1,0 +1,12 @@
+Package: ip.resultats
+Title: Résultats des enquetes d'insertion professionnelle
+Version: 0.0.0.9000
+Authors@R: person('Stéphane', 'Le Hénanff', email = 'stephane.le-henanff@univ-tlse3.fr', role = c('cre', 'aut'))
+Description: Les résultats des enquêtes d'insertion professionnelle sont proposés grâce à une application shiny.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    shiny, 
+    golem
+RoxygenNote: 6.1.0
