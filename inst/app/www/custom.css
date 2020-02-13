@@ -1,0 +1,69 @@
+.main-header { 
+	position: fixed; width: 100%; 
+}
+
+.sidebar { 
+  position: fixed; width: 220px; 
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.control-sidebar { 
+	position: fixed;
+}
+
+.content { 
+	margin-top: 50px; 
+}
+
+hr {border-top: 1px solid #000000;}
+
+.sidebar-menu .treeview-menu-custom {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: 5px;
+}
+
+.sidebar-menu .treeview-menu-custom .treeview-menu-custom {
+  padding-left: 20px;
+}
+.sidebar-menu .treeview-menu-custom > li {
+  margin: 0;
+}
+.sidebar-menu .treeview-menu-custom > li > a {
+  padding: 5px 5px 5px 15px;
+  display: block;
+  font-size: 14px;
+}
+
+.sidebar-menu .treeview-menu-custom > li > a > .fa,
+.sidebar-menu .treeview-menu-custom > li > a > .glyphicon,
+.sidebar-menu .treeview-menu-custom > li > a > .ion {
+  width: 20px;
+}
+
+.skin-blue .sidebar-menu > li > .treeview-menu-custom {
+  margin: 0 1px;
+  background: #2c3b41;
+}
+
+.skin-blue .treeview-menu-custom > li.active > a,
+.skin-blue .treeview-menu-custom > li > a:hover {
+  color: #ffffff;
+}
+
+.skin-blue .main-header .logo {
+  background: #ffffff;
+}
+
+.skin-blue .main-header .logo:hover {
+  background: #ffffff;
+}
+
+.tippy-tooltip {
+  font-size: 1.5rem;
+  padding: 0.3rem 0.6rem;
+}

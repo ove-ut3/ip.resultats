@@ -1,0 +1,164 @@
+# Module UI
+  
+#' @title   mod_emploi_30mois_employeur_ui and mod_emploi_30mois_employeur_server
+#' @description  A shiny Module.
+#'
+#' @param id shiny id
+#' @param input internal
+#' @param output internal
+#' @param session internal
+#'
+#' @rdname mod_emploi_30mois_employeur
+#'
+#' @keywords internal
+#' @export 
+#' @importFrom shiny NS tagList 
+mod_emploi_30mois_employeur_ui <- function(id){
+  ns <- NS(id)
+  tagList(
+    fluidRow(
+      column(
+        width = 12, offset = 3,
+        box(
+          title = "Diplômés en emploi",
+          valueBoxOutput(ns("nombre_emploi"), width = 12)
+        )
+      )
+    ),
+    fluidRow(
+      tabBox(
+        title = "Type d'employeur",
+        tabPanel(
+          "Valeur",
+          plotly::plotlyOutput(ns("emploi_30mois_employeur_type"))
+        ),
+        tabPanel(
+          "\u00C9volution",
+          plotly::plotlyOutput(ns("emploi_30mois_employeur_type_histo"))
+        )
+      ),
+      tabBox(
+        title = "Localisation",
+        tabPanel(
+          "Valeur",
+          plotly::plotlyOutput(ns("emploi_30mois_employeur_localisation"))
+        ),
+        tabPanel(
+          "\u00C9volution",
+          plotly::plotlyOutput(ns("emploi_30mois_employeur_localisation_histo"))
+        )
+      )
+    ),
+    fluidRow(
+      tabBox(
+        title = "Taille de l'employeur",
+        tabPanel(
+          "Valeur",
+          plotly::plotlyOutput(ns("emploi_30mois_employeur_taille"))
+        ),
+        tabPanel(
+          "\u00C9volution",
+          plotly::plotlyOutput(ns("emploi_30mois_employeur_taille_histo"))
+        )
+      ),
+      box(
+        title = "Secteur d'activité",
+        echarts4r::echarts4rOutput(ns("emploi_30mois_employeur_secteur"))
+      )
+    )
+  )
+}
+    
+# Module Server
+    
+#' @rdname mod_emploi_30mois_employeur
+#' @export
+#' @keywords internal
+    
+mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
+  ns <- session$ns
+  
+  output$nombre_emploi <- renderValueBox({
+    valueBox(
+      nrow(rv$dt_emploi_30mois()) %>% caractr::str_number_fr(),
+      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie")
+    )
+  })
+  
+  output$emploi_30mois_employeur_type <- plotly::renderPlotly({
+    
+    rv$dt_emploi_30mois() %>%  
+      tidyr::drop_na(emploi_n2_type_ent) %>% 
+      dplyr::pull(emploi_n2_type_ent) %>% 
+      graphr::shiny_donut(alpha = 0.67)
+    
+  })
+  
+  output$emploi_30mois_employeur_type_histo <- plotly::renderPlotly({
+    
+    data <- rv$dt_evolution() %>%
+      dplyr::filter(parcours == "Vie active durable",
+                    situation_pro_n2 == "En emploi") %>% 
+      tidyr::drop_na(emploi_n2_type_ent) %>% 
+      dplyr::mutate_at("annee", as.character)
+    
+    graphr::shiny_areas_evolution(data$annee, data$emploi_n2_type_ent, title_x = "Année universitaire")
+    
+  })
+  
+  output$emploi_30mois_employeur_localisation <- plotly::renderPlotly({
+    
+    rv$dt_emploi_occupe() %>%
+      tidyr::drop_na(emploi_n2_localisation) %>% 
+      dplyr::pull(emploi_n2_localisation) %>%
+      graphr::shiny_donut(alpha = 0.67)
+    
+  })
+  
+  output$emploi_30mois_employeur_localisation_histo <- plotly::renderPlotly({
+    
+    data <- rv$dt_evolution() %>%
+      dplyr::filter(parcours == "Vie active durable",
+                    emploi_occupe == "Oui") %>% 
+      tidyr::drop_na(emploi_n2_localisation) %>% 
+      dplyr::mutate_at("annee", as.character)
+    
+    graphr::shiny_areas_evolution(data$annee, data$emploi_n2_localisation, title_x = "Année universitaire")
+    
+  })
+  
+  output$emploi_30mois_employeur_taille <- plotly::renderPlotly({
+    
+    rv$dt_emploi_occupe() %>%
+      tidyr::drop_na(emploi_n2_taille_entreprise) %>% 
+      dplyr::pull(emploi_n2_taille_entreprise) %>%
+      graphr::shiny_donut(alpha = 0.67)
+    
+  })
+  
+  output$emploi_30mois_employeur_taille_histo <- plotly::renderPlotly({
+    
+    data <- rv$dt_evolution() %>%
+      dplyr::filter(parcours == "Vie active durable",
+                    emploi_occupe == "Oui") %>% 
+      tidyr::drop_na(emploi_n2_taille_entreprise) %>% 
+      dplyr::mutate_at("annee", as.character)
+    
+    graphr::shiny_areas_evolution(data$annee, data$emploi_n2_taille_entreprise, title_x = "Année universitaire")
+    
+  })
+  
+  output$emploi_30mois_employeur_secteur <- echarts4r::renderEcharts4r({
+    
+    validate(
+      need(!is.null(rv$inputs[["filtre-donnees-formation"]]), "Au moins une formation doit être sélectionnée")
+    )
+    
+    rv$dt_emploi_occupe() %>%
+      tidyr::drop_na(emploi_n2_secteur_ent) %>%
+      dplyr::pull(emploi_n2_secteur_ent) %>%
+      graphr::shiny_treemap(alpha = 0.67)
+    
+  })
+  
+}

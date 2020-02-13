@@ -7,6 +7,26 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    shiny, 
-    golem
-RoxygenNote: 6.1.0
+    caractr,
+    dplyr,
+    DT,
+    echarts4r,
+    geographie,
+    golem,
+    graphr,
+    htmltools,
+    plotly,
+    purrr,
+    shiny,
+    shinydashboardPlus,
+    shinymanager,
+    shinyWidgets,
+    tidyr
+RoxygenNote: 7.0.2
+Suggests: 
+    testthat
+Remotes:
+    stephLH/caractr,
+    JohnCoene/echarts4r,
+    stephLH/geographie,
+    stephLH/graphr

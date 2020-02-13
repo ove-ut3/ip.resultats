@@ -8,5 +8,16 @@ golem::detach_all_attached()
 # Document and reload your package
 golem::document_and_reload()
 
+credentials <- data.frame(
+  user = c("rguilet", "admin"),
+  password = c("cfvu_test", "T&Tala!"),
+  stringsAsFactors = FALSE
+)
+
+diplome <- "Master"
+
 # Run the application
-ip.resultats::run_app()
+ip.resultats::run_app(
+  credentials = credentials,
+  diplome = diplome
+)

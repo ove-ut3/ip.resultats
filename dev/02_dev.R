@@ -7,8 +7,18 @@
 
 ## 2.1 Add modules
 ## 
-golem::add_module( name = "my_first_module" ) # Name of the module
-golem::add_module( name = "my_other_module" ) # Name of the module
+golem::add_module( name = "filtre_right_side_bar" ) # Name of the module
+golem::add_module( name = "accueil" ) # Name of the module
+golem::add_module( name = "synthese" ) # Name of the module
+golem::add_module( name = "diplomes" ) # Name of the module
+golem::add_module( name = "repondants" ) # Name of the module
+golem::add_module( name = "poursuite_etudes" ) # Name of the module
+golem::add_module( name = "vie_active_durable" ) # Name of the module
+golem::add_module( name = "emploi_premier" ) # Name of the module
+golem::add_module( name = "emploi_30mois_poste" ) # Name of the module
+golem::add_module( name = "emploi_30mois_employeur" ) # Name of the module
+golem::add_module( name = "emploi_30mois_adequation" ) # Name of the module
+golem::add_module( name = "temoignages" ) # Name of the module
 
 ## 2.2 Add dependencies
 
