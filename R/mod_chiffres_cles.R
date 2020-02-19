@@ -36,7 +36,7 @@ mod_chiffres_cles_ui <- function(id){
         ),
         box(
           title = "Poursuite d'études : le dernier niveau de diplôme visé", width = 12,
-          echarts4r::echarts4rOutput(ns("niveau_diplome"), height = "150px")
+          plotly::plotlyOutput(ns("niveau_diplome"), height = "150px")
         ),
         box(
           title = "Vie active durable : les caractéristiques d'emploi", width = 12,
@@ -124,18 +124,18 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
     )
   })
   
-  output$niveau_diplome <- echarts4r::renderEcharts4r({
+  output$niveau_diplome <- plotly::renderPlotly({
     
     if (golem::get_golem_options("diplome") %in% c("DUT", "LP")) {
       levels <- c("Niveau Bac+5", "Niveau Bac+3", "Diplôme de niveau inférieur et autre")
     } else if (golem::get_golem_options("diplome") == "Master") {
       levels <- c("Doctorat", "Niveau Bac+5", "Diplôme de niveau inférieur et autre")
     }
-
+    
     rv$dt_etudes() %>%
       dplyr::mutate_at("niveau_diplome_vise", factor, levels = levels) %>%
-      tidyr::drop_na(niveau_diplome_vise) %>% 
-      dplyr::pull(niveau_diplome_vise) %>% 
+      tidyr::drop_na(niveau_diplome_vise) %>%
+      dplyr::pull(niveau_diplome_vise) %>%
       graphr::shiny_treemap(alpha = 0.67)
     
   })

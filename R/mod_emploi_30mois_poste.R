@@ -72,7 +72,7 @@ mod_emploi_30mois_poste_ui <- function(id){
     fluidRow(
       box(
         title = "Domaine d'emploi",
-        echarts4r::echarts4rOutput(ns("emploi_30mois_domaine"))
+        plotly::plotlyOutput(ns("emploi_30mois_domaine"))
       ),
       box(
         title = "Intitulé d'emploi",
@@ -218,7 +218,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     
   })
   
-  output$emploi_30mois_domaine <- echarts4r::renderEcharts4r({
+  output$emploi_30mois_domaine <- plotly::renderPlotly({
 
     validate(
       need(!is.null(rv$inputs[["filtre-donnees-formation"]]), "Au moins une formation doit être sélectionnée")

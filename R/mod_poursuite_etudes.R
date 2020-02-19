@@ -67,11 +67,11 @@ mod_poursuite_etudes_ui <- function(id){
         box(
           title = "Quel est le dernier niveau de diplôme visé ?", width = 12,
           uiOutput(ns("input_poursuite_etudes")),
-          echarts4r::echarts4rOutput(ns("plot_poursuite_etudes"))
+          plotly::plotlyOutput(ns("plot_poursuite_etudes"))
         ),
         box(
           title = "Quelles raisons pour la poursuite d'études", width = 12,
-          echarts4r::echarts4rOutput(ns("raisons_poursuite_etudes"))
+          plotly::plotlyOutput(ns("raisons_poursuite_etudes"))
         )
       )
       
@@ -189,7 +189,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
     
   })
   
-  output$plot_poursuite_etudes <- echarts4r::renderEcharts4r({
+  output$plot_poursuite_etudes <- plotly::renderPlotly({
     
     if (golem::get_golem_options("diplome") %in% c("DUT", "LP")) {
       levels <- c("Niveau Bac+5", "Niveau Bac+3", "Diplôme de niveau inférieur et autre")
@@ -215,6 +215,8 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       ) %>% 
       dplyr::mutate_at("niveau_diplome_vise", factor, levels) %>% 
       tidyr::nest_legacy(color, colorAlpha, .key = "style")
+    
+    browser()
     
     library(echarts4r)
     

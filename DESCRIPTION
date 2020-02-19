@@ -9,7 +9,6 @@ LazyData: true
 Imports: 
     dplyr,
     DT,
-    echarts4r,
     geographie,
     golem,
     graphr,
@@ -26,6 +25,5 @@ RoxygenNote: 7.0.2
 Suggests: 
     testthat
 Remotes:
-    JohnCoene/echarts4r,
     stephLH/geographie,
     stephLH/graphr

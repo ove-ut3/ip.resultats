@@ -66,7 +66,7 @@ mod_emploi_premier_ui <- function(id){
         ),
         box(
           title = "Moyen d'accès au premier emploi", width = 6,
-          echarts4r::echarts4rOutput(ns("emploi_premier_moyen"))
+          plotly::plotlyOutput(ns("emploi_premier_moyen"))
         ),
         tabBox(
           title = "Difficultés d'accès rencontrées", width = 6,
@@ -78,7 +78,7 @@ mod_emploi_premier_ui <- function(id){
           ),
           tabPanel(
             "Détail",
-            echarts4r::echarts4rOutput(ns("emploi_premier_difficultes"))
+            plotly::plotlyOutput(ns("emploi_premier_difficultes"))
           )
         )
       )
@@ -222,7 +222,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     
   })
   
-  output$emploi_premier_moyen <- echarts4r::renderEcharts4r({
+  output$emploi_premier_moyen <- plotly::renderPlotly({
     
     rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_premier_moyen) %>% 
@@ -248,7 +248,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     
   })
   
-  output$emploi_premier_difficultes <- echarts4r::renderEcharts4r({
+  output$emploi_premier_difficultes <- plotly::renderPlotly({
     
     rv$dt_emploi_occupe() %>%
       tidyr::unnest_legacy(emploi_premier_difficulte_acces) %>% 

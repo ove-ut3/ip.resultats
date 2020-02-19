@@ -63,7 +63,7 @@ mod_emploi_30mois_employeur_ui <- function(id){
       ),
       box(
         title = "Secteur d'activité",
-        echarts4r::echarts4rOutput(ns("emploi_30mois_employeur_secteur"))
+        plotly::plotlyOutput(ns("emploi_30mois_employeur_secteur"))
       )
     )
   )
@@ -148,7 +148,7 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     
   })
   
-  output$emploi_30mois_employeur_secteur <- echarts4r::renderEcharts4r({
+  output$emploi_30mois_employeur_secteur <- plotly::renderPlotly({
     
     validate(
       need(!is.null(rv$inputs[["filtre-donnees-formation"]]), "Au moins une formation doit être sélectionnée")
