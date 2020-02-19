@@ -16,6 +16,7 @@ Imports:
     htmltools,
     plotly,
     purrr,
+    scales,
     shiny,
     shinydashboardPlus,
     shinymanager,
