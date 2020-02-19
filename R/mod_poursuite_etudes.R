@@ -191,43 +191,11 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   
   output$plot_poursuite_etudes <- plotly::renderPlotly({
     
-    if (golem::get_golem_options("diplome") %in% c("DUT", "LP")) {
-      levels <- c("Niveau Bac+5", "Niveau Bac+3", "Diplôme de niveau inférieur et autre")
-    } else if (golem::get_golem_options("diplome") == "Master") {
-      levels <- c("Doctorat", "Niveau Bac+5", "Diplôme de niveau inférieur et autre")
-    }
-    
     data <- ip.resultats::donnees %>% 
-      dplyr::filter(type_diplome == "DUT") %>% 
-      dplyr::filter(parcours %in% c("Poursuite d'études directe", "Reprise d'études")) %>% 
-      dplyr::count(niveau_diplome_vise, diplome_vise) %>% 
-      dplyr::group_by() %>% 
-      dplyr::mutate_at("diplome_vise", ~ paste0(., " (", scales::percent(n / sum(n), suffix = "\u202F%"), ")")) %>% 
-      #dplyr::mutate_at("n", ~ round(. / sum(.) * 100)) %>% 
-      dplyr::ungroup() %>% 
-      dplyr::left_join(
-        dplyr::tibble(
-          niveau_diplome_vise = levels,
-          color = graphr::shiny_colors(length(levels)),
-          colorAlpha = 0.67
-        ),
-        by = "niveau_diplome_vise"
-      ) %>% 
-      dplyr::mutate_at("niveau_diplome_vise", factor, levels) %>% 
-      tidyr::nest_legacy(color, colorAlpha, .key = "style")
+      dplyr::filter(type_diplome == golem::get_golem_options("diplome")) %>% 
+      dplyr::filter(parcours %in% c("Poursuite d'études directe", "Reprise d'études"))
     
-    browser()
-    
-    library(echarts4r)
-    
-    data %>% 
-      e_charts() %>% 
-      e_treemap(niveau_diplome_vise, diplome_vise, n, style,
-                roam = FALSE, nodeClick = FALSE, zoomToNodeRatio = FALSE, breadcrumb = list("show" = FALSE)
-                #,
-                #upperLabel = list("show" = TRUE, "height" = 30)
-      ) %>%
-      echarts4r::e_tooltip()
+    graphr::shiny_treemap_bi(data$niveau_diplome_vise, data$diplome_vise)
     
   })
   
