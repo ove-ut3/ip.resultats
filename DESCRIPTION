@@ -9,7 +9,6 @@ LazyData: true
 Imports: 
     dplyr,
     DT,
-    geographie,
     golem,
     graphr,
     htmltools,
@@ -25,5 +24,4 @@ RoxygenNote: 7.0.2
 Suggests: 
     testthat
 Remotes:
-    stephLH/geographie,
     stephLH/graphr

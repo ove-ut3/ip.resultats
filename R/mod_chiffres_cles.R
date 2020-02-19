@@ -203,7 +203,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       dplyr::filter(situation_pro_n2 == "En emploi")
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(occitanie, geographie::hier_departement_region(emploi_n2_departement) == "76")) / nrow(occitanie), 
+        nrow(dplyr::filter(occitanie, emploi_n2_departement %in% c("009", "011", "012", "030", "031", "032", "034", "046", "048", "065", "066", "081", "082"))) / nrow(occitanie), 
         suffix = "\u202F%"
       ),
       HTML("Taux d'emploi en région Occitanie"), icon = icon("map-marker-alt")
