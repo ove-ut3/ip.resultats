@@ -109,21 +109,21 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   
   output$vie_active_durable <- renderValueBox({
     valueBox(
-      nrow(rv$dt_vad()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_vad()) %>% scales::number(big.mark = "\u202F"),
       "Vie active durable", icon = icon("users")
     )
   })
   
   output$emploi_premier <- renderValueBox({
     valueBox(
-      nrow(rv$dt_emploi_occupe()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_emploi_occupe()) %>% scales::number(big.mark = "\u202F"),
       "Accès à un premier emploi", icon = icon("user-tie")
     )
   })
   
   output$tx_emploi_premier <- renderValueBox({
     valueBox(
-      caractr::str_percent_fr(nrow(rv$dt_emploi_occupe()) / nrow(rv$dt_vad()), suffix = FALSE),
+      scales::percent(nrow(rv$dt_emploi_occupe()) / nrow(rv$dt_vad()), suffix = NULL),
       "Taux d'accès à un premier emploi", icon = icon("percent")
     )
   })
@@ -141,7 +141,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'accès à un premier emploi",
-      hovertext = paste("Taux d'accès à un premier emploi: ", caractr::str_percent_fr(data$pct / 100))
+      hovertext = paste("Taux d'accès à un premier emploi: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
     )
     
   })
@@ -152,8 +152,9 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_premier_duree_recherche)
     
     valueBox(
-      caractr::str_percent_fr(
-        nrow(dplyr::filter(emploi_premier_duree_recherche, emploi_premier_duree_recherche <= 3)) / nrow(emploi_premier_duree_recherche)
+      scales::percent(
+        nrow(dplyr::filter(emploi_premier_duree_recherche, emploi_premier_duree_recherche <= 3)) / nrow(emploi_premier_duree_recherche), 
+        suffix = "\u202F%"
       ),
       "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock")
     )
@@ -195,7 +196,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'accès au premier emploi en 3 mois ou moins",
-      hovertext = paste("Taux d'accès au premier emploi en 3 mois ou moins: ", caractr::str_percent_fr(data$pct / 100))
+      hovertext = paste("Taux d'accès au premier emploi en 3 mois ou moins: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
     )
 
   })
@@ -238,9 +239,9 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::count(identifiant)
     
     valueBox(
-      caractr::str_percent_fr(
+      scales::percent(
         nrow(data) / nrow(rv$dt_emploi_occupe()),
-        suffix = FALSE
+        suffix = NULL
       ),
       "Taux de diplômés ayant rencontré des difficultés", icon = icon("percent")
     )

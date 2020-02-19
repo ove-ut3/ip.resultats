@@ -101,21 +101,21 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   
   output$diplomes <- renderValueBox({
     valueBox(
-      nrow(rv$dt_reponses_analyse()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_reponses_analyse()) %>% scales::number(big.mark = "\u202F"),
       HTML("Diplômés répondants<sup>1<sup>"), icon = icon("user-graduate")
     )
   })
   
   output$poursuite_etudes <- renderValueBox({
     valueBox(
-      nrow(rv$dt_etudes()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_etudes()) %>% scales::number(),
       "Poursuite d'études", icon = icon("university")
     )
   })
   
   output$tx_poursuite_etudes <- renderValueBox({
     valueBox(
-      caractr::str_percent_fr(nrow(rv$dt_etudes()) / nrow(rv$dt_reponses_analyse()), suffix = FALSE),
+      scales::percent(nrow(rv$dt_etudes()) / nrow(rv$dt_reponses_analyse()), suffix = NULL),
       "Taux de poursuite d'études", icon = icon("percent")
     )
   })
@@ -133,39 +133,39 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de poursuites d'études",
-      hovertext = paste("Taux de poursuites d'études: ", caractr::str_percent_fr(data$pct / 100))
+      hovertext = paste("Taux de poursuites d'études: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
     )
     
   })
   
   output$pourcentage_poursuite_etudes_directe <- renderValueBox({
     valueBox(
-      caractr::str_percent_fr(
+      scales::percent(
         nrow(dplyr::filter(rv$dt_etudes(), parcours == "Poursuite d'études directe")) / nrow(rv$dt_etudes()),
-        suffix = FALSE),
+        suffix = NULL),
       HTML("Taux de poursuite d'études directes<sup>2</sup>"), icon = icon("percent")
     )
   })
   
   output$pourcentage_reprise_etudes <- renderValueBox({
     valueBox(
-      caractr::str_percent_fr(
+      scales::percent(
         nrow(dplyr::filter(rv$dt_etudes(), parcours == "Reprise d'études")) / nrow(rv$dt_etudes()),
-        suffix = FALSE),
+        suffix = NULL),
       HTML("Taux de reprise d'études<sup>3</sup>"), icon = icon("percent")
     )
   })
   
   output$effectif_poursuite_etudes_directe <- renderValueBox({
     valueBox(
-      nrow(dplyr::filter(rv$dt_etudes(), parcours == "Poursuite d'études directe")) %>% caractr::str_number_fr(),
+      nrow(dplyr::filter(rv$dt_etudes(), parcours == "Poursuite d'études directe")) %>% scales::number(big.mark = "\u202F"),
       HTML("Nombre de poursuites d'études directes<sup>2</sup>"), icon = icon("users")
     )
   })
   
   output$effectif_reprise_etudes <- renderValueBox({
     valueBox(
-      nrow(dplyr::filter(rv$dt_etudes(), parcours == "Reprise d'études")) %>% caractr::str_number_fr(),
+      nrow(dplyr::filter(rv$dt_etudes(), parcours == "Reprise d'études")) %>% scales::number(big.mark = "\u202F"),
       HTML("Nombre de reprises d'études<sup>3</sup>"), icon = icon("users")
     )
   })
@@ -202,7 +202,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       dplyr::filter(parcours %in% c("Poursuite d'études directe", "Reprise d'études")) %>% 
       dplyr::count(niveau_diplome_vise, diplome_vise) %>% 
       dplyr::group_by() %>% 
-      dplyr::mutate_at("diplome_vise", ~ paste0(., " (", caractr::str_percent_fr(n / sum(n)), ")")) %>% 
+      dplyr::mutate_at("diplome_vise", ~ paste0(., " (", scales::percent(n / sum(n), suffix = "\u202F%"), ")")) %>% 
       #dplyr::mutate_at("n", ~ round(. / sum(.) * 100)) %>% 
       dplyr::ungroup() %>% 
       dplyr::left_join(

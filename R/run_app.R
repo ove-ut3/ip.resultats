@@ -7,7 +7,7 @@ run_app <- function(credentials, diplome) {
   
  with_golem_options(
     app = shinyApp(
-      ui = app_ui(),
+      ui = app_ui,
       server = app_server
     ), 
     golem_opts = list(

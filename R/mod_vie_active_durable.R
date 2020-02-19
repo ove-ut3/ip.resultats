@@ -67,21 +67,21 @@ mod_vie_active_durable_server <- function(input, output, session, rv){
   
   output$diplomes <- renderValueBox({
     valueBox(
-      nrow(rv$dt_reponses_analyse()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_reponses_analyse()) %>% scales::number(big.mark = "\u202F"),
       HTML("Diplômés répondants<sup>1</sup>"), icon = icon("user-graduate")
     )
   })
   
   output$vie_active_durable <- renderValueBox({
     valueBox(
-      nrow(rv$dt_vad()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_vad()) %>% scales::number(big.mark = "\u202F"),
       HTML("Vie active durable<sup>2</sup>"), icon = icon("user-tie")
     )
   })
   
   output$tx_vie_active_durable <- renderValueBox({
     valueBox(
-      caractr::str_percent_fr(nrow(rv$dt_vad()) / nrow(rv$dt_reponses_analyse()), suffix = FALSE),
+      scales::percent(nrow(rv$dt_vad()) / nrow(rv$dt_reponses_analyse()), suffix = NULL),
       "Taux de vie active durable", icon = icon("percent")
     )
   })
@@ -99,7 +99,7 @@ mod_vie_active_durable_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de vie active durable",
-      hovertext = paste("Taux de vie active durable: ", caractr::str_percent_fr(data$pct / 100))
+      hovertext = paste("Taux de vie active durable: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
     )
     
   })

@@ -97,7 +97,7 @@ mod_diplomes_server <- function(input, output, session, rv){
   output$diplomes <- renderValueBox({
     
     valueBox(
-      nrow(rv$dt_diplomes()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_diplomes()) %>% scales::number(big.mark = "\u202F"),
       "Nombre de diplômés", icon = icon("user-graduate")
     )
     
@@ -119,8 +119,9 @@ mod_diplomes_server <- function(input, output, session, rv){
   output$femmes <- renderValueBox({
     
     valueBox(
-      caractr::str_percent_fr(
-        nrow(dplyr::filter(rv$dt_diplomes(), sexe == "F")) / nrow(rv$dt_diplomes())
+      scales::percent(
+        nrow(dplyr::filter(rv$dt_diplomes(), sexe == "F")) / nrow(rv$dt_diplomes()), 
+        suffix = "\u202F%"
       ),
       "Taux de femmes", icon = icon("female")
     )
@@ -139,7 +140,7 @@ mod_diplomes_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de femmes",
-      hovertext = paste("Taux de femmes: ", caractr::str_percent_fr(data$pct / 100))
+      hovertext = paste("Taux de femmes: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
     )
 
   })
@@ -164,8 +165,9 @@ mod_diplomes_server <- function(input, output, session, rv){
   output$etranger <- renderValueBox({
     
     valueBox(
-      caractr::str_percent_fr(
-        nrow(dplyr::filter(rv$dt_diplomes(), code_nationalite != "100")) / nrow(rv$dt_diplomes())
+      scales::percent(
+        nrow(dplyr::filter(rv$dt_diplomes(), code_nationalite != "100")) / nrow(rv$dt_diplomes()), 
+        suffix = "\u202F%"
       ),
       "Taux de nationalité étrangère", icon = icon("globe")
     )
@@ -185,7 +187,7 @@ mod_diplomes_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de nationalité étrangère",
-      hovertext = paste("Taux de nationalité étrangère: ", caractr::str_percent_fr(data$pct / 100))
+      hovertext = paste("Taux de nationalité étrangère: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
     )
     
   })
@@ -193,8 +195,9 @@ mod_diplomes_server <- function(input, output, session, rv){
   output$boursier <- renderValueBox({
     
     valueBox(
-      caractr::str_percent_fr(
-        nrow(dplyr::filter(rv$dt_diplomes(), !is.na(code_bourse))) / nrow(rv$dt_diplomes())
+      scales::percent(
+        nrow(dplyr::filter(rv$dt_diplomes(), !is.na(code_bourse))) / nrow(rv$dt_diplomes()), 
+        suffix = "\u202F%"
       ),
       "Taux de femmes", icon = icon("percent")
     )
@@ -214,17 +217,10 @@ mod_diplomes_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de boursiers",
-      hovertext = paste("Taux de boursiers: ", caractr::str_percent_fr(data$pct / 100))
+      hovertext = paste("Taux de boursiers: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
     )
     
   })
   
   
 }
-
-## To be copied in the UI
-# 
-
-## To be copied in the server
-# 
-

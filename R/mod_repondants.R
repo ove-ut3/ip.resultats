@@ -45,21 +45,21 @@ mod_repondants_server <- function(input, output, session, rv){
   
   output$diplomes <- renderValueBox({
     valueBox(
-      nrow(rv$dt_diplomes()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_diplomes()) %>% scales::number(big.mark = "\u202F"),
       HTML("Diplômés<sup>1</sup>"), icon = icon("user-graduate")
     )
   })
   
   output$repondants <- renderValueBox({
     valueBox(
-      nrow(rv$dt_reponses()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
       HTML("Répondants<sup>2</sup>"), icon = icon("clipboard-check")
     )
   })
   
   output$tx_reponse <- renderValueBox({
     valueBox(
-      caractr::str_percent_fr(nrow(rv$dt_reponses()) / nrow(rv$dt_diplomes()), suffix = FALSE),
+      scales::percent(nrow(rv$dt_reponses()) / nrow(rv$dt_diplomes()), suffix = NULL),
       "Taux de réponse", icon = icon("percent")
     )
   })
@@ -76,7 +76,7 @@ mod_repondants_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de répondants",
-      hovertext = paste("Taux de répondants: ", caractr::str_percent_fr(data$pct / 100))
+      hovertext = paste("Taux de répondants: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
     )
     
   })

@@ -104,7 +104,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   output$repondants_analyse <- renderValueBox({
     
     valueBox(
-      nrow(rv$dt_reponses_analyse()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_reponses_analyse()) %>% scales::number(big.mark = "\u202F"),
       HTML("Diplômés répondants<sup>1</sup>"), icon = icon("user-graduate")
     )
   })
@@ -112,14 +112,14 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   output$etudes <- renderValueBox({
     
     valueBox(
-      caractr::str_percent_fr(nrow(rv$dt_etudes()) / nrow(rv$dt_reponses_analyse())),
+      scales::percent(nrow(rv$dt_etudes()) / nrow(rv$dt_reponses_analyse()), suffix = "\u202F%"),
       "Poursuite d'études", icon = icon("university")
     )
   })
   
   output$vie_active_durable <- renderValueBox({
     valueBox(
-      caractr::str_percent_fr(nrow(rv$dt_vad()) / nrow(rv$dt_reponses_analyse())),
+      scales::percent(nrow(rv$dt_vad()) / nrow(rv$dt_reponses_analyse()), suffix = "\u202F%"),
       HTML("Vie active durable<sup>2</sup>"), icon = icon("user-tie")
     )
   })
@@ -144,8 +144,9 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
     emploi_premier_duree_recherche <- rv$dt_vad() %>% 
       tidyr::drop_na(emploi_premier_duree_recherche)
     valueBox(
-      caractr::str_percent_fr(
-        nrow(dplyr::filter(emploi_premier_duree_recherche, emploi_premier_duree_recherche <= 3)) / nrow(emploi_premier_duree_recherche)
+      scales::percent(
+        nrow(dplyr::filter(emploi_premier_duree_recherche, emploi_premier_duree_recherche <= 3)) / nrow(emploi_premier_duree_recherche), 
+        suffix = "\u202F%"
         ),
       "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock")
     )
@@ -155,9 +156,9 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
     emploi_n2_insertion <- rv$dt_vad() %>% 
       dplyr::filter(situation_pro_n2 %in% c("En emploi", "En recherche d'emploi", "Promesse d'embauche"))
     valueBox(
-      caractr::str_percent_fr(
+      scales::percent(
         nrow(dplyr::filter(emploi_n2_insertion, situation_pro_n2 == "En emploi")) / nrow(emploi_n2_insertion),
-        suffix = FALSE
+        suffix = NULL
         ),
       HTML("Taux d'insertion à 30 mois<sup>3</sup>"), icon = icon("percent")
     )
@@ -180,7 +181,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
     valueBox(
       median(emploi_n2_insertion$emploi_n2_salaire, na.rm = TRUE) %>% 
         round() %>% 
-        caractr::str_number_fr(),
+        scales::number(big.mark = "\u202F"),
       HTML("Salaire net médian<sup>4</sup>"), icon = icon("euro")
     )
   })
@@ -189,9 +190,9 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
     cdi_assimiles <- rv$dt_vad() %>% 
       dplyr::filter(situation_pro_n2 == "En emploi")
     valueBox(
-      caractr::str_percent_fr(
+      scales::percent(
         nrow(dplyr::filter(cdi_assimiles, emploi_n2_type %in% c("CDI", "Profession libérale, indépendant, chef-fe d'entreprise, auto-entrepreneur", "Fonctionnaire"))) / nrow(cdi_assimiles),
-        suffix = FALSE
+        suffix = NULL
       ),
       HTML("Taux de CDI et assimilés<sup>5</sup>"), icon = icon("percent")
     )
@@ -201,8 +202,9 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
     occitanie <- rv$dt_vad() %>% 
       dplyr::filter(situation_pro_n2 == "En emploi")
     valueBox(
-      caractr::str_percent_fr(
-        nrow(dplyr::filter(occitanie, geographie::hier_departement_region(emploi_n2_departement) == "76")) / nrow(occitanie)
+      scales::percent(
+        nrow(dplyr::filter(occitanie, geographie::hier_departement_region(emploi_n2_departement) == "76")) / nrow(occitanie), 
+        suffix = "\u202F%"
       ),
       HTML("Taux d'emploi en région Occitanie"), icon = icon("map-marker-alt")
     )
@@ -210,21 +212,21 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   
   output$diplomes <- renderValueBox({
     valueBox(
-      nrow(rv$dt_diplomes()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_diplomes()) %>% scales::number(big.mark = "\u202F"),
       HTML("Diplômés<sup>6</sup>"), icon = icon("user-graduate")
     )
   })
   
   output$repondants <- renderValueBox({
     valueBox(
-      nrow(rv$dt_reponses()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
       HTML("Répondants<sup>7</sup>"), icon = icon("clipboard-check")
     )
   })
   
   output$tx_reponse <- renderValueBox({
     valueBox(
-      caractr::str_percent_fr(nrow(rv$dt_reponses()) / nrow(rv$dt_diplomes()), suffix = FALSE), "Taux de réponse", icon = icon("percent")
+      scales::percent(nrow(rv$dt_reponses()) / nrow(rv$dt_diplomes()), suffix = NULL), "Taux de réponse", icon = icon("percent")
     )
   })
   

@@ -95,7 +95,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
   
   output$nombre_emploi <- renderValueBox({
     valueBox(
-      nrow(rv$dt_emploi_30mois()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_emploi_30mois()) %>% scales::number(big.mark = "\u202F"),
       "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie")
     )
   })
@@ -106,7 +106,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       dplyr::filter(situation_pro_n2 %in% c("En emploi", "En recherche d'emploi", "Promesse d'embauche"))
     
     valueBox(
-      caractr::str_percent_fr(nrow(rv$dt_emploi_30mois()) / nrow(recherche), suffix = FALSE),
+      scales::percent(nrow(rv$dt_emploi_30mois()) / nrow(recherche), suffix = NULL),
       HTML("Taux d'insertion professionnelle à 30 mois<sup>1</sup>"), icon = icon("percent")
     )
     
@@ -126,7 +126,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'insertion professionnelle à 30 mois",
-      hovertext = paste("Taux d'insertion professionnelle à 30 mois: ", caractr::str_percent_fr(data$pct / 100))
+      hovertext = paste("Taux d'insertion professionnelle à 30 mois: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
     )
     
   })
@@ -167,7 +167,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     valueBox(
       value <- median(dt$emploi_n2_salaire) %>% 
         round() %>% 
-        caractr::str_number_fr(),
+        scales::number(big.mark = "\u202F"),
       "Salaire net médian", icon = icon("euro")
     )
     

@@ -63,7 +63,7 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
   
   output$nombre_emploi <- renderValueBox({
     valueBox(
-      nrow(rv$dt_emploi_30mois()) %>% caractr::str_number_fr(),
+      nrow(rv$dt_emploi_30mois()) %>% scales::number(big.mark = "\u202F"),
       "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie")
     )
   })
