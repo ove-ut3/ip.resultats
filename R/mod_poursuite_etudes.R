@@ -199,7 +199,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
     
   })
   
-  output$raisons_poursuite_etudes <- echarts4r::renderEcharts4r({
+  output$raisons_poursuite_etudes <- plotly::renderPlotly({
     
     rv$dt_etudes() %>% 
       dplyr::filter(parcours == "Poursuite d'études directe") %>% 
