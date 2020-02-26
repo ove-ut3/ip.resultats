@@ -76,7 +76,7 @@ mod_accueil_server <- function(input, output, session){
           tags$li("soit la situation professionnelle de l’étudiant-e s’étant présenté-e sur le marché du travail : taux d’insertion, caractéristiques du poste de travail, de l’employeur et adéquation de l’emploi occupé avec le diplômé obtenu")
           )
       ),
-      p("Le temps d’enquête de 30 mois après la diplômation explique le décalage assez important entre l’année universitaire en cours et la dernière promotion interrogée. Les campagnes d’enquêtes menées par l’OVE ont lieu chaque entre décembre et mars. La dernière promotion interrogée concernait les diplômés de l’année universitaire 2015/16.")#,
+      p("Le temps d’enquête de 30 mois après la diplômation explique le décalage assez important entre l’année universitaire en cours et la dernière promotion interrogée. L'historique présenté commence à l'année 2010/11 et la dernière promotion interrogée concerne les diplômés de l’année universitaire 2015/16.")#,
       #p("Les résultats des enquêtes sont également accessibles sur les pages des formations dans la rubrique « Et après ».")
     )
     
