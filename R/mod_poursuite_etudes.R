@@ -128,12 +128,12 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       dplyr::mutate(poursuite_etudes = dplyr::if_else(parcours %in% c("Poursuite d'études directe", "Reprise d'études"), "oui", "non")) %>% 
       dplyr::count(annee, poursuite_etudes) %>% 
       tidyr::spread(poursuite_etudes, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non) * 100)
+      dplyr::mutate(pct = oui / (oui + non))
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de poursuites d'études",
-      hovertext = paste("Taux de poursuites d'études: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
+      hovertext = paste("Taux de poursuites d'études: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
     )
     
   })

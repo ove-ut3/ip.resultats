@@ -94,12 +94,12 @@ mod_vie_active_durable_server <- function(input, output, session, rv){
       dplyr::mutate(vie_active_durable = dplyr::if_else(parcours == "Vie active durable", "oui", "non")) %>% 
       dplyr::count(annee, vie_active_durable) %>% 
       tidyr::spread(vie_active_durable, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non) * 100)
+      dplyr::mutate(pct = oui / (oui + non))
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de vie active durable",
-      hovertext = paste("Taux de vie active durable: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
+      hovertext = paste("Taux de vie active durable: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
     )
     
   })

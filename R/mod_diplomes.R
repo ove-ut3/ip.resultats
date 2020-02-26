@@ -134,13 +134,13 @@ mod_diplomes_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character) %>%
       dplyr::count(annee, sexe) %>% 
       tidyr::spread(sexe, n, fill = 0) %>% 
-      dplyr::mutate(pct = `F` / (`F` + M) * 100)
+      dplyr::mutate(pct = `F` / (`F` + M))
     
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de femmes",
-      hovertext = paste("Taux de femmes: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
+      hovertext = paste("Taux de femmes: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
     )
 
   })
@@ -181,13 +181,13 @@ mod_diplomes_server <- function(input, output, session, rv){
       dplyr::mutate(nationalite_etr = dplyr::if_else(code_nationalite != "100", "oui", "non")) %>% 
       dplyr::count(annee, nationalite_etr) %>% 
       tidyr::spread(nationalite_etr, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non) * 100)
+      dplyr::mutate(pct = oui / (oui + non))
     
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de nationalité étrangère",
-      hovertext = paste("Taux de nationalité étrangère: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
+      hovertext = paste("Taux de nationalité étrangère: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
     )
     
   })
@@ -199,7 +199,7 @@ mod_diplomes_server <- function(input, output, session, rv){
         nrow(dplyr::filter(rv$dt_diplomes(), !is.na(code_bourse))) / nrow(rv$dt_diplomes()), 
         suffix = "\u202F%"
       ),
-      "Taux de femmes", icon = icon("percent")
+      "Taux de boursiers", icon = icon("percent")
     )
     
   })
@@ -211,13 +211,13 @@ mod_diplomes_server <- function(input, output, session, rv){
       dplyr::mutate(boursier = dplyr::if_else(!is.na(code_bourse), "oui", "non")) %>% 
       dplyr::count(annee, boursier) %>% 
       tidyr::spread(boursier, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non) * 100)
+      dplyr::mutate(pct = oui / (oui + non))
     
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de boursiers",
-      hovertext = paste("Taux de boursiers: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
+      hovertext = paste("Taux de boursiers: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
     )
     
   })

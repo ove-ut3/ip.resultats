@@ -121,12 +121,12 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       dplyr::mutate(insertion_pro = dplyr::recode(situation_pro_n2, "En emploi" = "oui", "En recherche d'emploi" = "non", "Promesse d'embauche" = "non")) %>% 
       dplyr::count(annee, insertion_pro) %>% 
       tidyr::spread(insertion_pro, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non) * 100)
+      dplyr::mutate(pct = oui / (oui + non))
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'insertion professionnelle à 30 mois",
-      hovertext = paste("Taux d'insertion professionnelle à 30 mois: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
+      hovertext = paste("Taux d'insertion professionnelle à 30 mois: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
     )
     
   })

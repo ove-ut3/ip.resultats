@@ -136,12 +136,12 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::mutate_at("emploi_occupe", tolower) %>%
       dplyr::count(annee, emploi_occupe) %>% 
       tidyr::spread(emploi_occupe, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non) * 100)
+      dplyr::mutate(pct = oui / (oui + non))
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'accès à un premier emploi",
-      hovertext = paste("Taux d'accès à un premier emploi: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
+      hovertext = paste("Taux d'accès à un premier emploi: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
     )
     
   })
@@ -191,12 +191,12 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::mutate(emploi_premier_duree_3mois = dplyr::if_else(emploi_premier_duree_recherche <= 3, "oui", "non")) %>%
       dplyr::count(annee, emploi_premier_duree_3mois) %>%
       tidyr::spread(emploi_premier_duree_3mois, n, fill = 0) %>%
-      dplyr::mutate(pct = oui / (oui + non) * 100)
+      dplyr::mutate(pct = oui / (oui + non))
 
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'accès au premier emploi en 3 mois ou moins",
-      hovertext = paste("Taux d'accès au premier emploi en 3 mois ou moins: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
+      hovertext = paste("Taux d'accès au premier emploi en 3 mois ou moins: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
     )
 
   })

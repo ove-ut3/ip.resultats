@@ -71,12 +71,12 @@ mod_repondants_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character) %>%
       dplyr::count(annee, repondant) %>% 
       tidyr::spread(repondant, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non) * 100)
+      dplyr::mutate(pct = oui / (oui + non))
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de répondants",
-      hovertext = paste("Taux de répondants: ", scales::percent(data$pct / 100, suffix = "\u202F%"))
+      hovertext = paste("Taux de répondants: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
     )
     
   })
