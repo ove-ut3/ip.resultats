@@ -21,7 +21,7 @@ mod_vie_active_durable_ui <- function(id){
         tabBox(
           title = "Vie active durable", width = 12,
           tabPanel(
-            "Valeur",
+            "Années sélectionnées",
             fluidRow(
               valueBoxOutput(ns("diplomes"), width = 4),
               valueBoxOutput(ns("vie_active_durable"), width = 4),
@@ -41,7 +41,7 @@ mod_vie_active_durable_ui <- function(id){
       tabBox(
         title = "Situation professionnelle à 6, 18 et 30 mois", width = 12,
         tabPanel(
-          "Valeur",
+          "Années sélectionnées",
           plotly::plotlyOutput(ns("situation_pro"))
         ),
         tabPanel(

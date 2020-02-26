@@ -20,7 +20,7 @@ mod_emploi_30mois_poste_ui <- function(id){
       tabBox(
         title = "Insertion professionnelle à 30 mois", width = 12,
         tabPanel(
-          "Valeur",
+          "Années sélectionnées",
           fluidRow(
             valueBoxOutput(ns("nombre_emploi"), width = 6),
             valueBoxOutput(ns("tx_insertion_pro"), width = 6)
@@ -36,7 +36,7 @@ mod_emploi_30mois_poste_ui <- function(id){
       tabBox(
         title = "Niveau d'emploi", width = 4,
         tabPanel(
-          "Valeur",
+          "Années sélectionnées",
           plotly::plotlyOutput(ns("emploi_30mois_niveau"))
         ),
         tabPanel(
@@ -47,7 +47,7 @@ mod_emploi_30mois_poste_ui <- function(id){
       tabBox(
         title = HTML("Salaire<sup>2</sup>"), width = 4,
         tabPanel(
-          "Valeur",
+          "Années sélectionnées",
           fluidRow(
             valueBoxOutput(ns("emploi_30mois_salaire"), width = 12)
           )
@@ -60,7 +60,7 @@ mod_emploi_30mois_poste_ui <- function(id){
       tabBox(
         title = "Type de contrat", width = 4,
         tabPanel(
-          "Valeur",
+          "Années sélectionnées",
           plotly::plotlyOutput(ns("emploi_30mois_type"))
         ),
         tabPanel(

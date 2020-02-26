@@ -24,7 +24,7 @@ mod_emploi_premier_ui <- function(id){
         tabBox(
           title = "Accès au premier emploi", width = 12,
           tabPanel(
-            "Valeur",
+            "Années sélectionnées",
             fluidRow(
               valueBoxOutput(ns("vie_active_durable"), width = 4),
               valueBoxOutput(ns("emploi_premier"), width = 4),
@@ -39,7 +39,7 @@ mod_emploi_premier_ui <- function(id){
         tabBox(
           title = "Temps d'accès au premier emploi", width = 6,
           tabPanel(
-            "Valeur",
+            "Années sélectionnées",
             fluidRow(
               valueBoxOutput(ns("emploi_premier_duree_recherche"), width = 12)
             )
@@ -56,7 +56,7 @@ mod_emploi_premier_ui <- function(id){
         tabBox(
           title = "Localisation du premier emploi", width = 6,
           tabPanel(
-            "Valeur",
+            "Années sélectionnées",
             plotly::plotlyOutput(ns("emploi_premier_localisation"))
           ),
           tabPanel(

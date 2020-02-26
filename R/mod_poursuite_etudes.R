@@ -24,7 +24,7 @@ mod_poursuite_etudes_ui <- function(id){
         box(width = 12,
             tabBox(title = "Poursuite d'études", width = 12,
                    tabPanel(
-                     "Valeur",
+                     "Années sélectionnées",
                      fluidRow(
                        valueBoxOutput(ns("diplomes"), width = 4),
                        valueBoxOutput(ns("poursuite_etudes"), width = 4),

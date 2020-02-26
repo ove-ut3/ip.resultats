@@ -29,7 +29,7 @@ mod_emploi_30mois_employeur_ui <- function(id){
       tabBox(
         title = "Type d'employeur",
         tabPanel(
-          "Valeur",
+          "Années sélectionnées",
           plotly::plotlyOutput(ns("emploi_30mois_employeur_type"))
         ),
         tabPanel(
@@ -40,7 +40,7 @@ mod_emploi_30mois_employeur_ui <- function(id){
       tabBox(
         title = "Localisation",
         tabPanel(
-          "Valeur",
+          "Années sélectionnées",
           plotly::plotlyOutput(ns("emploi_30mois_employeur_localisation"))
         ),
         tabPanel(
@@ -53,7 +53,7 @@ mod_emploi_30mois_employeur_ui <- function(id){
       tabBox(
         title = "Taille de l'employeur",
         tabPanel(
-          "Valeur",
+          "Années sélectionnées",
           plotly::plotlyOutput(ns("emploi_30mois_employeur_taille"))
         ),
         tabPanel(

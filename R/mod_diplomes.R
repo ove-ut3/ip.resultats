@@ -20,7 +20,7 @@ mod_diplomes_ui <- function(id){
       column(title = "Diplômés", width = 12, offset = 3,
              tabBox(
                tabPanel(
-                 "Valeur",
+                 "Années sélectionnées",
                  fluidRow(
                    valueBoxOutput(ns("diplomes"), width = 12)
                  )
@@ -35,7 +35,7 @@ mod_diplomes_ui <- function(id){
     fluidRow(
       tabBox(title = "Sexe",
              tabPanel(
-               "Valeur",
+               "Années sélectionnées",
                fluidRow(
                  valueBoxOutput(ns("femmes"), width = 12)
                )
@@ -47,7 +47,7 @@ mod_diplomes_ui <- function(id){
       ),
       tabBox(title = "Régime d'inscription",
              tabPanel(
-               "Valeur",
+               "Années sélectionnées",
                plotly::plotlyOutput(ns("regime"))
              ),
              tabPanel(
@@ -59,7 +59,7 @@ mod_diplomes_ui <- function(id){
     fluidRow(
       tabBox(title = "Nationalité",
              tabPanel(
-               "Valeur",
+               "Années sélectionnées",
                fluidRow(
                  valueBoxOutput(ns("etranger"), width = 12)
                )
@@ -71,7 +71,7 @@ mod_diplomes_ui <- function(id){
       ),
       tabBox(title = "Boursier",
              tabPanel(
-               "Valeur",
+               "Années sélectionnées",
                fluidRow(
                  valueBoxOutput(ns("boursier"), width = 12)
                )

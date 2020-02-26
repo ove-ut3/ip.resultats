@@ -29,7 +29,7 @@ mod_emploi_30mois_adequation_ui <- function(id){
       tabBox(
         title = "Adéquation de l'emploi à 30 mois",
         tabPanel(
-          "Valeur",
+          "Années sélectionnées",
           plotly::plotlyOutput(ns("emploi_30mois_adequation"))
         ),
         tabPanel(
@@ -40,7 +40,7 @@ mod_emploi_30mois_adequation_ui <- function(id){
       tabBox(
         title = "Satisfaction dans l'emploi à 30 mois",
         tabPanel(
-          "Valeur",
+          "Années sélectionnées",
           plotly::plotlyOutput(ns("emploi_30mois_satisfaction"))
         ),
         tabPanel(
