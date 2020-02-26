@@ -191,7 +191,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   
   output$plot_poursuite_etudes <- plotly::renderPlotly({
     
-    data <- ip.resultats::donnees %>% 
+    data <- golem::get_golem_options("data") %>% 
       dplyr::filter(type_diplome == golem::get_golem_options("diplome")) %>% 
       dplyr::filter(parcours %in% c("Poursuite d'études directe", "Reprise d'études"))
     

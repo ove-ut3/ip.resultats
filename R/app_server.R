@@ -28,7 +28,7 @@ app_server <- function(input, output, session) {
   
   rv$dt_evolution <- reactive({
     
-    ip.resultats::donnees %>% 
+    golem::get_golem_options("data") %>% 
       dplyr::semi_join(rv$dt_filtre(), by = rv$filter_vars[-which(rv$filter_vars == "annee")]) %>% 
       dplyr::group_by(identifiant) %>% 
       dplyr::filter(dplyr::row_number() == 1) %>% 

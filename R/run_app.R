@@ -3,7 +3,7 @@
 #' @export
 #' @importFrom shiny shinyApp
 #' @importFrom golem with_golem_options
-run_app <- function(credentials, diplome) {
+run_app <- function(credentials, data, diplome) {
   
  with_golem_options(
     app = shinyApp(
@@ -12,6 +12,7 @@ run_app <- function(credentials, diplome) {
     ), 
     golem_opts = list(
       credentials = credentials,
+      data = data,
       diplome = diplome
     )
   )
