@@ -85,7 +85,7 @@ mod_accueil_server <- function(input, output, session){
   output$methodologie <- renderUI({
     
     div(style = "font-size: 12pt;",
-        p(HTML("Les chiffres présentés dans cette application correspondent au public assimilé à la <b>formation initiale</b>. Cela signifie que les diplômés ayant interrompu leur études deux ans ou plus entre le baccalauréat et 'obention du diplôme à UT3 sont écartés de l'analyse.")),
+        p(HTML("Les chiffres présentés dans cette application correspondent au public assimilé à la <b>formation initiale</b>. Cela signifie que les diplômés ayant interrompu leur études deux ans ou plus entre le baccalauréat et l'obention du diplôme à UT3 sont écartés de l'analyse.")),
         p("Par ailleurs, la description de la situation professionnelle des diplômés concerne uniquement les étudiants n'ayant fait aucune poursuite d'études dans les 30 mois écoulés après la diplômation. En effet, l'analyse a pour objectif de caractériser le pouvoir insérant des formations de l'Université Toulouse III - Paul Sabatier.")
     )
     
