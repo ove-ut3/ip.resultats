@@ -236,7 +236,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     data <- rv$dt_emploi_occupe() %>% 
       tidyr::unnest_legacy(emploi_premier_difficulte_acces) %>% 
       tidyr::drop_na(emploi_premier_difficulte_acces) %>% 
-      dplyr::count(identifiant)
+      dplyr::count(annee, code_etudiant)
     
     valueBox(
       scales::percent(

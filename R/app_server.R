@@ -30,7 +30,7 @@ app_server <- function(input, output, session) {
     
     golem::get_golem_options("data") %>% 
       dplyr::semi_join(rv$dt_filtre(), by = rv$filter_vars[-which(rv$filter_vars == "annee")]) %>% 
-      dplyr::group_by(identifiant) %>% 
+      dplyr::group_by(annee, code_etudiant) %>% 
       dplyr::filter(dplyr::row_number() == 1) %>% 
       dplyr::ungroup()
     
@@ -39,7 +39,7 @@ app_server <- function(input, output, session) {
   rv$dt_sans_doublons <- reactive({
     
     rv$dt_filtre() %>% 
-      dplyr::group_by(identifiant) %>% 
+      dplyr::group_by(annee, code_etudiant) %>% 
       dplyr::filter(dplyr::row_number() == 1) %>% 
       dplyr::ungroup()
   })
