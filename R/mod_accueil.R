@@ -17,19 +17,29 @@ mod_accueil_ui <- function(id){
   ns <- NS(id)
   tagList(
     fluidRow(
-      div(style = "margin-left: 30px; margin-right: 10px;",
-          div(a(href = "http://www.univ-tlse3.fr",
-                tags$img(src = "https://upload.wikimedia.org/wikipedia/fr/a/a4/Logo_UT3.jpg", height = "55px", width = "163px")), style = "text-align: left; display: inline-block; width: 15%;"),
-          div(
-            h1(
-              HTML(
-                paste0("<b>Enquête d'insertion professionnelle des diplômés de ", golem::get_golem_options("diplome"), "</b>")
-              )
-            ),
-            style = "text-align: center; display: inline-block; width: 70%;"),
-          div(a(href = "http://www.univ-tlse3.fr/devenir-des-diplomes/",
-                tags$img(src = "http://www.univ-tlse3.fr/medias/photo/img_1290420257773.jpg", height = "55px", width = "150px")), style = "text-align: right; display: inline-block; width: 13%;")
-          
+      div(
+        style = "margin-left: 30px; margin-right: 10px;",
+        div(
+          a(
+            href = "http://www.univ-tlse3.fr",
+            tags$img(src = "https://upload.wikimedia.org/wikipedia/fr/a/a4/Logo_UT3.jpg", height = "55px", width = "163px")
+          ),
+          style = "text-align: left; display: inline-block; width: 15%;"
+        ),
+        div(
+          h1(
+            HTML(
+              paste0("<b>Enquête d'insertion professionnelle des diplômés de ", golem::get_golem_options("diplome"), "</b>")
+            )
+          ),
+          style = "text-align: center; display: inline-block; width: 70%;"),
+        div(
+          a(
+            href = "http://www.univ-tlse3.fr/devenir-des-diplomes/",
+            tags$img(src = "http://www.univ-tlse3.fr/medias/photo/img_1290420257773.jpg", height = "55px", width = "150px")
+          ),
+          style = "text-align: right; display: inline-block; width: 13%;"
+        )
       )
     ),
     div("", style = "height: 20px;"),
