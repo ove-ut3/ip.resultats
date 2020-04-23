@@ -21,12 +21,13 @@ mod_chiffres_cles_ui <- function(id){
     list = list(
       
       fluidRow(
-        column(width = 12, offset = 3,
-               box(
-                 title = "Diplômés assimilés à la formation initiale",
-                 valueBoxOutput(ns("repondants_analyse"), width = 12),
-                 footer = HTML("<sup>1</sup> Sont retenus les diplômés n'ayant pas interrompu deux ans ou plus leurs études entre le baccalauréat et l'obtention du diplôme à l'Université Toulouse III - Paul Sabatier. Les résultats présentés concernent le public assimilé à la formation initiale.")
-               )
+        column(
+          width = 12, offset = 3,
+          box(
+            title = "Diplômés assimilés à la formation initiale",
+            valueBoxOutput(ns("repondants_analyse"), width = 12),
+            footer = HTML("<sup>1</sup> Sont retenus les diplômés n'ayant pas interrompu deux ans ou plus leurs études entre le baccalauréat et l'obtention du diplôme à l'Université Toulouse III - Paul Sabatier. Les résultats présentés concernent le public assimilé à la formation initiale.")
+          )
         ),
         box(
           title = "Après l'obtention du diplôme, poursuite d'études ou emploi ?", width = 12,
