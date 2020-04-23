@@ -50,7 +50,7 @@ app_server <- function(input, output, session) {
   
   rv$dt_reponses <- reactive({
     rv$dt_diplomes() %>% 
-      dplyr::filter(repondant == 1)
+      dplyr::filter(repondant)
   })
   
   rv$dt_reponses_analyse <- reactive({
