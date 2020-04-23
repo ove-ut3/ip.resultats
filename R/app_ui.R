@@ -17,7 +17,7 @@ app_ui <- function(diplome) {
         menuSubItem("Satisfaction à 30 mois", tabName = "tab_emploi_30mois_adequation", icon = icon("smile"))
       )
     ),
-    menuItem("Témoignages", tabName = "tab_temoignages", icon = icon("comments")),
+    #menuItem("Témoignages", tabName = "tab_temoignages", icon = icon("comments")),
     hr(),
     menuItem("Filtres sélectionnés", icon = icon("filter")),
     shiny.modules::selected_filters_ui("selected_filters_ui")

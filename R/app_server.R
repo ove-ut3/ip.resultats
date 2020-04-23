@@ -96,6 +96,6 @@ app_server <- function(input, output, session) {
   
   callModule(mod_emploi_30mois_adequation_server, "emploi_30mois_adequation_ui", rv)
   
-  callModule(mod_temoignages_server, "temoignages_ui", rv)
+  #callModule(mod_temoignages_server, "temoignages_ui", rv)
   
 }
