@@ -90,7 +90,7 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     rv$dt_emploi_30mois() %>%  
       tidyr::drop_na(emploi_n2_type_ent) %>% 
       dplyr::pull(emploi_n2_type_ent) %>% 
-      graphr::shiny_donut(alpha = 0.67)
+      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
     
   })
   
@@ -111,7 +111,7 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_n2_localisation) %>% 
       dplyr::pull(emploi_n2_localisation) %>%
-      graphr::shiny_donut(alpha = 0.67)
+      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
     
   })
   
@@ -132,7 +132,7 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_n2_taille_entreprise) %>% 
       dplyr::pull(emploi_n2_taille_entreprise) %>%
-      graphr::shiny_donut(alpha = 0.67)
+      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
     
   })
   

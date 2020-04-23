@@ -170,7 +170,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
     rv$dt_vad() %>%  
       tidyr::drop_na(emploi_n2_niveau) %>% 
       dplyr::pull(emploi_n2_niveau) %>% 
-      graphr::shiny_donut(title = "Niveau d'emploi", alpha = 0.67)
+      graphr::shiny_pie(alpha = 0.67, donut = TRUE, donut_title = "Niveau d'emploi")
     
   })
   

@@ -206,7 +206,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_premier_localisation) %>% 
       dplyr::pull(emploi_premier_localisation) %>%
-      graphr::shiny_donut(alpha = 0.67)
+      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
     
   })
   

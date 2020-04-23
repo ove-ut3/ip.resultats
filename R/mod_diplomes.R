@@ -149,7 +149,7 @@ mod_diplomes_server <- function(input, output, session, rv){
     
     rv$dt_diplomes() %>% 
       dplyr::pull(regime_inscription) %>% 
-      graphr::shiny_donut(title = "Régime d'inscription", alpha = 0.67)
+      graphr::shiny_pie(alpha = 0.67, donut = TRUE, donut_title = "Régime d'inscription")
     
   })
   

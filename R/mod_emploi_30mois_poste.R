@@ -136,7 +136,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     rv$dt_emploi_30mois() %>%  
       tidyr::drop_na(emploi_n2_niveau) %>% 
       dplyr::pull(emploi_n2_niveau) %>% 
-      graphr::shiny_donut(alpha = 0.67)
+      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
     
   })
   
@@ -202,7 +202,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     rv$dt_emploi_30mois() %>%  
       tidyr::drop_na(emploi_n2_type) %>% 
       dplyr::pull(emploi_n2_type) %>% 
-      graphr::shiny_donut(alpha = 0.67)
+      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
     
   })
   
