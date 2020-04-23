@@ -17,69 +17,74 @@ mod_diplomes_ui <- function(id){
   ns <- NS(id)
   tagList(
     fluidRow(
-      column(title = "Diplômés", width = 12, offset = 3,
-             tabBox(
-               tabPanel(
-                 "Années sélectionnées",
-                 fluidRow(
-                   valueBoxOutput(ns("diplomes"), width = 12)
-                 )
-               ),
-               tabPanel(
-                 "\u00C9volution",
-                 plotly::plotlyOutput(ns("diplomes_histo"))
-               )
-             )
+      column(
+        title = "Diplômés", width = 12, offset = 3,
+        tabBox(
+          tabPanel(
+            "Années sélectionnées",
+            fluidRow(
+              valueBoxOutput(ns("diplomes"), width = 12)
+            )
+          ),
+          tabPanel(
+            "\u00C9volution",
+            plotly::plotlyOutput(ns("diplomes_histo"))
+          )
+        )
       )
     ),
     fluidRow(
-      tabBox(title = "Sexe",
-             tabPanel(
-               "Années sélectionnées",
-               fluidRow(
-                 valueBoxOutput(ns("femmes"), width = 12)
-               )
-             ),
-             tabPanel(
-               "\u00C9volution",
-               plotly::plotlyOutput(ns("femmes_histo"))
-             )
+      tabBox(
+        title = "Sexe",
+        tabPanel(
+          "Années sélectionnées",
+          fluidRow(
+            valueBoxOutput(ns("femmes"), width = 12)
+          )
+        ),
+        tabPanel(
+          "\u00C9volution",
+          plotly::plotlyOutput(ns("femmes_histo"))
+        )
       ),
-      tabBox(title = "Régime d'inscription",
-             tabPanel(
-               "Années sélectionnées",
-               plotly::plotlyOutput(ns("regime"))
-             ),
-             tabPanel(
-               "\u00C9volution",
-               plotly::plotlyOutput(ns("regime_histo"))
-             )
+      tabBox(
+        title = "Régime d'inscription",
+        tabPanel(
+          "Années sélectionnées",
+          plotly::plotlyOutput(ns("regime"))
+        ),
+        tabPanel(
+          "\u00C9volution",
+          plotly::plotlyOutput(ns("regime_histo"))
+        )
       )
     ),
     fluidRow(
-      tabBox(title = "Nationalité",
-             tabPanel(
-               "Années sélectionnées",
-               fluidRow(
-                 valueBoxOutput(ns("etranger"), width = 12)
-               )
-             ),
-             tabPanel(
-               "\u00C9volution",
-               plotly::plotlyOutput(ns("etranger_histo"))
-             )
+      tabBox(
+        title = "Nationalité",
+        tabPanel(
+          "Années sélectionnées",
+          fluidRow(
+            valueBoxOutput(ns("etranger"), width = 12)
+          )
+        ),
+        tabPanel(
+          "\u00C9volution",
+          plotly::plotlyOutput(ns("etranger_histo"))
+        )
       ),
-      tabBox(title = "Boursier",
-             tabPanel(
-               "Années sélectionnées",
-               fluidRow(
-                 valueBoxOutput(ns("boursier"), width = 12)
-               )
-             ),
-             tabPanel(
-               "\u00C9volution",
-               plotly::plotlyOutput(ns("boursier_histo"))
-             )
+      tabBox(
+        title = "Boursier",
+        tabPanel(
+          "Années sélectionnées",
+          fluidRow(
+            valueBoxOutput(ns("boursier"), width = 12)
+          )
+        ),
+        tabPanel(
+          "\u00C9volution",
+          plotly::plotlyOutput(ns("boursier_histo"))
+        )
       )
     )
   )
