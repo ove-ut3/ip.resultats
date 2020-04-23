@@ -77,7 +77,17 @@ mod_accueil_server <- function(input, output, session){
   
   output$source <- renderUI({
     
-    div(style = "font-size: 12pt;", #text-align: justify; 
+    annee_debut <- golem::get_golem_options("data") %>% 
+      dplyr::pull(annee) %>% 
+      levels() %>% 
+      tail(1)
+    
+    annee_fin <- golem::get_golem_options("data") %>% 
+      dplyr::pull(annee) %>% 
+      levels() %>% 
+      head(1)
+    
+    div(style = "font-size: 12pt;",
       p(HTML("Dans le cadre de l'enquête nationale ministérielle sur la situation à 30 mois des diplômé-e-s, l'observatoire de la vie étudiante interroge chaque année les étudiant-e-s ayant validé leur <b>DUT</b>, <b>Licence professionnelle</b> ou <b>Master</b>.")),
       p("A partir des réponses données par les anciens diplômé-e-s, ces enquêtes ont pour objectif d’informer sur les débouchés accessibles à l’issue des formations proposées par l’Université Toulouse III - Paul Sabatier."),
       p("Le questionnaire permet de décrire le parcours post-diplôme :",
@@ -86,8 +96,7 @@ mod_accueil_server <- function(input, output, session){
           tags$li("soit la situation professionnelle de l’étudiant-e s’étant présenté-e sur le marché du travail : taux d’insertion, caractéristiques du poste de travail, de l’employeur et adéquation de l’emploi occupé avec le diplômé obtenu")
           )
       ),
-      p("Le temps d’enquête de 30 mois après la diplômation explique le décalage assez important entre l’année universitaire en cours et la dernière promotion interrogée. L'historique présenté commence à l'année 2010/11 et la dernière promotion interrogée concerne les diplômés de l’année universitaire 2015/16.")#,
-      #p("Les résultats des enquêtes sont également accessibles sur les pages des formations dans la rubrique « Et après ».")
+      p(glue::glue("Le temps d’enquête de 30 mois après la diplômation explique le décalage assez important entre l’année universitaire en cours et la dernière promotion interrogée. L'historique présenté commence à l'année {annee_debut} et la dernière promotion interrogée concerne les diplômés de l’année universitaire {annee_fin}."))
     )
     
   })
