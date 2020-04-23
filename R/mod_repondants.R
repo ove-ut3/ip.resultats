@@ -21,9 +21,7 @@ mod_repondants_ui <- function(id){
         title = "Taux de réponse", width = 12,
         valueBoxOutput(ns("diplomes"), width = 4),
         valueBoxOutput(ns("repondants"), width = 4),
-        valueBoxOutput(ns("tx_reponse"), width = 4),
-        footer = HTML("<sup>1</sup> Promotion complète, y compris le public assimilé à la formation continue.<br>
-                      <sup>2</sup> Répondants, y compris le public assimilé à la formation continue.")
+        valueBoxOutput(ns("tx_reponse"), width = 4)
       )
     ),
     fluidRow(
@@ -46,14 +44,14 @@ mod_repondants_server <- function(input, output, session, rv){
   output$diplomes <- renderValueBox({
     valueBox(
       nrow(rv$dt_diplomes()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Diplômés<sup>1</sup>"), icon = icon("user-graduate")
+      HTML("Diplômés"), icon = icon("user-graduate")
     )
   })
   
   output$repondants <- renderValueBox({
     valueBox(
       nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Répondants<sup>2</sup>"), icon = icon("clipboard-check")
+      HTML("Répondants"), icon = icon("clipboard-check")
     )
   })
   

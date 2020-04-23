@@ -64,9 +64,7 @@ mod_chiffres_cles_ui <- function(id){
           title = "Taux de réponse", width = 12,
           valueBoxOutput(ns("diplomes"), width = 4),
           valueBoxOutput(ns("repondants"), width = 4),
-          valueBoxOutput(ns("tx_reponse"), width = 4),
-          footer = HTML("<sup>6</sup> Promotion complète, y compris le public assimilé à la formation continue.<br>
-                      <sup>7</sup> Répondants, y compris le public assimilé à la formation continue.")
+          valueBoxOutput(ns("tx_reponse"), width = 4)
         )
       )
       
@@ -214,20 +212,20 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   output$diplomes <- renderValueBox({
     valueBox(
       nrow(rv$dt_diplomes()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Diplômés<sup>6</sup>"), icon = icon("user-graduate")
+      HTML("Diplômés"), icon = icon("user-graduate")
     )
   })
   
   output$repondants <- renderValueBox({
     valueBox(
-      nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Répondants<sup>7</sup>"), icon = icon("clipboard-check")
+      nrow(rv$dt_reponses_analyse()) %>% scales::number(big.mark = "\u202F"),
+      HTML("Répondants"), icon = icon("clipboard-check")
     )
   })
   
   output$tx_reponse <- renderValueBox({
     valueBox(
-      scales::percent(nrow(rv$dt_reponses()) / nrow(rv$dt_diplomes()), suffix = NULL), "Taux de réponse", icon = icon("percent")
+      scales::percent(nrow(rv$dt_reponses_analyse()) / nrow(rv$dt_diplomes()), suffix = NULL), "Taux de réponse", icon = icon("percent")
     )
   })
   

@@ -114,9 +114,11 @@ mod_diplomes_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character) %>% 
       dplyr::count(annee)
     
-    graphr::shiny_line_base100(data$annee, data$n,
-                               title_x = "Année universitaire", title_y = "Nombre de diplômés <sup>1</sup>",
-                               note_base100 = paste("<sup>1</sup> Base 100, année", data$annee[1]))
+    graphr::shiny_line_base100(
+      data$annee, data$n,
+      title_x = "Année universitaire", title_y = "Nombre de diplômés <sup>1</sup>",
+      note_base100 = paste("<sup>1</sup> Base 100, année", data$annee[1])
+    )
     
     
   })
