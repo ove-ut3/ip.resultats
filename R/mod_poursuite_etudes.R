@@ -21,22 +21,24 @@ mod_poursuite_etudes_ui <- function(id){
     list = list(
       
       fluidRow(
-        box(width = 12,
-            tabBox(title = "Poursuite d'études", width = 12,
-                   tabPanel(
-                     "Années sélectionnées",
-                     fluidRow(
-                       valueBoxOutput(ns("diplomes"), width = 4),
-                       valueBoxOutput(ns("poursuite_etudes"), width = 4),
-                       valueBoxOutput(ns("tx_poursuite_etudes"), width = 4)
-                     )
-                   ),
-                   tabPanel(
-                     "\u00C9volution",
-                     plotly::plotlyOutput(ns("poursuite_etudes_histo"))
-                   )
+        box(
+          width = 12,
+          tabBox(
+            title = "Poursuite d'études", width = 12,
+            tabPanel(
+              "Années sélectionnées",
+              fluidRow(
+                valueBoxOutput(ns("diplomes"), width = 4),
+                valueBoxOutput(ns("poursuite_etudes"), width = 4),
+                valueBoxOutput(ns("tx_poursuite_etudes"), width = 4)
+              )
             ),
-            footer = HTML("<sup>1</sup> Sont retenus les diplômés n'ayant pas interrompu deux ans ou plus leurs études entre le baccalauréat et l'obtention du diplôme à l'Université Toulouse III - Paul Sabatier. Les résultats présentés concernent le public assimilé à la formation initiale.")
+            tabPanel(
+              "\u00C9volution",
+              plotly::plotlyOutput(ns("poursuite_etudes_histo"))
+            )
+          ),
+          footer = HTML("<sup>1</sup> Sont retenus les diplômés n'ayant pas interrompu deux ans ou plus leurs études entre le baccalauréat et l'obtention du diplôme à l'Université Toulouse III - Paul Sabatier. Les résultats présentés concernent le public assimilé à la formation initiale.")
         ),
         box(
           width = 12,
@@ -70,7 +72,7 @@ mod_poursuite_etudes_ui <- function(id){
           plotly::plotlyOutput(ns("plot_poursuite_etudes"))
         ),
         box(
-          title = "Quelles raisons pour la poursuite d'études", width = 12,
+          title = "Quelles raisons pour la poursuite d'études ?", width = 12,
           plotly::plotlyOutput(ns("raisons_poursuite_etudes"))
         )
       )
