@@ -81,7 +81,7 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
   output$nombre_emploi <- renderValueBox({
     valueBox(
       nrow(rv$dt_emploi_30mois()) %>% scales::number(big.mark = "\u202F"),
-      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie")
+      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie"), color = "orange"
     )
   })
   
@@ -90,7 +90,10 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     rv$dt_emploi_30mois() %>%  
       tidyr::drop_na(emploi_n2_type_ent) %>% 
       dplyr::pull(emploi_n2_type_ent) %>% 
-      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
+      graphr::shiny_barplot_horizontal(
+        c("#ce6000", "#e76b00", "#ff7701", "#ff851b", "#ff9335", "#ffae68"),
+        alpha = 0.8
+      )
     
   })
   
@@ -102,7 +105,11 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_n2_type_ent) %>% 
       dplyr::mutate_at("annee", as.character)
     
-    graphr::shiny_areas_evolution(data$annee, data$emploi_n2_type_ent, title_x = "Année universitaire")
+    graphr::shiny_areas_evolution(
+      data$annee, data$emploi_n2_type_ent,
+      title_x = "Année universitaire",
+      c("#ce6000", "#e76b00", "#ff7701", "#ff851b", "#ff9335", "#ffae68")
+    )
     
   })
   
@@ -111,7 +118,10 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_n2_localisation) %>% 
       dplyr::pull(emploi_n2_localisation) %>%
-      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
+      graphr::shiny_barplot_horizontal(
+        color = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68"),
+        alpha = 0.8
+      )
     
   })
   
@@ -123,7 +133,11 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_n2_localisation) %>% 
       dplyr::mutate_at("annee", as.character)
     
-    graphr::shiny_areas_evolution(data$annee, data$emploi_n2_localisation, title_x = "Année universitaire")
+    graphr::shiny_areas_evolution(
+      data$annee, data$emploi_n2_localisation,
+      title_x = "Année universitaire",
+      colors = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68")
+    )
     
   })
   
@@ -132,7 +146,10 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_n2_taille_entreprise) %>% 
       dplyr::pull(emploi_n2_taille_entreprise) %>%
-      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
+      graphr::shiny_barplot_horizontal(
+        color = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68"),
+        alpha = 0.8
+      )
     
   })
   
@@ -144,7 +161,11 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_n2_taille_entreprise) %>% 
       dplyr::mutate_at("annee", as.character)
     
-    graphr::shiny_areas_evolution(data$annee, data$emploi_n2_taille_entreprise, title_x = "Année universitaire")
+    graphr::shiny_areas_evolution(
+      data$annee, data$emploi_n2_taille_entreprise,
+      title_x = "Année universitaire",
+      colors = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68")
+    )
     
   })
   
@@ -157,7 +178,10 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_n2_secteur_ent) %>%
       dplyr::pull(emploi_n2_secteur_ent) %>%
-      graphr::shiny_treemap(alpha = 0.67)
+      graphr::shiny_barplot_horizontal(
+        colors = "#ff851b",
+        alpha = 0.8
+      )
     
   })
   

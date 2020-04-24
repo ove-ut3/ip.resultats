@@ -101,22 +101,22 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   
   output$diplomes <- renderValueBox({
     valueBox(
-      nrow(rv$dt_reponses_analyse()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Diplômés répondants<sup>1<sup>"), icon = icon("user-graduate")
+      nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
+      HTML("Diplômés répondants<sup>1<sup>"), icon = icon("user-graduate"), color = "purple"
     )
   })
   
   output$poursuite_etudes <- renderValueBox({
     valueBox(
       nrow(rv$dt_etudes()) %>% scales::number(),
-      "Poursuite d'études", icon = icon("university")
+      "Poursuite d'études", icon = icon("university"), color = "purple"
     )
   })
   
   output$tx_poursuite_etudes <- renderValueBox({
     valueBox(
-      scales::percent(nrow(rv$dt_etudes()) / nrow(rv$dt_reponses_analyse()), suffix = NULL),
-      "Taux de poursuite d'études", icon = icon("percent")
+      scales::percent(nrow(rv$dt_etudes()) / nrow(rv$dt_reponses()), suffix = NULL),
+      "Taux de poursuite d'études", icon = icon("percent"), color = "purple"
     )
   })
   
@@ -133,7 +133,8 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de poursuites d'études",
-      hovertext = paste("Taux de poursuites d'études: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
+      hovertext = paste("Taux de poursuites d'études: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")),
+      color = "#605ca8"
     )
     
   })
@@ -143,7 +144,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       scales::percent(
         nrow(dplyr::filter(rv$dt_etudes(), parcours == "Poursuite d'études directe")) / nrow(rv$dt_etudes()),
         suffix = NULL),
-      HTML("Taux de poursuite d'études directes<sup>2</sup>"), icon = icon("percent")
+      HTML("Taux de poursuite d'études directes<sup>2</sup>"), icon = icon("percent"), color = "purple"
     )
   })
   
@@ -152,21 +153,21 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       scales::percent(
         nrow(dplyr::filter(rv$dt_etudes(), parcours == "Reprise d'études")) / nrow(rv$dt_etudes()),
         suffix = NULL),
-      HTML("Taux de reprise d'études<sup>3</sup>"), icon = icon("percent")
+      HTML("Taux de reprise d'études<sup>3</sup>"), icon = icon("percent"), color = "purple"
     )
   })
   
   output$effectif_poursuite_etudes_directe <- renderValueBox({
     valueBox(
       nrow(dplyr::filter(rv$dt_etudes(), parcours == "Poursuite d'études directe")) %>% scales::number(big.mark = "\u202F"),
-      HTML("Nombre de poursuites d'études directes<sup>2</sup>"), icon = icon("users")
+      HTML("Nombre de poursuites d'études directes<sup>2</sup>"), icon = icon("users"), color = "purple"
     )
   })
   
   output$effectif_reprise_etudes <- renderValueBox({
     valueBox(
       nrow(dplyr::filter(rv$dt_etudes(), parcours == "Reprise d'études")) %>% scales::number(big.mark = "\u202F"),
-      HTML("Nombre de reprises d'études<sup>3</sup>"), icon = icon("users")
+      HTML("Nombre de reprises d'études<sup>3</sup>"), icon = icon("users"), color = "purple"
     )
   })
   
@@ -179,7 +180,11 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       
     levels(data$parcours) <- c("Poursuite d'études directe<sup>2</sup>", "Reprise d'études<sup>3</sup>")
     
-    graphr::shiny_areas_evolution(data$annee, data$parcours, title_x = "Année universitaire")
+    graphr::shiny_areas_evolution(
+      data$annee, data$parcours,
+      title_x = "Année universitaire",
+      colors = c("#434078", "#918ec3")
+    )
     
   })
   
@@ -191,12 +196,15 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   
   output$plot_poursuite_etudes <- plotly::renderPlotly({
     
+    req(input$filtre_type_poursuite_etudes)
+    
     data <- golem::get_golem_options("data") %>% 
       dplyr::filter(type_diplome == golem::get_golem_options("diplome")) %>% 
-      dplyr::filter(parcours %in% c("Poursuite d'études directe", "Reprise d'études"))
+      dplyr::filter(parcours %in% c("Poursuite d'études directe", "Reprise d'études")) %>% 
+      dplyr::filter(parcours %in% input$filtre_type_poursuite_etudes)
     
-    graphr::shiny_treemap_bi(data$niveau_diplome_vise, data$diplome_vise)
-    
+    graphr::shiny_treemap_bi(data$niveau_diplome_vise, data$diplome_vise, colors = c("#434078", "#605ca8", "#918ec3"))
+
   })
   
   output$raisons_poursuite_etudes <- plotly::renderPlotly({
@@ -212,10 +220,3 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   })
   
 }
-    
-## To be copied in the UI
-# 
-    
-## To be copied in the server
-# 
- 

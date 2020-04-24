@@ -67,22 +67,22 @@ mod_vie_active_durable_server <- function(input, output, session, rv){
   
   output$diplomes <- renderValueBox({
     valueBox(
-      nrow(rv$dt_reponses_analyse()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Diplômés répondants<sup>1</sup>"), icon = icon("user-graduate")
+      nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
+      HTML("Diplômés répondants<sup>1</sup>"), icon = icon("user-graduate"), color = "orange"
     )
   })
   
   output$vie_active_durable <- renderValueBox({
     valueBox(
       nrow(rv$dt_vad()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Vie active durable<sup>2</sup>"), icon = icon("user-tie")
+      HTML("Vie active durable<sup>2</sup>"), icon = icon("user-tie"), color = "orange"
     )
   })
   
   output$tx_vie_active_durable <- renderValueBox({
     valueBox(
-      scales::percent(nrow(rv$dt_vad()) / nrow(rv$dt_reponses_analyse()), suffix = NULL),
-      "Taux de vie active durable", icon = icon("percent")
+      scales::percent(nrow(rv$dt_vad()) / nrow(rv$dt_reponses()), suffix = NULL),
+      "Taux de vie active durable", icon = icon("percent"), color = "orange"
     )
   })
   
@@ -99,7 +99,8 @@ mod_vie_active_durable_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de vie active durable",
-      hovertext = paste("Taux de vie active durable: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
+      hovertext = paste("Taux de vie active durable: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), 
+      color = "#ff851b"
     )
     
   })
@@ -109,16 +110,26 @@ mod_vie_active_durable_server <- function(input, output, session, rv){
     data <- rv$dt_vad() %>% 
       dplyr::select(dplyr::matches("^situation_pro")) %>% 
       tidyr::gather("champ", "valeur", na.rm = TRUE) %>% 
-      dplyr::mutate_at("champ", dplyr::recode, 
-                       "situation_pro_n" = "6 mois",
-                       "situation_pro_n1" = "18 mois",
-                       "situation_pro_n2" = "30 mois") %>% 
+      dplyr::mutate_at(
+        "champ", 
+        dplyr::recode, 
+        "situation_pro_n" = "6 mois",
+        "situation_pro_n1" = "18 mois",
+        "situation_pro_n2" = "30 mois"
+      ) %>% 
       dplyr::mutate_at("champ", factor, levels = c("6 mois", "18 mois", "30 mois")) %>% 
-      dplyr::mutate_at("valeur", dplyr::recode, 
-                       "Promesse d'embauche" = "En recherche d'emploi") %>% 
+      dplyr::mutate_at(
+        "valeur", 
+        dplyr::recode, 
+        "Promesse d'embauche" = "En recherche d'emploi"
+      ) %>% 
       dplyr::mutate_at("valeur", factor, levels = c("En emploi", "En recherche d'emploi", "Inactif"))
     
-    graphr::shiny_barplot_vertical_multi(data$champ, data$valeur, title_x = "Nombre de mois après la diplômation", alpha = 0.67)
+    graphr::shiny_barplot_vertical_multi(
+      data$champ, data$valeur, 
+      title_x = "Nombre de mois après la diplômation", alpha = 0.67,
+      colors = c("#ce6000", "#ff851b", "#ffae68")
+    )
     
   })
   
@@ -137,24 +148,27 @@ mod_vie_active_durable_server <- function(input, output, session, rv){
       dplyr::filter(parcours == "Vie active durable") %>% 
       dplyr::select(annee, dplyr::matches("^situation_pro")) %>% 
       tidyr::gather("champ", "valeur", -annee, na.rm = TRUE) %>% 
-      dplyr::mutate_at("champ", dplyr::recode, 
-                       "situation_pro_n" = "6 mois",
-                       "situation_pro_n1" = "18 mois",
-                       "situation_pro_n2" = "30 mois") %>% 
+      dplyr::mutate_at(
+        "champ", 
+        dplyr::recode, 
+        "situation_pro_n" = "6 mois",
+        "situation_pro_n1" = "18 mois",
+        "situation_pro_n2" = "30 mois"
+      ) %>% 
       dplyr::filter(champ %in% input$filtre_situation_pro_histo) %>% 
-      dplyr::mutate_at("valeur", dplyr::recode, 
-                       "Promesse d'embauche" = "En recherche d'emploi") %>% 
+      dplyr::mutate_at(
+        "valeur", 
+        dplyr::recode, 
+        "Promesse d'embauche" = "En recherche d'emploi"
+      ) %>% 
       dplyr::mutate_at("valeur", factor, levels = c("En emploi", "En recherche d'emploi", "Inactif"))
     
-    graphr::shiny_areas_evolution(data$annee, data$valeur, title_x = "Année universitaire")
+    graphr::shiny_areas_evolution(
+      data$annee, data$valeur,
+      title_x = "Année universitaire",
+      colors = c("#ce6000", "#ff851b", "#ffae68")
+    )
     
   })
   
 }
-    
-## To be copied in the UI
-# 
-    
-## To be copied in the server
-# 
- 

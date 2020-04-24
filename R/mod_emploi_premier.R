@@ -110,21 +110,21 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   output$vie_active_durable <- renderValueBox({
     valueBox(
       nrow(rv$dt_vad()) %>% scales::number(big.mark = "\u202F"),
-      "Vie active durable", icon = icon("users")
+      "Vie active durable", icon = icon("users"), color = "orange"
     )
   })
   
   output$emploi_premier <- renderValueBox({
     valueBox(
       nrow(rv$dt_emploi_occupe()) %>% scales::number(big.mark = "\u202F"),
-      "Accès à un premier emploi", icon = icon("user-tie")
+      "Accès à un premier emploi", icon = icon("user-tie"), color = "orange"
     )
   })
   
   output$tx_emploi_premier <- renderValueBox({
     valueBox(
       scales::percent(nrow(rv$dt_emploi_occupe()) / nrow(rv$dt_vad()), suffix = NULL),
-      "Taux d'accès à un premier emploi", icon = icon("percent")
+      "Taux d'accès à un premier emploi", icon = icon("percent"), color = "orange"
     )
   })
   
@@ -141,7 +141,8 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'accès à un premier emploi",
-      hovertext = paste("Taux d'accès à un premier emploi: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
+      hovertext = paste("Taux d'accès à un premier emploi: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), 
+      color = "#ff851b"
     )
     
   })
@@ -156,7 +157,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
         nrow(dplyr::filter(emploi_premier_duree_recherche, emploi_premier_duree_recherche <= 3)) / nrow(emploi_premier_duree_recherche), 
         suffix = "\u202F%"
       ),
-      "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock")
+      "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock"), color = "orange"
     )
   })
   
@@ -175,9 +176,14 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::mutate_at("var", dplyr::recode, "en_emploi" = "En emploi", "non_emploi" = "En recherche d'emploi") %>% 
       dplyr::mutate_at("var", factor, levels = c("En emploi", "En recherche d'emploi")) %>% 
       dplyr::mutate(list = purrr::map(n, ~ 1:.)) %>% 
-      tidyr::unnest_legacy()
+      tidyr::unnest_legacy() %>% 
+      dplyr::filter(n != 0)
     
-    graphr::shiny_areas_evolution(data$emploi_premier_duree_recherche, data$var)
+    graphr::shiny_areas_evolution(
+      data$emploi_premier_duree_recherche, data$var,
+      title_x = "Nombre de mois",
+      colors = c("#ce6000", "#ffae68")
+    )
     
   })
   
@@ -185,8 +191,10 @@ mod_emploi_premier_server <- function(input, output, session, rv){
 
     data <- rv$dt_evolution() %>%
       dplyr::mutate_at("annee", as.character) %>%
-      dplyr::filter(parcours == "Vie active durable",
-                    emploi_occupe == "Oui") %>% 
+      dplyr::filter(
+        parcours == "Vie active durable",
+        emploi_occupe == "Oui"
+      ) %>% 
       tidyr::drop_na(emploi_premier_duree_recherche) %>%
       dplyr::mutate(emploi_premier_duree_3mois = dplyr::if_else(emploi_premier_duree_recherche <= 3, "oui", "non")) %>%
       dplyr::count(annee, emploi_premier_duree_3mois) %>%
@@ -196,7 +204,8 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'accès au premier emploi en 3 mois ou moins",
-      hovertext = paste("Taux d'accès au premier emploi en 3 mois ou moins: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
+      hovertext = paste("Taux d'accès au premier emploi en 3 mois ou moins: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), 
+      color = "#ff851b"
     )
 
   })

@@ -36,7 +36,7 @@ app_server <- function(input, output, session) {
     
   })
   
-  rv$dt_sans_doublons <- reactive({
+  rv$dt_diplomes <- reactive({
     
     rv$dt_filtre() %>% 
       dplyr::group_by(annee, code_etudiant) %>% 
@@ -44,27 +44,18 @@ app_server <- function(input, output, session) {
       dplyr::ungroup()
   })
   
-  rv$dt_diplomes <- reactive({
-    rv$dt_sans_doublons()
-  })
-  
   rv$dt_reponses <- reactive({
     rv$dt_diplomes() %>% 
       dplyr::filter(repondant)
   })
   
-  rv$dt_reponses_analyse <- reactive({
-    rv$dt_reponses() %>% 
-      dplyr::filter(interruption_etudes != "Oui, pendant deux années consécutives ou plus")
-  })
-  
   rv$dt_etudes <- reactive({
-    rv$dt_reponses_analyse() %>% 
+    rv$dt_reponses() %>% 
       dplyr::filter(parcours %in% c("Poursuite d'études directe", "Reprise d'études"))
   })
   
   rv$dt_vad <- reactive({
-    rv$dt_reponses_analyse() %>% 
+    rv$dt_reponses() %>% 
       dplyr::filter(parcours == "Vie active durable")
   })
   
@@ -80,7 +71,7 @@ app_server <- function(input, output, session) {
   
   callModule(mod_chiffres_cles_server, "chiffres_cles_ui", rv)
   
-  callModule(mod_diplomes_server, "diplomes_ui", rv)
+  #callModule(mod_diplomes_server, "diplomes_ui", rv)
    
   callModule(mod_repondants_server, "repondants_ui", rv)
   

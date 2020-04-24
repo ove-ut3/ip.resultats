@@ -71,10 +71,12 @@ mod_emploi_30mois_poste_ui <- function(id){
     ),
     fluidRow(
       box(
+        width = 8,
         title = "Domaine d'emploi",
         plotly::plotlyOutput(ns("emploi_30mois_domaine"))
       ),
       box(
+        width = 4,
         title = "Intitulé d'emploi",
         htmlOutput(ns("emploi_30mois_intitule"))
       )
@@ -96,7 +98,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
   output$nombre_emploi <- renderValueBox({
     valueBox(
       nrow(rv$dt_emploi_30mois()) %>% scales::number(big.mark = "\u202F"),
-      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie")
+      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie"), color = "orange"
     )
   })
   
@@ -107,7 +109,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     
     valueBox(
       scales::percent(nrow(rv$dt_emploi_30mois()) / nrow(recherche), suffix = NULL),
-      HTML("Taux d'insertion professionnelle à 30 mois<sup>1</sup>"), icon = icon("percent")
+      HTML("Taux d'insertion professionnelle à 30 mois<sup>1</sup>"), icon = icon("percent"), color = "orange"
     )
     
   })
@@ -126,7 +128,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'insertion professionnelle à 30 mois",
-      hovertext = paste("Taux d'insertion professionnelle à 30 mois: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
+      hovertext = paste("Taux d'insertion professionnelle à 30 mois: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), color = "#ff851b"
     )
     
   })
@@ -136,7 +138,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     rv$dt_emploi_30mois() %>%  
       tidyr::drop_na(emploi_n2_niveau) %>% 
       dplyr::pull(emploi_n2_niveau) %>% 
-      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
+      graphr::shiny_pie(alpha = 0.8, donut = TRUE, colors = c("#ce6000", "#ff7701", "#ff9335", "#ffae68"))
     
   })
   
@@ -148,16 +150,22 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_n2_niveau) %>% 
       dplyr::mutate_at("annee", as.character)
     
-    graphr::shiny_areas_evolution(data$annee, data$emploi_n2_niveau, title_x = "Année universitaire")
+    graphr::shiny_areas_evolution(
+      data$annee, data$emploi_n2_niveau,
+      title_x = "Année universitaire",
+      colors = c("#ce6000", "#ff7701", "#ff9335", "#ffae68")
+    )
     
   })
   
   output$emploi_30mois_salaire <- renderValueBox({
     
     dt <- rv$dt_emploi_30mois() %>% 
-      dplyr::filter(situation_pro_n2 == "En emploi",
-                    emploi_n2_temoin_temps_partiel == "Non",
-                    emploi_n2_departement != "99") %>% 
+      dplyr::filter(
+        situation_pro_n2 == "En emploi",
+        emploi_n2_temoin_temps_partiel == "Non",
+        emploi_n2_departement != "99"
+      ) %>% 
       tidyr::drop_na(emploi_n2_salaire)
     
     validate(
@@ -168,7 +176,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       value <- median(dt$emploi_n2_salaire) %>% 
         round() %>% 
         scales::number(big.mark = "\u202F"),
-      "Salaire net médian", icon = icon("euro")
+      "Salaire net médian", icon = icon("euro"), color = "orange"
     )
     
   })
@@ -176,10 +184,12 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
   output$emploi_30mois_salaire_histo <- plotly::renderPlotly({
     
     data <- rv$dt_evolution() %>%
-      dplyr::filter(parcours == "Vie active durable",
-                    situation_pro_n2 == "En emploi",
-                    emploi_n2_temoin_temps_partiel == "Non",
-                    emploi_n2_departement != "99") %>% 
+      dplyr::filter(
+        parcours == "Vie active durable",
+        situation_pro_n2 == "En emploi",
+        emploi_n2_temoin_temps_partiel == "Non",
+        emploi_n2_departement != "99"
+      ) %>% 
       dplyr::mutate_at("annee", as.character) %>% 
       dplyr::group_by(annee) %>% 
       dplyr::summarise(emploi_n2_salaire = median(emploi_n2_salaire, na.rm = TRUE),
@@ -191,9 +201,11 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       need(all(data$n >= 3), "Il n'y a pas suffisamment d'observations pour tracer le graphique.")
     )
     
-    graphr::shiny_line_base100(data$annee, data$emploi_n2_salaire,
-                                 title_x = "Année", title_y = "Salaire net médian <sup>3</sup>",
-                                 note_base100 = paste("<sup>3</sup> Base 100, année", data$annee[1]))
+    graphr::shiny_line_base100(
+      data$annee, data$emploi_n2_salaire,
+      title_x = "Année", title_y = "Salaire net médian <sup>3</sup>",
+      note_base100 = paste("<sup>3</sup> Base 100, année", data$annee[1]),
+      color = "#ff851b")
     
   })
   
@@ -202,19 +214,28 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     rv$dt_emploi_30mois() %>%  
       tidyr::drop_na(emploi_n2_type) %>% 
       dplyr::pull(emploi_n2_type) %>% 
-      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
+      graphr::shiny_barplot_horizontal(
+        color = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68"),
+        alpha = 0.8
+      )
     
   })
   
   output$emploi_30mois_type_histo <- plotly::renderPlotly({
     
     data <- rv$dt_evolution() %>%
-      dplyr::filter(parcours == "Vie active durable",
-                    situation_pro_n2 == "En emploi") %>% 
+      dplyr::filter(
+        parcours == "Vie active durable",
+        situation_pro_n2 == "En emploi"
+      ) %>% 
       tidyr::drop_na(emploi_n2_type) %>% 
       dplyr::mutate_at("annee", as.character)
     
-    graphr::shiny_areas_evolution(data$annee, data$emploi_n2_type, title_x = "Année universitaire")
+    graphr::shiny_areas_evolution(
+      data$annee, data$emploi_n2_type,
+      title_x = "Année universitaire",
+      colors = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68")
+    )
     
   })
   
@@ -227,7 +248,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_n2_fonctions) %>%
       dplyr::pull(emploi_n2_fonctions) %>%
-      graphr::shiny_treemap(alpha = 0.67)
+      graphr::shiny_barplot_horizontal(colors = "#ff851b", alpha = 0.8)
 
   })
 

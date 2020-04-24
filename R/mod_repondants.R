@@ -44,28 +44,28 @@ mod_repondants_server <- function(input, output, session, rv){
   output$diplomes <- renderValueBox({
     valueBox(
       nrow(rv$dt_diplomes()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Diplômés"), icon = icon("user-graduate")
+      HTML("Diplômés"), icon = icon("user-graduate"), color = "light-blue"
     )
   })
   
   output$repondants <- renderValueBox({
     valueBox(
       nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Répondants"), icon = icon("clipboard-check")
+      HTML("Répondants"), icon = icon("clipboard-check"), color = "light-blue"
     )
   })
   
   output$tx_reponse <- renderValueBox({
     valueBox(
       scales::percent(nrow(rv$dt_reponses()) / nrow(rv$dt_diplomes()), suffix = NULL),
-      "Taux de réponse", icon = icon("percent")
+      "Taux de réponse", icon = icon("percent"), color = "light-blue"
     )
   })
   
   output$repondants_histo <- plotly::renderPlotly({
     
     data <- rv$dt_evolution() %>%
-      dplyr::mutate(repondant = dplyr::if_else(repondant == 1, "oui", "non", "non")) %>% 
+      dplyr::mutate(repondant = dplyr::if_else(repondant, "oui", "non", "non")) %>% 
       dplyr::mutate_at("annee", as.character) %>%
       dplyr::count(annee, repondant) %>% 
       tidyr::spread(repondant, n, fill = 0) %>% 
@@ -74,7 +74,8 @@ mod_repondants_server <- function(input, output, session, rv){
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de répondants",
-      hovertext = paste("Taux de répondants: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ","))
+      hovertext = paste("Taux de répondants: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")),
+      color = "#3c8dbc"
     )
     
   })

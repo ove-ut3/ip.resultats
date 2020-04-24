@@ -102,7 +102,7 @@ mod_diplomes_server <- function(input, output, session, rv){
   output$diplomes <- renderValueBox({
     
     valueBox(
-      nrow(rv$dt_diplomes()) %>% scales::number(big.mark = "\u202F"),
+      nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
       "Nombre de diplômés", icon = icon("user-graduate")
     )
     
@@ -127,7 +127,7 @@ mod_diplomes_server <- function(input, output, session, rv){
     
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(rv$dt_diplomes(), sexe == "F")) / nrow(rv$dt_diplomes()), 
+        nrow(dplyr::filter(rv$dt_reponses(), sexe == "F")) / nrow(rv$dt_reponses()), 
         suffix = "\u202F%"
       ),
       "Taux de femmes", icon = icon("female")
@@ -154,7 +154,7 @@ mod_diplomes_server <- function(input, output, session, rv){
   
   output$regime <- plotly::renderPlotly({
     
-    rv$dt_diplomes() %>% 
+    rv$dt_reponses() %>% 
       dplyr::pull(regime_inscription) %>% 
       graphr::shiny_pie(alpha = 0.67, donut = TRUE, donut_title = "Régime d'inscription")
     
@@ -173,7 +173,7 @@ mod_diplomes_server <- function(input, output, session, rv){
     
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(rv$dt_diplomes(), code_nationalite != "100")) / nrow(rv$dt_diplomes()), 
+        nrow(dplyr::filter(rv$dt_reponses(), code_nationalite != "100")) / nrow(rv$dt_reponses()), 
         suffix = "\u202F%"
       ),
       "Taux de nationalité étrangère", icon = icon("globe")
@@ -203,7 +203,7 @@ mod_diplomes_server <- function(input, output, session, rv){
     
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(rv$dt_diplomes(), !is.na(code_bourse))) / nrow(rv$dt_diplomes()), 
+        nrow(dplyr::filter(rv$dt_reponses(), !is.na(code_bourse))) / nrow(rv$dt_reponses()), 
         suffix = "\u202F%"
       ),
       "Taux de boursiers", icon = icon("percent")
