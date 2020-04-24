@@ -215,7 +215,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       tidyr::unnest_legacy() %>% 
       tidyr::drop_na(pours_etud_n_n1_raison) %>% 
       dplyr::pull(pours_etud_n_n1_raison) %>% 
-      graphr::shiny_treemap(alpha = 0.67)
+      graphr::shiny_barplot_horizontal(colors = "#605ca8", alpha = 0.8)
 
   })
   

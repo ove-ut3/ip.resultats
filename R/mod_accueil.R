@@ -59,7 +59,7 @@ mod_accueil_ui <- function(id){
         width = 7,
         box(
           title = HTML("<b>Mode d'emploi du tableau de bord</b>"), width = 12, height = 650,
-          imageOutput(ns("mode_emploi"))
+          imageOutput(ns("mode_emploi"), width = "47%")
         )
       )
     )
@@ -88,7 +88,7 @@ mod_accueil_server <- function(input, output, session){
       head(1)
     
     div(style = "font-size: 12pt;",
-      p(HTML("Dans le cadre de l'enquête nationale ministérielle sur la situation à 30 mois des diplômé-e-s, l'observatoire de la vie étudiante interroge chaque année les étudiant-e-s ayant validé leur <b>DUT</b>, <b>Licence professionnelle</b> ou <b>Master</b>.")),
+      p(HTML("Dans le cadre de l'enquête nationale ministérielle sur la <b>situation à 30 mois</b> des diplômé-e-s, l'observatoire de la vie étudiante interroge chaque année les étudiant-e-s ayant validé leur <b>DUT</b>, <b>Licence professionnelle</b> ou <b>Master</b>.")),
       p("A partir des réponses données par les anciens diplômé-e-s, ces enquêtes ont pour objectif d’informer sur les débouchés accessibles à l’issue des formations proposées par l’Université Toulouse III - Paul Sabatier."),
       p("Le questionnaire permet de décrire le parcours post-diplôme :",
         tags$ul(
@@ -96,7 +96,7 @@ mod_accueil_server <- function(input, output, session){
           tags$li("soit la situation professionnelle de l’étudiant-e s’étant présenté-e sur le marché du travail : taux d’insertion, caractéristiques du poste de travail, de l’employeur et adéquation de l’emploi occupé avec le diplômé obtenu")
           )
       ),
-      p(glue::glue("Le temps d’enquête de 30 mois après la diplômation explique le décalage assez important entre l’année universitaire en cours et la dernière promotion interrogée. L'historique présenté commence à l'année {annee_debut} et la dernière promotion interrogée concerne les diplômés de l’année universitaire {annee_fin}."))
+      p(HTML(glue::glue("Le temps d’enquête de 30 mois après la diplômation explique le décalage assez important entre l’année universitaire en cours et la dernière promotion interrogée. L'historique présenté commence à l'année {annee_debut} et la dernière promotion interrogée concerne les diplômés de <b>l’année universitaire {annee_fin}</b>.")))
     )
     
   })
@@ -111,10 +111,12 @@ mod_accueil_server <- function(input, output, session){
   })
   
   output$mode_emploi <- renderImage(deleteFile = FALSE, {
+    
     filename <- system.file('app', package = 'ip.resultats') %>% 
-      list.files(pattern = "47_\\.png$", full.names = TRUE)
+      list.files(pattern = "home_new_draw_47\\.png$", full.names = TRUE)
     
     list(src = filename)
+    
   })
   
 }

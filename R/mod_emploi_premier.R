@@ -215,7 +215,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_premier_localisation) %>% 
       dplyr::pull(emploi_premier_localisation) %>%
-      graphr::shiny_pie(alpha = 0.67, donut = TRUE)
+      graphr::shiny_barplot_horizontal(color = "#ff851b", alpha = 0.8)
     
   })
   
@@ -236,7 +236,8 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_premier_moyen) %>% 
       dplyr::pull(emploi_premier_moyen) %>%
-      graphr::shiny_treemap(alpha = 0.67)
+      droplevels() %>% 
+      graphr::shiny_barplot_horizontal(color = "#ff851b", alpha = 0.8)
     
   })
   
@@ -252,7 +253,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
         nrow(data) / nrow(rv$dt_emploi_occupe()),
         suffix = NULL
       ),
-      "Taux de diplômés ayant rencontré des difficultés", icon = icon("percent")
+      "Taux de diplômés ayant rencontré des difficultés", icon = icon("percent"), color = "orange"
     )
     
   })
@@ -263,7 +264,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::unnest_legacy(emploi_premier_difficulte_acces) %>% 
       tidyr::drop_na(emploi_premier_difficulte_acces) %>% 
       dplyr::pull(emploi_premier_difficulte_acces) %>%
-      graphr::shiny_treemap(alpha = 0.67)
+      graphr::shiny_barplot_horizontal(color = "#ff851b", alpha = 0.8)
     
   })
   

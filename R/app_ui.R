@@ -25,12 +25,14 @@ app_ui <- function(diplome) {
   
   # Poursuite d'études après l'emploi
   if (golem::get_golem_options("diplome") %in% c("LP", "Master")) {
+    
     list_menu_items <- c(
-      list_menu_items[1:4],
-      list_menu_items[6],
-      list_menu_items[5],
-      list_menu_items[7:10]
+      list_menu_items[1:2],
+      list_menu_items[4],
+      list_menu_items[3],
+      list_menu_items[5:8]
     )
+    
   }
   
   ui <- tagList(
@@ -38,7 +40,7 @@ app_ui <- function(diplome) {
     golem_add_external_resources(),
     # List the first level UI elements here,
     dashboardPagePlus(
-      title = "Enquête d'insertion professionnelle", #skin = "yellow", 
+      title = paste0("Enquête d'insertion professionnelle des diplômés de ", golem::get_golem_options("diplome")),
       dashboardHeaderPlus(
         title = tags$a(
           href = "http://www.univ-tlse3.fr",
@@ -121,13 +123,13 @@ app_ui <- function(diplome) {
 #' @import shiny
 golem_add_external_resources <- function(){
   
-  addResourcePath(
-    'www', system.file('app/www', package = 'ip.resultats')
+  golem::add_resource_path(
+    'www', app_sys('app/www')
   )
  
   tags$head(
-    golem::activate_js(),
     golem::favicon(),
+    golem::activate_js(),
     # Add here all the external resources
     # If you have a custom.css in the inst/app/www
     # Or for example, you can add shinyalert::useShinyalert() here
