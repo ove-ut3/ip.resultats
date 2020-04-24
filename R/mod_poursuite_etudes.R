@@ -198,12 +198,15 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
     
     req(input$filtre_type_poursuite_etudes)
     
-    data <- golem::get_golem_options("data") %>% 
+    data <- rv$dt_etudes() %>% 
       dplyr::filter(type_diplome == golem::get_golem_options("diplome")) %>% 
       dplyr::filter(parcours %in% c("Poursuite d'études directe", "Reprise d'études")) %>% 
       dplyr::filter(parcours %in% input$filtre_type_poursuite_etudes)
     
-    graphr::shiny_treemap_bi(data$niveau_diplome_vise, data$diplome_vise, colors = c("#434078", "#605ca8", "#918ec3"))
+    graphr::shiny_treemap_bi(
+      data$niveau_diplome_vise,
+      data$diplome_vise, 
+      colors = c("#434078", "#605ca8", "#918ec3"))
 
   })
   
