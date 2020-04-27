@@ -70,10 +70,6 @@ app_ui <- function(diplome) {
             mod_chiffres_cles_ui("chiffres_cles_ui")
           ),
           tabItem(
-            tabName = "tab_diplomes",
-            mod_diplomes_ui("diplomes_ui")
-          ),
-          tabItem(
             tabName = "tab_repondants",
             mod_repondants_ui("repondants_ui")
           ),
@@ -100,10 +96,6 @@ app_ui <- function(diplome) {
           tabItem(
             "tab_emploi_30mois_adequation",
             mod_emploi_30mois_adequation_ui("emploi_30mois_adequation_ui")
-          ),
-          tabItem(
-            "tab_temoignages",
-            mod_temoignages_ui("temoignages_ui")
           )
         )
       ),
