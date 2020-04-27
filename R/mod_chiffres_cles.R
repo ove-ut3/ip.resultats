@@ -111,6 +111,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
       HTML("Diplômés répondants<sup>1</sup>"), icon = icon("user-graduate"), color = "light-blue"
     )
+    
   })
   
   output$etudes <- renderValueBox({
@@ -121,15 +122,18 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       icon = icon("university"),
       color = "purple"
     )
+    
   })
   
   output$vie_active_durable <- renderValueBox({
+    
     valueBox(
       scales::percent(nrow(rv$dt_vad()) / nrow(rv$dt_reponses()), suffix = "\u202F%"),
       subtitle = HTML("Vie active durable<sup>2</sup>"),
       icon = icon("user-tie"),
       color = "orange"
     )
+    
   })
   
   output$niveau_diplome <- plotly::renderPlotly({
@@ -149,8 +153,10 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   })
   
   output$emploi_premier_duree_recherche <- renderValueBox({
+    
     emploi_premier_duree_recherche <- rv$dt_vad() %>% 
       tidyr::drop_na(emploi_premier_duree_recherche)
+    
     valueBox(
       scales::percent(
         nrow(dplyr::filter(emploi_premier_duree_recherche, emploi_premier_duree_recherche <= 3)) / nrow(emploi_premier_duree_recherche), 
@@ -158,11 +164,14 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
         ),
       "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock"), color = "orange"
     )
+    
   })
   
   output$emploi_n2_insertion <- renderValueBox({
+    
     emploi_n2_insertion <- rv$dt_vad() %>% 
       dplyr::filter(situation_pro_n2 %in% c("En emploi", "En recherche d'emploi", "Promesse d'embauche"))
+    
     valueBox(
       scales::percent(
         nrow(dplyr::filter(emploi_n2_insertion, situation_pro_n2 == "En emploi")) / nrow(emploi_n2_insertion),
@@ -170,6 +179,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
         ),
       HTML("Taux d'insertion à 30 mois<sup>3</sup>"), icon = icon("percent"), color = "orange"
     )
+    
   })
   
   output$emploi_30mois_niveau <- plotly::renderPlotly({
@@ -188,23 +198,28 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   })
   
   output$salaire <- renderValueBox({
+    
     emploi_n2_insertion <- rv$dt_vad() %>% 
       dplyr::filter(
         situation_pro_n2 == "En emploi",
         emploi_n2_temoin_temps_partiel == "Non",
         emploi_n2_departement != "99"
       )
+    
     valueBox(
       median(emploi_n2_insertion$emploi_n2_salaire, na.rm = TRUE) %>% 
         round() %>% 
         scales::number(big.mark = "\u202F"),
       HTML("Salaire net médian<sup>4</sup>"), icon = icon("euro"), color = "orange"
     )
+    
   })
   
   output$cdi_assimiles <- renderValueBox({
+    
     cdi_assimiles <- rv$dt_vad() %>% 
       dplyr::filter(situation_pro_n2 == "En emploi")
+    
     valueBox(
       scales::percent(
         nrow(dplyr::filter(cdi_assimiles, emploi_n2_type %in% c("CDI", "Profession libérale, indépendant, chef-fe d'entreprise, auto-entrepreneur", "Fonctionnaire"))) / nrow(cdi_assimiles),
@@ -212,11 +227,14 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       ),
       HTML("Taux de CDI et assimilés<sup>5</sup>"), icon = icon("percent"), color = "orange"
     )
+    
   })
   
   output$occitanie <- renderValueBox({
+    
     occitanie <- rv$dt_vad() %>% 
       dplyr::filter(situation_pro_n2 == "En emploi")
+    
     valueBox(
       scales::percent(
         nrow(dplyr::filter(occitanie, emploi_n2_departement %in% c("009", "011", "012", "030", "031", "032", "034", "046", "048", "065", "066", "081", "082"))) / nrow(occitanie), 
@@ -224,6 +242,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       ),
       HTML("Taux d'emploi en région Occitanie"), icon = icon("map-marker-alt"), color = "orange"
     )
+    
   })
 
 }
