@@ -4,7 +4,7 @@
 \alias{run_app}
 \title{Run the Shiny Application}
 \usage{
-run_app(credentials, data, diplome)
+run_app(data, diplome)
 }
 \description{
 Run the Shiny Application

@@ -2,10 +2,6 @@
 app_server <- function(input, output, session) {
   # List the first level callModules here
 
-  res_auth <- shinymanager::secure_server(
-    check_credentials = shinymanager::check_credentials(golem::get_golem_options("credentials"))
-  )
-  
   rv <- reactiveValues()
   
   rv <- callModule(mod_filtre_control_bar_server, "filtre_control_bar_ui", rv)

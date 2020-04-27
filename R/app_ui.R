@@ -1,5 +1,5 @@
 #' @import shiny shinydashboard shinydashboardPlus
-app_ui <- function(diplome) {
+app_ui <- function() {
   
   list_menu_items <- list(
     menuItem("Accueil", tabName = "tab_home", icon = icon("home")),
@@ -106,8 +106,7 @@ app_ui <- function(diplome) {
     )
   )
   
-  ui <- shinymanager::secure_app(ui, language = "fr")
-  ui(diplome)
+  ui
 }
 
 #' @import shiny
