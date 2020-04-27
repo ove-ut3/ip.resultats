@@ -162,7 +162,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
   
   output$emploi_30mois_salaire <- renderValueBox({
     
-    dt <- rv$dt_emploi_30mois() %>% 
+    data <- rv$dt_emploi_30mois() %>% 
       dplyr::filter(
         situation_pro_n2 == "En emploi",
         emploi_n2_temoin_temps_partiel == "Non",
@@ -171,11 +171,11 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_n2_salaire)
     
     validate(
-      need(nrow(dt) >= 3, "Il n'y a pas suffisamment d'observations pour afficher cette valeur.")
+      need(nrow(data) >= 3, "Il n'y a pas suffisamment d'observations pour afficher cette valeur.")
     )
 
     valueBox(
-      value <- median(dt$emploi_n2_salaire) %>% 
+      value <- median(data$emploi_n2_salaire) %>% 
         round() %>% 
         scales::number(big.mark = "\u202F"),
       "Salaire net médian", icon = icon("euro"), color = "orange"
