@@ -231,7 +231,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
   
   output$emploi_30mois_type <- plotly::renderPlotly({
 
-    rv$dt_emploi_30mois() %>%  
+    data <- rv$dt_emploi_30mois() %>%  
       tidyr::drop_na(emploi_n2_type)
     
     validate(
