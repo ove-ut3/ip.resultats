@@ -214,11 +214,17 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   
   output$raisons_poursuite_etudes <- plotly::renderPlotly({
     
-    rv$dt_etudes() %>% 
+    data <- rv$dt_etudes() %>% 
       dplyr::filter(parcours == "Poursuite d'études directe") %>% 
       dplyr::select(pours_etud_n_n1_raison) %>% 
       tidyr::unnest_legacy() %>% 
-      tidyr::drop_na(pours_etud_n_n1_raison) %>% 
+      tidyr::drop_na(pours_etud_n_n1_raison)
+    
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
+    data %>% 
       dplyr::pull(pours_etud_n_n1_raison) %>% 
       graphr::shiny_barplot_horizontal(colors = "#605ca8", alpha = 0.8)
 

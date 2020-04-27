@@ -138,6 +138,10 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::spread(emploi_occupe, n, fill = 0) %>% 
       dplyr::mutate(pct = oui / (oui + non))
     
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'accès à un premier emploi",
@@ -149,12 +153,16 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   
   output$emploi_premier_duree_recherche <- renderValueBox({
     
-    emploi_premier_duree_recherche <- rv$dt_emploi_occupe() %>% 
+    data <- rv$dt_emploi_occupe() %>% 
       tidyr::drop_na(emploi_premier_duree_recherche)
+    
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
     
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(emploi_premier_duree_recherche, emploi_premier_duree_recherche <= 3)) / nrow(emploi_premier_duree_recherche), 
+        nrow(dplyr::filter(data, emploi_premier_duree_recherche <= 3)) / nrow(data), 
         suffix = "\u202F%"
       ),
       "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock"), color = "orange"
@@ -179,6 +187,10 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::unnest_legacy() %>% 
       dplyr::filter(n != 0)
     
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
     graphr::shiny_areas_evolution(
       data$emploi_premier_duree_recherche, data$var,
       title_x = "Nombre de mois",
@@ -201,6 +213,10 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::spread(emploi_premier_duree_3mois, n, fill = 0) %>%
       dplyr::mutate(pct = oui / (oui + non))
 
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'accès au premier emploi en 3 mois ou moins",
@@ -212,8 +228,14 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   
   output$emploi_premier_localisation <- plotly::renderPlotly({
     
-    rv$dt_emploi_occupe() %>%
-      tidyr::drop_na(emploi_premier_localisation) %>% 
+    data <- rv$dt_emploi_occupe() %>%
+      tidyr::drop_na(emploi_premier_localisation)
+    
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
+    data %>% 
       dplyr::pull(emploi_premier_localisation) %>%
       graphr::shiny_barplot_horizontal(color = "#ff851b", alpha = 0.8)
     
@@ -222,10 +244,16 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   output$emploi_premier_localisation_histo <- plotly::renderPlotly({
     
     data <- rv$dt_evolution() %>%
-      dplyr::filter(parcours == "Vie active durable",
-                    emploi_occupe == "Oui") %>% 
+      dplyr::filter(
+        parcours == "Vie active durable",
+        emploi_occupe == "Oui"
+      ) %>% 
       tidyr::drop_na(emploi_premier_localisation) %>% 
       dplyr::mutate_at("annee", as.character)
+    
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
     
     graphr::shiny_areas_evolution(data$annee, data$emploi_premier_localisation, title_x = "Année universitaire")
     
@@ -248,6 +276,10 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_premier_difficulte_acces) %>% 
       dplyr::count(annee, code_etudiant)
     
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
     valueBox(
       scales::percent(
         nrow(data) / nrow(rv$dt_emploi_occupe()),
@@ -260,9 +292,15 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   
   output$emploi_premier_difficultes <- plotly::renderPlotly({
     
-    rv$dt_emploi_occupe() %>%
+    data <- rv$dt_emploi_occupe() %>%
       tidyr::unnest_legacy(emploi_premier_difficulte_acces) %>% 
-      tidyr::drop_na(emploi_premier_difficulte_acces) %>% 
+      tidyr::drop_na(emploi_premier_difficulte_acces)
+    
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
+    data %>% 
       dplyr::pull(emploi_premier_difficulte_acces) %>%
       graphr::shiny_barplot_horizontal(color = "#ff851b", alpha = 0.8)
     

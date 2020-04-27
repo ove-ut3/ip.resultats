@@ -81,6 +81,10 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
       dplyr::mutate_at("champ", factor, levels = c("Niveau d'études", "Spécialité du diplôme")) %>% 
       dplyr::mutate_at("valeur", factor, levels = c("Tout à fait", "Plutôt", "Peu", "Pas du tout"))
     
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
     graphr::shiny_barplot_horizontal_multi(
       data$champ, data$valeur,
       c("#ce6000", "#ff7701", "#ff9335", "#ffae68"), alpha = 0.8
@@ -109,6 +113,10 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
       tidyr::spread(adequation_ok, n, fill = 0) %>% 
       dplyr::mutate(pct = oui / (oui + non) * 100)
     
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
     graphr::shiny_line_percent_multi(
       data$annee, data$champ, data$pct,
       title_x = "Année universitaire", 
@@ -132,6 +140,10 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
       ) %>% 
       dplyr::mutate_at("champ", factor, levels = c("Nature des missions", "Niveau de responsabilité", "Montant du salaire")) %>% 
       dplyr::mutate_at("valeur", factor, levels = c("Tout à fait", "Plutôt", "Peu", "Pas du tout"))
+    
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
     
     graphr::shiny_barplot_horizontal_multi(
       data$champ, data$valeur, 
@@ -163,6 +175,9 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
       tidyr::spread(satisfaction_ok, n, fill = 0) %>% 
       dplyr::mutate(pct = oui / (oui + non) * 100)
     
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
     
     graphr::shiny_line_percent_multi(
       data$annee, data$champ, data$pct,
