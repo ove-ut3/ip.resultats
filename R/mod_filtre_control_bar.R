@@ -19,7 +19,8 @@ mod_filtre_control_bar_ui <- function(id){
   default_params_group <- list(
     annee = list(inputId = "annee", title = "Année"),
     composante = list(inputId = "composante", title = "Composante"),
-    formation = list(inputId = "formation", title = "Formation")
+    formation = list(inputId = "formation", title = "Formation"),
+    regime = list(inputId = "regime", title = "Régime d'inscription")
   )
   
   if (golem::get_golem_options("diplome") == "DUT") {
@@ -29,7 +30,7 @@ mod_filtre_control_bar_ui <- function(id){
         departement = list(inputId = "departement", title = "Département"),
         secteur = list(inputId = "secteur", title = "Secteur")
       ),
-      default_params_group[3]
+      default_params_group[3:4]
     )
   } else if (golem::get_golem_options("diplome") == "LP") {
     params_group <- c(
@@ -38,7 +39,7 @@ mod_filtre_control_bar_ui <- function(id){
         mention = list(inputId = "mention", title = "Mention"),
         secteur = list(inputId = "secteur", title = "Secteur")
       ),
-      default_params_group[3]
+      default_params_group[3:4]
     )
   } else if (golem::get_golem_options("diplome") == "Master") {
     params_group <- c(
@@ -46,7 +47,7 @@ mod_filtre_control_bar_ui <- function(id){
       list(
         mention = list(inputId = "mention", title = "Mention")
       ),
-      default_params_group[3]
+      default_params_group[3:4]
     )
   }
   
@@ -71,9 +72,9 @@ mod_filtre_control_bar_server <- function(input, output, session, rv){
   
   filter_vars <- switch(
     golem::get_golem_options("diplome"),
-    DUT = c("annee", "composante", "departement", "secteur", "formation"),
-    LP = c("annee", "composante", "mention", "secteur", "formation"),
-    Master = c("annee", "composante", "mention", "formation")
+    DUT = c("annee", "composante", "departement", "secteur", "formation", "regime"),
+    LP = c("annee", "composante", "mention", "secteur", "formation", "regime"),
+    Master = c("annee", "composante", "mention", "formation", "regime")
   )
   
   rv$dt_filtre <- callModule(
