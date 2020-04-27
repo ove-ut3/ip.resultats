@@ -71,10 +71,6 @@ app_server <- function(input, output, session) {
   
   callModule(mod_chiffres_cles_server, "chiffres_cles_ui", rv)
   
-  #callModule(mod_diplomes_server, "diplomes_ui", rv)
-   
-  callModule(mod_repondants_server, "repondants_ui", rv)
-  
   callModule(mod_poursuite_etudes_server, "poursuite_etudes_ui", rv)
   
   callModule(mod_vie_active_durable_server, "vie_active_durable_ui", rv)
@@ -87,6 +83,6 @@ app_server <- function(input, output, session) {
   
   callModule(mod_emploi_30mois_adequation_server, "emploi_30mois_adequation_ui", rv)
   
-  #callModule(mod_temoignages_server, "temoignages_ui", rv)
-  
+  callModule(mod_repondants_server, "repondants_ui", rv)
+
 }

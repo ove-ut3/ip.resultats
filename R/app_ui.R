@@ -4,7 +4,6 @@ app_ui <- function(diplome) {
   list_menu_items <- list(
     menuItem("Accueil", tabName = "tab_home", icon = icon("home")),
     menuItem("Chiffres-clés", tabName = "tab_chiffres_cles", icon = icon("tachometer-alt")),
-    #menuItem("Diplômé-e-s", tabName = "tab_diplomes", icon = icon("user-graduate")),
     menuItem("Poursuite d'études", tabName = "tab_poursuite_etudes", icon = icon("university")),
     convertMenuItem(
       "tab_vie_active_durable",
@@ -16,7 +15,6 @@ app_ui <- function(diplome) {
         menuSubItem("Satisfaction à 30 mois", tabName = "tab_emploi_30mois_adequation", icon = icon("smile"))
       )
     ),
-    #menuItem("Témoignages", tabName = "tab_temoignages", icon = icon("comments")),
     menuItem("Taux de réponse", tabName = "tab_repondants", icon = icon("clipboard-check")),
     hr(),
     menuItem("Filtres sélectionnés", icon = icon("filter")),
