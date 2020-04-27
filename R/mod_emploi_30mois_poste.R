@@ -145,8 +145,10 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
   output$emploi_30mois_niveau_histo <- plotly::renderPlotly({
     
     data <- rv$dt_evolution() %>%
-      dplyr::filter(parcours == "Vie active durable",
-                    situation_pro_n2 == "En emploi") %>% 
+      dplyr::filter(
+        parcours == "Vie active durable",
+        situation_pro_n2 == "En emploi"
+      ) %>% 
       tidyr::drop_na(emploi_n2_niveau) %>% 
       dplyr::mutate_at("annee", as.character)
     
