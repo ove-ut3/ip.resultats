@@ -40,14 +40,14 @@ app_ui <- function(diplome) {
     golem_add_external_resources(),
     # List the first level UI elements here,
     dashboardPagePlus(
-      title = paste0("Enquête d'insertion professionnelle des diplômés de ", golem::get_golem_options("diplome")),
+      title = paste0("Devenir des diplômés de ", golem::get_golem_options("diplome")),
       dashboardHeaderPlus(
         title = tags$a(
           href = "http://www.univ-tlse3.fr",
           tags$img(src = "https://upload.wikimedia.org/wikipedia/fr/a/a4/Logo_UT3.jpg", height = "55px", width = "163px")
         ),
         left_menu = tagList(
-          div(paste0("Enquête d'insertion professionnelle des diplômés de ", golem::get_golem_options("diplome")),
+          div(paste0("Devenir des diplômés de ", golem::get_golem_options("diplome")),
               style = "font-size: 22px; color: white;")
         ),
         enable_rightsidebar = TRUE,

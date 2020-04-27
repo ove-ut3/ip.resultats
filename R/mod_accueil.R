@@ -29,7 +29,7 @@ mod_accueil_ui <- function(id){
         div(
           h1(
             HTML(
-              paste0("<b>Enquête d'insertion professionnelle des diplômés de ", golem::get_golem_options("diplome"), "</b>")
+              paste0("<b>Devenir des diplômés de ", golem::get_golem_options("diplome"), "</b>")
             )
           ),
           style = "text-align: center; display: inline-block; width: 70%;"),
