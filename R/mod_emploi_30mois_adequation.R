@@ -64,7 +64,7 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
   output$nombre_emploi <- renderValueBox({
     valueBox(
       nrow(rv$dt_emploi_30mois()) %>% scales::number(big.mark = "\u202F"),
-      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie"), color = "orange"
+      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie"), color = "black"
     )
   })
   
@@ -87,7 +87,9 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
     
     graphr::shiny_barplot_horizontal_multi(
       data$champ, data$valeur,
-      c("#ce6000", "#ff7701", "#ff9335", "#ffae68"), alpha = 0.8
+      colors = c("#313131", "#4b4b4b", "#646464", "#7e7e7e"),
+      alpha = 0.8,
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -114,14 +116,16 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
       dplyr::mutate(pct = oui / (oui + non) * 100)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_line_percent_multi(
       data$annee, data$champ, data$pct,
       title_x = "Année universitaire", 
       title_y = "Taux d'adéquation (tout à fait ou plutôt)",
-      colors = c("#ce6000", "#ff7701", "#ff9335", "#ffae68")
+      colors = c("#313131", "#4b4b4b", "#646464", "#7e7e7e"),
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -148,7 +152,8 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
     graphr::shiny_barplot_horizontal_multi(
       data$champ, data$valeur, 
       alpha = 0.8,
-      colors = c("#ce6000", "#ff7701", "#ff9335", "#ffae68")
+      colors = c("#313131", "#4b4b4b", "#646464", "#7e7e7e"),
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -176,14 +181,16 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
       dplyr::mutate(pct = oui / (oui + non) * 100)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_line_percent_multi(
       data$annee, data$champ, data$pct,
       title_x = "Année universitaire", 
       title_y = "Taux de satisfaction (tout à fait ou plutôt)",
-      colors = c("#ce6000", "#ff7701", "#ff9335", "#ffae68")
+      colors = c("#313131", "#4b4b4b", "#646464", "#7e7e7e"),
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })

@@ -110,21 +110,21 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   output$vie_active_durable <- renderValueBox({
     valueBox(
       nrow(rv$dt_vad()) %>% scales::number(big.mark = "\u202F"),
-      "Vie active durable", icon = icon("users"), color = "orange"
+      "Vie active durable", icon = icon("users"), color = "black"
     )
   })
   
   output$emploi_premier <- renderValueBox({
     valueBox(
       nrow(rv$dt_emploi_occupe()) %>% scales::number(big.mark = "\u202F"),
-      "Accès à un premier emploi", icon = icon("user-tie"), color = "orange"
+      "Accès à un premier emploi", icon = icon("user-tie"), color = "black"
     )
   })
   
   output$tx_emploi_premier <- renderValueBox({
     valueBox(
       scales::percent(nrow(rv$dt_emploi_occupe()) / nrow(rv$dt_vad()), suffix = NULL),
-      "Taux d'accès à un premier emploi", icon = icon("percent"), color = "orange"
+      "Taux d'accès à un premier emploi", icon = icon("percent"), color = "black"
     )
   })
   
@@ -139,14 +139,16 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::mutate(pct = oui / (oui + non))
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'accès à un premier emploi",
       hovertext = paste("Taux d'accès à un premier emploi: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), 
-      color = "#ff851b"
+      color = "#585858",
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -165,7 +167,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
         nrow(dplyr::filter(data, emploi_premier_duree_recherche <= 3)) / nrow(data), 
         suffix = "\u202F%"
       ),
-      "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock"), color = "orange"
+      "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock"), color = "black"
     )
   })
   
@@ -194,7 +196,8 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     graphr::shiny_areas_evolution(
       data$emploi_premier_duree_recherche, data$var,
       title_x = "Nombre de mois",
-      colors = c("#ce6000", "#ffae68")
+      colors = c("#313131", "#7e7e7e"),
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -214,14 +217,16 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::mutate(pct = oui / (oui + non))
 
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'accès au premier emploi en 3 mois ou moins",
       hovertext = paste("Taux d'accès au premier emploi en 3 mois ou moins: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), 
-      color = "#ff851b"
+      color = "#585858",
+      font_family = golem::get_golem_options("graph_font_family")
     )
 
   })
@@ -237,7 +242,11 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     
     data %>% 
       dplyr::pull(emploi_premier_localisation) %>%
-      graphr::shiny_barplot_horizontal(color = "#ff851b", alpha = 0.8)
+      graphr::shiny_barplot_horizontal(
+        color = "#585858", 
+        alpha = 0.8,
+        font_family = golem::get_golem_options("graph_font_family")
+      )
     
   })
   
@@ -252,10 +261,16 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
-    graphr::shiny_areas_evolution(data$annee, data$emploi_premier_localisation, title_x = "Année universitaire")
+    graphr::shiny_areas_evolution(
+      data$annee, 
+      data$emploi_premier_localisation, 
+      title_x = "Année universitaire",
+      font_family = golem::get_golem_options("graph_font_family")
+    )
     
   })
   
@@ -265,7 +280,11 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_premier_moyen) %>% 
       dplyr::pull(emploi_premier_moyen) %>%
       droplevels() %>% 
-      graphr::shiny_barplot_horizontal(color = "#ff851b", alpha = 0.8)
+      graphr::shiny_barplot_horizontal(
+        color = "#585858", 
+        alpha = 0.8,
+        font_family = golem::get_golem_options("graph_font_family")
+      )
     
   })
   
@@ -285,7 +304,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
         nrow(data) / nrow(rv$dt_emploi_occupe()),
         suffix = NULL
       ),
-      "Taux de diplômés ayant rencontré des difficultés", icon = icon("percent"), color = "orange"
+      "Taux de diplômés ayant rencontré des difficultés", icon = icon("percent"), color = "black"
     )
     
   })
@@ -302,7 +321,11 @@ mod_emploi_premier_server <- function(input, output, session, rv){
     
     data %>% 
       dplyr::pull(emploi_premier_difficulte_acces) %>%
-      graphr::shiny_barplot_horizontal(color = "#ff851b", alpha = 0.8)
+      graphr::shiny_barplot_horizontal(
+        color = "#585858", 
+        alpha = 0.8,
+        font_family = golem::get_golem_options("graph_font_family")
+      )
     
   })
   

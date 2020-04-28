@@ -40,13 +40,23 @@ app_ui <- function() {
     dashboardPagePlus(
       title = paste0("Devenir des diplômés de ", golem::get_golem_options("diplome")),
       dashboardHeaderPlus(
-        title = tags$a(
-          href = "http://www.univ-tlse3.fr",
-          tags$img(src = "https://upload.wikimedia.org/wikipedia/fr/a/a4/Logo_UT3.jpg", height = "55px", width = "163px")
+        titleWidth = 500,
+        title = div(
+          style = "text-align: left; font-size: 16px;",
+          tags$a(
+            href = "http://www.univ-tlse3.fr",
+            tags$img(
+              src = "https://www.univ-tlse3.fr/uas/ups/LOGO/logo_ups_blanc_et_jaune_petit.png", 
+              height = "35px", 
+              width = "35px"
+            )
+          ),
+          HTML("Université <strong>TOULOUSE <font color='#fbca00'>III</font>-PAUL SABATIER</strong>")
         ),
         left_menu = tagList(
-          div(paste0("Devenir des diplômés de ", golem::get_golem_options("diplome")),
-              style = "font-size: 22px; color: white;")
+          div(
+            HTML("<strong>", paste0("Devenir des diplômés de ", golem::get_golem_options("diplome")), "</strong>")
+          )
         ),
         enable_rightsidebar = TRUE,
         rightSidebarIcon = "filter"
@@ -115,13 +125,33 @@ golem_add_external_resources <- function(){
   golem::add_resource_path(
     'www', app_sys('app/www')
   )
- 
+  
+  extrafont::loadfonts(device = "win", quiet = TRUE)
+  
   tags$head(
     golem::favicon(),
     golem::activate_js(),
     # Add here all the external resources
     # If you have a custom.css in the inst/app/www
     # Or for example, you can add shinyalert::useShinyalert() here
-    tags$link(rel="stylesheet", type="text/css", href="www/custom.css")
+    tags$link(rel="stylesheet", type="text/css", href="www/custom.css"),
+    fresh::use_theme(
+      fresh::create_theme(
+        fresh::adminlte_global(
+          content_bg = "#F5F5F5"
+        ),
+        fresh::adminlte_sidebar(
+          width = "220px",
+          dark_bg = "#353535",
+          dark_hover_bg = "#585858"
+        ),
+        fresh::adminlte_color(
+          light_blue = "#353535",
+          olive = "#a9a8a8",
+          yellow = "#fbca00",
+          black = "#585858"
+        )
+      )
+    )
   )
 }

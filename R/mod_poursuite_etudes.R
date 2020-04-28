@@ -21,47 +21,41 @@ mod_poursuite_etudes_ui <- function(id){
     list = list(
       
       fluidRow(
-        box(
-          width = 12,
-          tabBox(
-            title = "Poursuite d'études", width = 12,
-            tabPanel(
-              "Années sélectionnées",
-              fluidRow(
-                valueBoxOutput(ns("diplomes"), width = 4),
-                valueBoxOutput(ns("poursuite_etudes"), width = 4),
-                valueBoxOutput(ns("tx_poursuite_etudes"), width = 4)
-              )
-            ),
-            tabPanel(
-              "\u00C9volution",
-              plotly::plotlyOutput(ns("poursuite_etudes_histo"))
+        tabBox(
+          title = "Poursuite d'études", width = 12,
+          tabPanel(
+            "Années sélectionnées",
+            fluidRow(
+              valueBoxOutput(ns("diplomes"), width = 4),
+              valueBoxOutput(ns("poursuite_etudes"), width = 4),
+              valueBoxOutput(ns("tx_poursuite_etudes"), width = 4)
             )
           ),
-          footer = HTML("<sup>1</sup> Sont retenus les diplômés n'ayant pas interrompu deux ans ou plus leurs études entre le baccalauréat et l'obtention du diplôme à l'Université Toulouse III - Paul Sabatier. Les résultats présentés concernent le public assimilé à la formation initiale.")
+          tabPanel(
+            "\u00C9volution",
+            plotly::plotlyOutput(ns("poursuite_etudes_histo"))
+          ),
+          footer = HTML("<sup>1</sup> Sont retenus les diplômés n'ayant pas interrompu deux ans ou plus leurs études entre le baccalauréat et l'obtention du diplôme à l'Université Toulouse III - Paul Sabatier.<br>Les résultats présentés concernent le public assimilé à la formation initiale.")
         ),
-        box(
-          width = 12,
-          tabBox(
-            title = "Poursuite d'études directe ou reprise d'études ?", width = 12,
-            tabPanel(
-              "Pourcentages",
-              fluidRow(
-                valueBoxOutput(ns("pourcentage_poursuite_etudes_directe"), width = 6),
-                valueBoxOutput(ns("pourcentage_reprise_etudes"), width = 6)
-              )
-            ),
-            tabPanel(
-              "Effectifs",
-              fluidRow(
-                valueBoxOutput(ns("effectif_poursuite_etudes_directe"), width = 6),
-                valueBoxOutput(ns("effectif_reprise_etudes"), width = 6)
-              )
-            ),
-            tabPanel(
-              "\u00C9volution",
-              plotly::plotlyOutput(ns("type_poursuite_etudes_histo"))
+        tabBox(
+          title = "Poursuite d'études directe ou reprise d'études ?", width = 12,
+          tabPanel(
+            "Pourcentages",
+            fluidRow(
+              valueBoxOutput(ns("pourcentage_poursuite_etudes_directe"), width = 6),
+              valueBoxOutput(ns("pourcentage_reprise_etudes"), width = 6)
             )
+          ),
+          tabPanel(
+            "Effectifs",
+            fluidRow(
+              valueBoxOutput(ns("effectif_poursuite_etudes_directe"), width = 6),
+              valueBoxOutput(ns("effectif_reprise_etudes"), width = 6)
+            )
+          ),
+          tabPanel(
+            "\u00C9volution",
+            plotly::plotlyOutput(ns("type_poursuite_etudes_histo"))
           ),
           footer = HTML("<sup>2</sup> Poursuite d'études réalisée directement après le diplôme obtenu à l'Université Toulouse III - Paul Sabatier.<br>
         <sup>3</sup> Entrée sur le marché du travail pendant au moins une année puis reprise d'études.")
@@ -104,21 +98,21 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   output$diplomes <- renderValueBox({
     valueBox(
       nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Diplômés répondants<sup>1<sup>"), icon = icon("user-graduate"), color = "purple"
+      HTML("Diplômés répondants<sup>1<sup>"), icon = icon("user-graduate"), color = "yellow"
     )
   })
   
   output$poursuite_etudes <- renderValueBox({
     valueBox(
       nrow(rv$dt_etudes()) %>% scales::number(),
-      "Poursuite d'études", icon = icon("university"), color = "purple"
+      "Poursuite d'études", icon = icon("university"), color = "yellow"
     )
   })
   
   output$tx_poursuite_etudes <- renderValueBox({
     valueBox(
       scales::percent(nrow(rv$dt_etudes()) / nrow(rv$dt_reponses()), suffix = NULL),
-      "Taux de poursuite d'études", icon = icon("percent"), color = "purple"
+      "Taux de poursuite d'études", icon = icon("percent"), color = "yellow"
     )
   })
   
@@ -132,11 +126,17 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       tidyr::spread(poursuite_etudes, n, fill = 0) %>% 
       dplyr::mutate(pct = oui / (oui + non))
     
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de poursuites d'études",
       hovertext = paste("Taux de poursuites d'études: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")),
-      color = "#605ca8"
+      color = "#fbca00",
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -146,7 +146,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       scales::percent(
         nrow(dplyr::filter(rv$dt_etudes(), parcours == "Poursuite d'études directe")) / nrow(rv$dt_etudes()),
         suffix = NULL),
-      HTML("Taux de poursuite d'études directes<sup>2</sup>"), icon = icon("percent"), color = "purple"
+      HTML("Taux de poursuite d'études directes<sup>2</sup>"), icon = icon("percent"), color = "yellow"
     )
   })
   
@@ -155,21 +155,21 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       scales::percent(
         nrow(dplyr::filter(rv$dt_etudes(), parcours == "Reprise d'études")) / nrow(rv$dt_etudes()),
         suffix = NULL),
-      HTML("Taux de reprise d'études<sup>3</sup>"), icon = icon("percent"), color = "purple"
+      HTML("Taux de reprise d'études<sup>3</sup>"), icon = icon("percent"), color = "yellow"
     )
   })
   
   output$effectif_poursuite_etudes_directe <- renderValueBox({
     valueBox(
       nrow(dplyr::filter(rv$dt_etudes(), parcours == "Poursuite d'études directe")) %>% scales::number(big.mark = "\u202F"),
-      HTML("Nombre de poursuites d'études directes<sup>2</sup>"), icon = icon("users"), color = "purple"
+      HTML("Nombre de poursuites d'études directes<sup>2</sup>"), icon = icon("users"), color = "yellow"
     )
   })
   
   output$effectif_reprise_etudes <- renderValueBox({
     valueBox(
       nrow(dplyr::filter(rv$dt_etudes(), parcours == "Reprise d'études")) %>% scales::number(big.mark = "\u202F"),
-      HTML("Nombre de reprises d'études<sup>3</sup>"), icon = icon("users"), color = "purple"
+      HTML("Nombre de reprises d'études<sup>3</sup>"), icon = icon("users"), color = "yellow"
     )
   })
   
@@ -179,13 +179,19 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
       dplyr::filter(parcours %in% c("Poursuite d'études directe", "Reprise d'études")) %>% 
       dplyr::mutate_at("annee", as.character) %>% 
       dplyr::mutate_at("parcours", droplevels)
-      
+    
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
     levels(data$parcours) <- c("Poursuite d'études directe<sup>2</sup>", "Reprise d'études<sup>3</sup>")
     
     graphr::shiny_areas_evolution(
       data$annee, data$parcours,
       title_x = "Année universitaire",
-      colors = c("#434078", "#918ec3")
+      colors = c("#af8c00", "#ffdb49"),
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -208,7 +214,10 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
     graphr::shiny_treemap_bi(
       data$niveau_diplome_vise,
       data$diplome_vise, 
-      colors = c("#434078", "#605ca8", "#918ec3"))
+      colors = c("#af8c00", "#fbca00", "#ffdb49"),
+      #colors = c("#434078", "#605ca8", "#918ec3"),
+      font_family = golem::get_golem_options("graph_font_family")
+    )
 
   })
   
@@ -226,7 +235,11 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
     
     data %>% 
       dplyr::pull(pours_etud_n_n1_raison) %>% 
-      graphr::shiny_barplot_horizontal(colors = "#605ca8", alpha = 0.8)
+      graphr::shiny_barplot_horizontal(
+        colors = "#fbca00", 
+        alpha = 0.8,
+        font_family = golem::get_golem_options("graph_font_family")
+      )
 
   })
   

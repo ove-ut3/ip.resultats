@@ -109,7 +109,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
     
     valueBox(
       nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Diplômés répondants<sup>1</sup>"), icon = icon("user-graduate"), color = "light-blue"
+      HTML("Diplômés répondants<sup>1</sup>"), icon = icon("user-graduate"), color = "olive"
     )
     
   })
@@ -120,7 +120,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       scales::percent(nrow(rv$dt_etudes()) / nrow(rv$dt_reponses()), suffix = "\u202F%"),
       subtitle = "Poursuite d'études",
       icon = icon("university"),
-      color = "purple"
+      color = "yellow"
     )
     
   })
@@ -131,7 +131,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       scales::percent(nrow(rv$dt_vad()) / nrow(rv$dt_reponses()), suffix = "\u202F%"),
       subtitle = HTML("Vie active durable<sup>2</sup>"),
       icon = icon("user-tie"),
-      color = "orange"
+      color = "black"
     )
     
   })
@@ -148,7 +148,11 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       dplyr::mutate_at("niveau_diplome_vise", factor, levels = levels) %>%
       tidyr::drop_na(niveau_diplome_vise) %>%
       dplyr::pull(niveau_diplome_vise) %>%
-      graphr::shiny_treemap(alpha = 0.8, colors = c("#434078", "#605ca8", "#918ec3"))
+      graphr::shiny_treemap(
+        alpha = 0.8, 
+        colors = c("#af8c00", "#fbca00", "#ffdb49"),
+        font_family = golem::get_golem_options("graph_font_family")
+      )
     
   })
   
@@ -162,7 +166,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
         nrow(dplyr::filter(emploi_premier_duree_recherche, emploi_premier_duree_recherche <= 3)) / nrow(emploi_premier_duree_recherche), 
         suffix = "\u202F%"
         ),
-      "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock"), color = "orange"
+      "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock"), color = "black"
     )
     
   })
@@ -177,7 +181,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
         nrow(dplyr::filter(emploi_n2_insertion, situation_pro_n2 == "En emploi")) / nrow(emploi_n2_insertion),
         suffix = NULL
         ),
-      HTML("Taux d'insertion à 30 mois<sup>3</sup>"), icon = icon("percent"), color = "orange"
+      HTML("Taux d'insertion à 30 mois<sup>3</sup>"), icon = icon("percent"), color = "black"
     )
     
   })
@@ -192,7 +196,8 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
         donut = TRUE,
         donut_title = "Niveau d'emploi",
         legend_position = "bottom",
-        colors = c("#ce6000", "#ff7701", "#ff9335", "#ffae68")
+        colors = c("#313131", "#4b4b4b", "#646464", "#7e7e7e"),
+        font_family = golem::get_golem_options("graph_font_family")
       )
     
   })
@@ -210,7 +215,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       median(emploi_n2_insertion$emploi_n2_salaire, na.rm = TRUE) %>% 
         round() %>% 
         scales::number(big.mark = "\u202F"),
-      HTML("Salaire net médian<sup>4</sup>"), icon = icon("euro"), color = "orange"
+      HTML("Salaire net médian<sup>4</sup>"), icon = icon("euro"), color = "black"
     )
     
   })
@@ -225,7 +230,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
         nrow(dplyr::filter(cdi_assimiles, emploi_n2_type %in% c("CDI", "Profession libérale, indépendant, chef-fe d'entreprise, auto-entrepreneur", "Fonctionnaire"))) / nrow(cdi_assimiles),
         suffix = NULL
       ),
-      HTML("Taux de CDI et assimilés<sup>5</sup>"), icon = icon("percent"), color = "orange"
+      HTML("Taux de CDI et assimilés<sup>5</sup>"), icon = icon("percent"), color = "black"
     )
     
   })
@@ -240,7 +245,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
         nrow(dplyr::filter(occitanie, emploi_n2_departement %in% c("009", "011", "012", "030", "031", "032", "034", "046", "048", "065", "066", "081", "082"))) / nrow(occitanie), 
         suffix = "\u202F%"
       ),
-      HTML("Taux d'emploi en région Occitanie"), icon = icon("map-marker-alt"), color = "orange"
+      HTML("Taux d'emploi en région Occitanie"), icon = icon("map-marker-alt"), color = "black"
     )
     
   })

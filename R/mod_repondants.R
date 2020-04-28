@@ -44,21 +44,21 @@ mod_repondants_server <- function(input, output, session, rv){
   output$diplomes <- renderValueBox({
     valueBox(
       nrow(rv$dt_diplomes()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Diplômés"), icon = icon("user-graduate"), color = "light-blue"
+      HTML("Diplômés"), icon = icon("user-graduate"), color = "olive"
     )
   })
   
   output$repondants <- renderValueBox({
     valueBox(
       nrow(rv$dt_reponses()) %>% scales::number(big.mark = "\u202F"),
-      HTML("Répondants"), icon = icon("clipboard-check"), color = "light-blue"
+      HTML("Répondants"), icon = icon("clipboard-check"), color = "olive"
     )
   })
   
   output$tx_reponse <- renderValueBox({
     valueBox(
       scales::percent(nrow(rv$dt_reponses()) / nrow(rv$dt_diplomes()), suffix = NULL),
-      "Taux de réponse", icon = icon("percent"), color = "light-blue"
+      "Taux de réponse", icon = icon("percent"), color = "olive"
     )
   })
   
@@ -71,11 +71,17 @@ mod_repondants_server <- function(input, output, session, rv){
       tidyr::spread(repondant, n, fill = 0) %>% 
       dplyr::mutate(pct = oui / (oui + non))
     
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux de répondants",
       hovertext = paste("Taux de répondants: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")),
-      color = "#3c8dbc"
+      color = "#a9a8a8",
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })

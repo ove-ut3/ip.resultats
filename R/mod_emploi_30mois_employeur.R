@@ -81,7 +81,7 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
   output$nombre_emploi <- renderValueBox({
     valueBox(
       nrow(rv$dt_emploi_30mois()) %>% scales::number(big.mark = "\u202F"),
-      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie"), color = "orange"
+      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie"), color = "black"
     )
   })
   
@@ -97,8 +97,9 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     data %>% 
       dplyr::pull(emploi_n2_type_ent) %>% 
       graphr::shiny_barplot_horizontal(
-        c("#ce6000", "#e76b00", "#ff7701", "#ff851b", "#ff9335", "#ffae68"),
-        alpha = 0.8
+        color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a", "#cccccc"),
+        alpha = 0.8,
+        font_family = golem::get_golem_options("graph_font_family")
       )
     
   })
@@ -114,13 +115,15 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_areas_evolution(
       data$annee, data$emploi_n2_type_ent,
       title_x = "Année universitaire",
-      c("#ce6000", "#e76b00", "#ff7701", "#ff851b", "#ff9335", "#ffae68")
+      color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a", "#cccccc"),
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -137,8 +140,9 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     data %>% 
       dplyr::pull(emploi_n2_localisation) %>%
       graphr::shiny_barplot_horizontal(
-        color = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68"),
-        alpha = 0.8
+        color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a"),
+        alpha = 0.8,
+        font_family = golem::get_golem_options("graph_font_family")
       )
     
   })
@@ -154,13 +158,15 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_areas_evolution(
       data$annee, data$emploi_n2_localisation,
       title_x = "Année universitaire",
-      colors = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68")
+      color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a"),
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -177,8 +183,9 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     data %>% 
       dplyr::pull(emploi_n2_taille_entreprise) %>%
       graphr::shiny_barplot_horizontal(
-        color = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68"),
-        alpha = 0.8
+        color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a"),
+        alpha = 0.8,
+        font_family = golem::get_golem_options("graph_font_family")
       )
     
   })
@@ -194,13 +201,15 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_areas_evolution(
       data$annee, data$emploi_n2_taille_entreprise,
       title_x = "Année universitaire",
-      colors = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68")
+      color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a"),
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -221,8 +230,9 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     data %>% 
       dplyr::pull(emploi_n2_secteur_ent) %>%
       graphr::shiny_barplot_horizontal(
-        colors = "#ff851b",
-        alpha = 0.8
+        colors = "#585858",
+        alpha = 0.8,
+        font_family = golem::get_golem_options("graph_font_family")
       )
     
   })

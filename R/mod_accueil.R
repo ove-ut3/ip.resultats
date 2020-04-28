@@ -58,8 +58,8 @@ mod_accueil_ui <- function(id){
       column(
         width = 7,
         box(
-          title = HTML("<b>Mode d'emploi du tableau de bord</b>"), width = 12, height = 650,
-          imageOutput(ns("mode_emploi"), width = "47%")
+          title = HTML("<b>Mode d'emploi du tableau de bord</b>"), width = 12, height = 680,
+          imageOutput(ns("mode_emploi"))
         )
       )
     )
@@ -113,7 +113,7 @@ mod_accueil_server <- function(input, output, session){
   output$mode_emploi <- renderImage(deleteFile = FALSE, {
     
     filename <- system.file('app', package = 'ip.resultats') %>% 
-      list.files(pattern = "home_new_draw_47\\.png$", full.names = TRUE)
+      list.files(pattern = paste0("home_", tolower(golem::get_golem_options("diplome")), "_draw"), full.names = TRUE)
     
     list(src = filename)
     

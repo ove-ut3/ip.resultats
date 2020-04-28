@@ -29,7 +29,8 @@ mod_emploi_30mois_poste_ui <- function(id){
         tabPanel(
           "\u00C9volution",
           plotly::plotlyOutput(ns("tx_insertion_pro_histo"))
-        )
+        ),
+        footer = HTML("<sup>1</sup> Diplômés en emploi / Diplômés en recherche d'emploi")
       )
     ),
     fluidRow(
@@ -55,7 +56,8 @@ mod_emploi_30mois_poste_ui <- function(id){
         tabPanel(
           "\u00C9volution",
           plotly::plotlyOutput(ns("emploi_30mois_salaire_histo"))
-        )
+        ),
+        footer = HTML("<sup>2</sup> Primes incluses, pour un emploi à temps plein en France. Le salaire médian est celui qui coupe en deux les répondants : 50% ont un salaire inférieur et 50% un salaire supérieur.")
       ),
       tabBox(
         title = "Type de contrat", width = 4,
@@ -80,8 +82,7 @@ mod_emploi_30mois_poste_ui <- function(id){
         title = "Intitulé d'emploi",
         htmlOutput(ns("emploi_30mois_intitule"))
       )
-    ),
-    htmlOutput(ns("notes"))
+    )
   )
   
 }
@@ -98,7 +99,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
   output$nombre_emploi <- renderValueBox({
     valueBox(
       nrow(rv$dt_emploi_30mois()) %>% scales::number(big.mark = "\u202F"),
-      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie"), color = "orange"
+      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie"), color = "black"
     )
   })
   
@@ -109,7 +110,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     
     valueBox(
       scales::percent(nrow(rv$dt_emploi_30mois()) / nrow(recherche), suffix = NULL),
-      HTML("Taux d'insertion professionnelle à 30 mois<sup>1</sup>"), icon = icon("percent"), color = "orange"
+      HTML("Taux d'insertion professionnelle à 30 mois<sup>1</sup>"), icon = icon("percent"), color = "black"
     )
     
   })
@@ -128,13 +129,16 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       dplyr::mutate(pct = oui / (oui + non))
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
       title_x = "Année universitaire", title_y = "Taux d'insertion professionnelle à 30 mois",
-      hovertext = paste("Taux d'insertion professionnelle à 30 mois: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), color = "#ff851b"
+      hovertext = paste("Taux d'insertion professionnelle à 30 mois: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), 
+      color = "#585858",
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -150,7 +154,12 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     
     data %>% 
       dplyr::pull(emploi_n2_niveau) %>% 
-      graphr::shiny_pie(alpha = 0.8, donut = TRUE, colors = c("#ce6000", "#ff7701", "#ff9335", "#ffae68"))
+      graphr::shiny_pie(
+        alpha = 0.8, 
+        donut = TRUE, 
+        colors = c("#313131", "#4b4b4b", "#646464", "#7e7e7e"),
+        font_family = golem::get_golem_options("graph_font_family")
+      )
     
   })
   
@@ -165,13 +174,15 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_areas_evolution(
       data$annee, data$emploi_n2_niveau,
       title_x = "Année universitaire",
-      colors = c("#ce6000", "#ff7701", "#ff9335", "#ffae68")
+      colors = c("#313131", "#4b4b4b", "#646464", "#7e7e7e"),
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -194,7 +205,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       value <- median(data$emploi_n2_salaire) %>% 
         round() %>% 
         scales::number(big.mark = "\u202F"),
-      "Salaire net médian", icon = icon("euro"), color = "orange"
+      "Salaire net médian", icon = icon("euro"), color = "black"
     )
     
   })
@@ -218,14 +229,17 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       dplyr::mutate_at("emploi_n2_salaire", round)
     
     validate(
-      need(all(data$n >= 3), "Il n'y a pas suffisamment d'observations pour tracer le graphique.")
+      need(all(data$n >= 3), "Il n'y a pas suffisamment d'observations pour tracer le graphique."),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_line_base100(
       data$annee, data$emploi_n2_salaire,
       title_x = "Année", title_y = "Salaire net médian <sup>3</sup>",
       note_base100 = paste("<sup>3</sup> Base 100, année", data$annee[1]),
-      color = "#ff851b")
+      color = "#585858",
+      font_family = golem::get_golem_options("graph_font_family")
+    )
     
   })
   
@@ -241,8 +255,9 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     data %>% 
       dplyr::pull(emploi_n2_type) %>% 
       graphr::shiny_barplot_horizontal(
-        color = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68"),
-        alpha = 0.8
+        color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a"),
+        alpha = 0.8,
+        font_family = golem::get_golem_options("graph_font_family")
       )
     
   })
@@ -258,13 +273,15 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
+      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
     )
     
     graphr::shiny_areas_evolution(
       data$annee, data$emploi_n2_type,
       title_x = "Année universitaire",
-      colors = c("#ce6000", "#e76b00", "#ff851b", "#ff9335", "#ffae68")
+      colors = c("#313131", "#4b4b4b", "#646464", "#7e7e7e"),
+      font_family = golem::get_golem_options("graph_font_family")
     )
     
   })
@@ -284,7 +301,11 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     
     data %>% 
       dplyr::pull(emploi_n2_fonctions) %>%
-      graphr::shiny_barplot_horizontal(colors = "#ff851b", alpha = 0.8)
+      graphr::shiny_barplot_horizontal(
+        colors = "#ff851b", 
+        alpha = 0.8,
+        font_family = golem::get_golem_options("graph_font_family")
+      )
 
   })
 
@@ -313,16 +334,4 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
 
   })
   
-  output$notes <- renderText({
-    
-    paste(
-      c(
-        "<sup>1</sup> Diplômés en emploi / Diplômés en recherche d'emploi",
-        "<sup>2</sup> Primes incluses, pour un emploi à temps plein en France. Le salaire médian est celui qui coupe en deux les répondants : 50% ont un salaire inférieur et 50% un salaire supérieur."
-      ),
-      collapse = "<br>"
-    )
-    
-  })
-    
 }
