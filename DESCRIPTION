@@ -17,6 +17,7 @@ Imports:
     purrr,
     scales,
     shiny,
+    shinydashboard,
     shinydashboardPlus,
     shinymanager,
     shinyWidgets,
@@ -25,4 +26,5 @@ RoxygenNote: 7.1.0
 Suggests: 
     testthat
 Remotes:
-    ove-ut3/graphr
+    ove-ut3/graphr,
+    stephLH/shinydashboard@tabpanel_footer
