@@ -126,7 +126,7 @@ golem_add_external_resources <- function(){
     'www', app_sys('app/www')
   )
   
-  extrafont::loadfonts(device = "win", quiet = TRUE)
+  extrafont::loadfonts(quiet = TRUE)
   
   tags$head(
     golem::favicon(),
