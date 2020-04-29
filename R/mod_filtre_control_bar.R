@@ -27,6 +27,7 @@ mod_filtre_control_bar_ui <- function(id){
     params_group <- c(
       default_params_group[1:2],
       list(
+        campus = list(inputId = "campus", title = "Campus"),
         departement = list(inputId = "departement", title = "D\u00e9partement"),
         secteur = list(inputId = "secteur", title = "Secteur")
       ),
@@ -36,6 +37,7 @@ mod_filtre_control_bar_ui <- function(id){
     params_group <- c(
       default_params_group[1:2],
       list(
+        campus = list(inputId = "campus", title = "Campus"),
         mention = list(inputId = "mention", title = "Mention"),
         secteur = list(inputId = "secteur", title = "Secteur")
       ),
@@ -72,8 +74,8 @@ mod_filtre_control_bar_server <- function(input, output, session, rv){
   
   filter_vars <- switch(
     golem::get_golem_options("diplome"),
-    DUT = c("annee", "composante", "departement", "secteur", "formation", "regime"),
-    LP = c("annee", "composante", "mention", "secteur", "formation", "regime"),
+    DUT = c("annee", "composante", "campus", "departement", "secteur", "formation", "regime"),
+    LP = c("annee", "composante", "campus", "mention", "secteur", "formation", "regime"),
     Master = c("annee", "composante", "mention", "formation", "regime")
   )
   
