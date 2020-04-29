@@ -292,7 +292,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       need(!is.null(rv$inputs[["filtre-donnees-formation"]]), "Au moins une formation doit être sélectionnée")
     )
     
-    rv$dt_emploi_occupe() %>%
+    data <- rv$dt_emploi_occupe() %>%
       tidyr::drop_na(emploi_n2_fonctions)
     
     validate(
@@ -302,7 +302,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     data %>% 
       dplyr::pull(emploi_n2_fonctions) %>%
       graphr::shiny_barplot_horizontal(
-        colors = "#ff851b", 
+        colors = "#585858", 
         alpha = 0.8,
         font_family = golem::get_golem_options("graph_font_family")
       )

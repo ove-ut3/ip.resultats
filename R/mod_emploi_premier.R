@@ -269,7 +269,8 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       data$annee, 
       data$emploi_premier_localisation, 
       title_x = "Année universitaire",
-      font_family = golem::get_golem_options("graph_font_family")
+      font_family = golem::get_golem_options("graph_font_family"),
+      color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a")
     )
     
   })
