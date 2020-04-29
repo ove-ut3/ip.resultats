@@ -17,17 +17,17 @@ mod_filtre_control_bar_ui <- function(id){
   ns <- NS(id)
   
   default_params_group <- list(
-    annee = list(inputId = "annee", title = "Année"),
+    annee = list(inputId = "annee", title = "Ann\u00e9e"),
     composante = list(inputId = "composante", title = "Composante"),
     formation = list(inputId = "formation", title = "Formation"),
-    regime = list(inputId = "regime", title = "Régime d'inscription")
+    regime = list(inputId = "regime", title = "R\u00e9gime d'inscription")
   )
   
   if (golem::get_golem_options("diplome") == "DUT") {
     params_group <- c(
       default_params_group[1:2],
       list(
-        departement = list(inputId = "departement", title = "Département"),
+        departement = list(inputId = "departement", title = "D\u00e9partement"),
         secteur = list(inputId = "secteur", title = "Secteur")
       ),
       default_params_group[3:4]

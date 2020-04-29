@@ -17,9 +17,9 @@ app_server <- function(input, output, session) {
     group_inputs = rv$inputs,
     label_none = "Aucun",
     labels = c(
-      annee = "Année",
+      annee = "Ann\u00e9e",
       composante = "Composante",
-      departement = "Département",
+      departement = "D\u00e9partement",
       mention = "Mention",
       secteur = "Secteur",
       formation = "Formation"
@@ -51,7 +51,7 @@ app_server <- function(input, output, session) {
   
   rv$dt_etudes <- reactive({
     rv$dt_reponses() %>% 
-      dplyr::filter(parcours %in% c("Poursuite d'études directe", "Reprise d'études"))
+      dplyr::filter(parcours %in% c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes"))
   })
   
   rv$dt_vad <- reactive({

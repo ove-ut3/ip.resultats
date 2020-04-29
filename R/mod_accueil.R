@@ -29,7 +29,7 @@ mod_accueil_ui <- function(id){
         div(
           h1(
             HTML(
-              paste0("<b>Devenir des diplômés de ", golem::get_golem_options("diplome"), "</b>")
+              paste0("<b>Devenir des dipl\u00f4m\u00e9s de ", golem::get_golem_options("diplome"), "</b>")
             )
           ),
           style = "text-align: center; display: inline-block; width: 70%;"),
@@ -47,11 +47,11 @@ mod_accueil_ui <- function(id){
       column(
         width = 5,
         box(
-          title = HTML("<b>Les données source</b>"), width = 12,
+          title = HTML("<b>Les donn\u00e9es source</b>"), width = 12,
           htmlOutput(ns("source")
           )
         ),
-        box(title = HTML("<b>La méthodologie</b>"), width = 12,
+        box(title = HTML("<b>La m\u00e9thodologie</b>"), width = 12,
             htmlOutput(ns("methodologie"))
         )
       ),
@@ -88,15 +88,15 @@ mod_accueil_server <- function(input, output, session){
       head(1)
     
     div(style = "font-size: 12pt;",
-      p(HTML("Dans le cadre de l'enquête nationale ministérielle sur la <b>situation à 30 mois</b> des diplômé-e-s, l'observatoire de la vie étudiante interroge chaque année les étudiant-e-s ayant validé leur <b>DUT</b>, <b>Licence professionnelle</b> ou <b>Master</b>.")),
-      p("A partir des réponses données par les anciens diplômé-e-s, ces enquêtes ont pour objectif d’informer sur les débouchés accessibles à l’issue des formations proposées par l’Université Toulouse III - Paul Sabatier."),
-      p("Le questionnaire permet de décrire le parcours post-diplôme :",
+      p(HTML("Dans le cadre de l'enqu\u00eate nationale minist\u00e9rielle sur la <b>situation \u00e0 30 mois</b> des dipl\u00f4m\u00e9-e-s, l'observatoire de la vie \u00e9tudiante interroge chaque ann\u00e9e les \u00e9tudiant-e-s ayant valid\u00e9 leur <b>DUT</b>, <b>Licence professionnelle</b> ou <b>Master</b>.")),
+      p("A partir des r\u00e9ponses donn\u00e9es par les anciens dipl\u00f4m\u00e9-e-s, ces enqu\u00eates ont pour objectif d\u0092informer sur les d\u00e9bouch\u00e9s accessibles \u00e0 l\u0092issue des formations propos\u00e9es par l\u0092Universit\u00e9 Toulouse III - Paul Sabatier."),
+      p("Le questionnaire permet de d\u00e9crire le parcours post-dipl\u00f4me :",
         tags$ul(
-          tags$li("soit la poursuite d’études engagée, et donc de connaître le dernier diplôme visé après l’obtention du diplôme à UT3"),
-          tags$li("soit la situation professionnelle de l’étudiant-e s’étant présenté-e sur le marché du travail : taux d’insertion, caractéristiques du poste de travail, de l’employeur et adéquation de l’emploi occupé avec le diplômé obtenu")
+          tags$li("soit la poursuite d\u0092\u00e9tudes engag\u00e9e, et donc de conna\u00eetre le dernier dipl\u00f4me vis\u00e9 apr\u00e8s l\u0092obtention du dipl\u00f4me \u00e0 UT3"),
+          tags$li("soit la situation professionnelle de l\u0092\u00e9tudiant-e s\u0092\u00e9tant pr\u00e9sent\u00e9-e sur le march\u00e9 du travail : taux d\u0092insertion, caract\u00e9ristiques du poste de travail, de l\u0092employeur et ad\u00e9quation de l\u0092emploi occup\u00e9 avec le dipl\u00f4m\u00e9 obtenu")
           )
       ),
-      p(HTML(glue::glue("Le temps d’enquête de 30 mois après la diplômation explique le décalage assez important entre l’année universitaire en cours et la dernière promotion interrogée. L'historique présenté commence à l'année {annee_debut} et la dernière promotion interrogée concerne les diplômés de <b>l’année universitaire {annee_fin}</b>.")))
+      p(HTML(glue::glue("Le temps d\u0092enqu\u00eate de 30 mois apr\u00e8s la dipl\u00f4mation explique le d\u00e9calage assez important entre l\u0092ann\u00e9e universitaire en cours et la derni\u00e8re promotion interrog\u00e9e. L'historique pr\u00e9sent\u00e9 commence \u00e0 l'ann\u00e9e {annee_debut} et la derni\u00e8re promotion interrog\u00e9e concerne les dipl\u00f4m\u00e9s de <b>l\u0092ann\u00e9e universitaire {annee_fin}</b>.")))
     )
     
   })
@@ -104,8 +104,8 @@ mod_accueil_server <- function(input, output, session){
   output$methodologie <- renderUI({
     
     div(style = "font-size: 12pt;",
-        p(HTML("Les chiffres présentés dans cette application correspondent au public assimilé à la <b>formation initiale</b>. Cela signifie que les diplômés ayant interrompu leur études deux ans ou plus entre le baccalauréat et l'obention du diplôme à UT3 sont écartés de l'analyse.")),
-        p("Par ailleurs, la description de la situation professionnelle des diplômés concerne uniquement les étudiants n'ayant fait aucune poursuite d'études dans les 30 mois écoulés après la diplômation. En effet, l'analyse a pour objectif de caractériser le pouvoir insérant des formations de l'Université Toulouse III - Paul Sabatier.")
+        p(HTML("Les chiffres pr\u00e9sent\u00e9s dans cette application correspondent au public assimil\u00e9 \u00e0 la <b>formation initiale</b>. Cela signifie que les dipl\u00f4m\u00e9s ayant interrompu leur \u00e9tudes deux ans ou plus entre le baccalaur\u00e9at et l'obention du dipl\u00f4me \u00e0 UT3 sont \u00e9cart\u00e9s de l'analyse.")),
+        p("Par ailleurs, la description de la situation professionnelle des dipl\u00f4m\u00e9s concerne uniquement les \u00e9tudiants n'ayant fait aucune poursuite d'\u00e9tudes dans les 30 mois \u00e9coul\u00e9s apr\u00e8s la dipl\u00f4mation. En effet, l'analyse a pour objectif de caract\u00e9riser le pouvoir ins\u00e9rant des formations de l'Universit\u00e9 Toulouse III - Paul Sabatier.")
     )
     
   })

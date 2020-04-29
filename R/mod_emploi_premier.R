@@ -22,9 +22,9 @@ mod_emploi_premier_ui <- function(id){
       
       fluidRow(
         tabBox(
-          title = "Accès au premier emploi", width = 12,
+          title = "Acc\u00e8s au premier emploi", width = 12,
           tabPanel(
-            "Années sélectionnées",
+            "Ann\u00e9es s\u00e9lectionn\u00e9es",
             fluidRow(
               valueBoxOutput(ns("vie_active_durable"), width = 4),
               valueBoxOutput(ns("emploi_premier"), width = 4),
@@ -37,9 +37,9 @@ mod_emploi_premier_ui <- function(id){
           )
         ),
         tabBox(
-          title = "Temps d'accès au premier emploi", width = 6,
+          title = "Temps d'acc\u00e8s au premier emploi", width = 6,
           tabPanel(
-            "Années sélectionnées",
+            "Ann\u00e9es s\u00e9lectionn\u00e9es",
             fluidRow(
               valueBoxOutput(ns("emploi_premier_duree_recherche"), width = 12)
             )
@@ -56,7 +56,7 @@ mod_emploi_premier_ui <- function(id){
         tabBox(
           title = "Localisation du premier emploi", width = 6,
           tabPanel(
-            "Années sélectionnées",
+            "Ann\u00e9es s\u00e9lectionn\u00e9es",
             plotly::plotlyOutput(ns("emploi_premier_localisation"))
           ),
           tabPanel(
@@ -65,19 +65,19 @@ mod_emploi_premier_ui <- function(id){
           )
         ),
         box(
-          title = "Moyen d'accès au premier emploi", width = 6,
+          title = "Moyen d'acc\u00e8s au premier emploi", width = 6,
           plotly::plotlyOutput(ns("emploi_premier_moyen"))
         ),
         tabBox(
-          title = "Difficultés d'accès rencontrées", width = 6,
+          title = "Difficult\u00e9s d'acc\u00e8s rencontr\u00e9es", width = 6,
           tabPanel(
-            "Taux de diplômés concernés",
+            "Taux de dipl\u00f4m\u00e9s concern\u00e9s",
             fluidRow(
               valueBoxOutput(ns("emploi_premier_tx_difficultes"), width = 12)
             )
           ),
           tabPanel(
-            "Détail",
+            "D\u00e9tail",
             plotly::plotlyOutput(ns("emploi_premier_difficultes"))
           )
         )
@@ -90,7 +90,7 @@ mod_emploi_premier_ui <- function(id){
   
   if (golem::get_golem_options("diplome") == "DUT") {
   
-    # Suppression de la localisation, moyen et difficultés d'accès
+    # Suppression de la localisation, moyen et difficult\u00e9s d'acc\u00e8s
     ui$children[3:5] <- NULL
     
   }
@@ -117,14 +117,14 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   output$emploi_premier <- renderValueBox({
     valueBox(
       nrow(rv$dt_emploi_occupe()) %>% scales::number(big.mark = "\u202F"),
-      "Accès à un premier emploi", icon = icon("user-tie"), color = "black"
+      "Acc\u00e8s \u00e0 un premier emploi", icon = icon("user-tie"), color = "black"
     )
   })
   
   output$tx_emploi_premier <- renderValueBox({
     valueBox(
       scales::percent(nrow(rv$dt_emploi_occupe()) / nrow(rv$dt_vad()), suffix = NULL),
-      "Taux d'accès à un premier emploi", icon = icon("percent"), color = "black"
+      "Taux d'acc\u00e8s \u00e0 un premier emploi", icon = icon("percent"), color = "black"
     )
   })
   
@@ -139,14 +139,14 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::mutate(pct = oui / (oui + non))
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
-      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),
+      need(length(unique(data$annee)) >= 2, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
-      title_x = "Année universitaire", title_y = "Taux d'accès à un premier emploi",
-      hovertext = paste("Taux d'accès à un premier emploi: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), 
+      title_x = "Ann\u00e9e universitaire", title_y = "Taux d'acc\u00e8s \u00e0 un premier emploi",
+      hovertext = paste("Taux d'acc\u00e8s \u00e0 un premier emploi: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), 
       color = "#585858",
       font_family = golem::get_golem_options("graph_font_family")
     )
@@ -159,7 +159,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_premier_duree_recherche)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     valueBox(
@@ -167,7 +167,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
         nrow(dplyr::filter(data, emploi_premier_duree_recherche <= 3)) / nrow(data), 
         suffix = "\u202F%"
       ),
-      "Taux d'accès au 1er emploi en 3 mois ou moins", icon = icon("clock"), color = "black"
+      "Taux d'acc\u00e8s au 1er emploi en 3 mois ou moins", icon = icon("clock"), color = "black"
     )
   })
   
@@ -190,7 +190,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::filter(n != 0)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     graphr::shiny_areas_evolution(
@@ -217,14 +217,14 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::mutate(pct = oui / (oui + non))
 
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
-      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),
+      need(length(unique(data$annee)) >= 2, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     graphr::shiny_line_percent(
       data$annee, data$pct,
-      title_x = "Année universitaire", title_y = "Taux d'accès au premier emploi en 3 mois ou moins",
-      hovertext = paste("Taux d'accès au premier emploi en 3 mois ou moins: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), 
+      title_x = "Ann\u00e9e universitaire", title_y = "Taux d'acc\u00e8s au premier emploi en 3 mois ou moins",
+      hovertext = paste("Taux d'acc\u00e8s au premier emploi en 3 mois ou moins: ", scales::percent(data$pct, suffix = "\u202F%", accuracy = 0.1, decimal.mark = ",")), 
       color = "#585858",
       font_family = golem::get_golem_options("graph_font_family")
     )
@@ -237,7 +237,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_premier_localisation)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 
@@ -261,14 +261,14 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
-      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),
+      need(length(unique(data$annee)) >= 2, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     graphr::shiny_areas_evolution(
       data$annee, 
       data$emploi_premier_localisation, 
-      title_x = "Année universitaire",
+      title_x = "Ann\u00e9e universitaire",
       font_family = golem::get_golem_options("graph_font_family"),
       color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a")
     )
@@ -281,7 +281,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_premier_moyen)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 
@@ -303,7 +303,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::count(annee, code_etudiant)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     valueBox(
@@ -311,7 +311,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
         nrow(data) / nrow(rv$dt_emploi_occupe()),
         suffix = NULL
       ),
-      "Taux de diplômés ayant rencontré des difficultés", icon = icon("percent"), color = "black"
+      "Taux de dipl\u00f4m\u00e9s ayant rencontr\u00e9 des difficult\u00e9s", icon = icon("percent"), color = "black"
     )
     
   })
@@ -323,7 +323,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       tidyr::drop_na(emploi_premier_difficulte_acces)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 

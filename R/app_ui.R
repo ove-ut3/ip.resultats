@@ -3,25 +3,25 @@ app_ui <- function() {
   
   list_menu_items <- list(
     menuItem("Accueil", tabName = "tab_home", icon = icon("home")),
-    menuItem("Chiffres-clés", tabName = "tab_chiffres_cles", icon = icon("tachometer-alt")),
-    menuItem("Poursuite d'études", tabName = "tab_poursuite_etudes", icon = icon("university")),
+    menuItem("Chiffres-cl\u00e9s", tabName = "tab_chiffres_cles", icon = icon("tachometer-alt")),
+    menuItem("Poursuite d'\u00e9tudes", tabName = "tab_poursuite_etudes", icon = icon("university")),
     convertMenuItem(
       "tab_vie_active_durable",
       menuItem(
         "Vie active durable", tabName = "tab_vie_active_durable", icon = icon("building"), startExpanded = TRUE,
-        menuSubItem("Accès au premier emploi", tabName = "tab_emploi_premier", icon = icon("user-tie")),
-        menuSubItem("Emploi à 30 mois", tabName = "tab_emploi_30mois_poste", icon = icon("user-tie")),
-        menuSubItem("Employeur à 30 mois", tabName = "tab_emploi_30mois_employeur", icon = icon("building")),
-        menuSubItem("Satisfaction à 30 mois", tabName = "tab_emploi_30mois_adequation", icon = icon("smile"))
+        menuSubItem("Acc\u00e8s au premier emploi", tabName = "tab_emploi_premier", icon = icon("user-tie")),
+        menuSubItem("Emploi \u00e0 30 mois", tabName = "tab_emploi_30mois_poste", icon = icon("user-tie")),
+        menuSubItem("Employeur \u00e0 30 mois", tabName = "tab_emploi_30mois_employeur", icon = icon("building")),
+        menuSubItem("Satisfaction \u00e0 30 mois", tabName = "tab_emploi_30mois_adequation", icon = icon("smile"))
       )
     ),
-    menuItem("Taux de réponse", tabName = "tab_repondants", icon = icon("clipboard-check")),
+    menuItem("Taux de r\u00e9ponse", tabName = "tab_repondants", icon = icon("clipboard-check")),
     hr(),
-    menuItem("Filtres sélectionnés", icon = icon("filter")),
+    menuItem("Filtres s\u00e9lectionn\u00e9s", icon = icon("filter")),
     shiny.modules::selected_filters_ui("selected_filters_ui")
   )
   
-  # Poursuite d'études après l'emploi
+  # Poursuite d'\u00e9tudes apr\u00e8s l'emploi
   if (golem::get_golem_options("diplome") %in% c("LP", "Master")) {
     
     list_menu_items <- c(
@@ -38,7 +38,7 @@ app_ui <- function() {
     golem_add_external_resources(),
     # List the first level UI elements here,
     dashboardPagePlus(
-      title = paste0("Devenir des diplômés de ", golem::get_golem_options("diplome")),
+      title = paste0("Devenir des dipl\u00f4m\u00e9s de ", golem::get_golem_options("diplome")),
       dashboardHeaderPlus(
         titleWidth = 500,
         title = div(
@@ -51,11 +51,11 @@ app_ui <- function() {
               width = "35px"
             )
           ),
-          HTML("UNIVERSITÉ <strong>TOULOUSE <font color='#fbca00'>III</font>-PAUL SABATIER</strong>")
+          HTML("UNIVERSIT\u00c9 <strong>TOULOUSE <font color='#fbca00'>III</font>-PAUL SABATIER</strong>")
         ),
         left_menu = tagList(
           div(
-            HTML("<strong>", paste0("Devenir des diplômés de ", golem::get_golem_options("diplome")), "</strong>")
+            HTML("<strong>", paste0("Devenir des dipl\u00f4m\u00e9s de ", golem::get_golem_options("diplome")), "</strong>")
           )
         ),
         enable_rightsidebar = TRUE,
@@ -110,8 +110,8 @@ app_ui <- function() {
         )
       ),
       footer = dashboardFooter(
-        left_text = "Université Toulouse III - Paul Sabatier",
-        right_text = "Traitement : Observatoire de la vie étudiante"
+        left_text = "Universit\u00e9 Toulouse III - Paul Sabatier",
+        right_text = "Traitement : Observatoire de la vie \u00e9tudiante"
       )
     )
   )

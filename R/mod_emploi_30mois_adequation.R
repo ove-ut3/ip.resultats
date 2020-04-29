@@ -20,16 +20,16 @@ mod_emploi_30mois_adequation_ui <- function(id){
       column(
         width = 12, offset = 3,
         box(
-          title = "Diplômés en emploi",
+          title = "Dipl\u00f4m\u00e9s en emploi",
           valueBoxOutput(ns("nombre_emploi"), width = 12)
         )
       )
     ),
     fluidRow(
       tabBox(
-        title = "Adéquation de l'emploi à 30 mois",
+        title = "Ad\u00e9quation de l'emploi \u00e0 30 mois",
         tabPanel(
-          "Années sélectionnées",
+          "Ann\u00e9es s\u00e9lectionn\u00e9es",
           plotly::plotlyOutput(ns("emploi_30mois_adequation"))
         ),
         tabPanel(
@@ -38,9 +38,9 @@ mod_emploi_30mois_adequation_ui <- function(id){
         )
       ),
       tabBox(
-        title = "Satisfaction dans l'emploi à 30 mois",
+        title = "Satisfaction dans l'emploi \u00e0 30 mois",
         tabPanel(
-          "Années sélectionnées",
+          "Ann\u00e9es s\u00e9lectionn\u00e9es",
           plotly::plotlyOutput(ns("emploi_30mois_satisfaction"))
         ),
         tabPanel(
@@ -64,7 +64,7 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
   output$nombre_emploi <- renderValueBox({
     valueBox(
       nrow(rv$dt_emploi_30mois()) %>% scales::number(big.mark = "\u202F"),
-      "Nombre de diplômés en emploi à 30 mois", icon = icon("user-tie"), color = "black"
+      "Nombre de dipl\u00f4m\u00e9s en emploi \u00e0 30 mois", icon = icon("user-tie"), color = "black"
     )
   })
   
@@ -75,14 +75,14 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
       tidyr::gather("champ", "valeur", na.rm = TRUE) %>% 
       dplyr::mutate_at(
         "champ", dplyr::recode, 
-        "emploi_n2_adequation_niveau" = "Niveau d'études",
-        "emploi_n2_adequation_spe" = "Spécialité du diplôme"
+        "emploi_n2_adequation_niveau" = "Niveau d'\u00e9tudes",
+        "emploi_n2_adequation_spe" = "Sp\u00e9cialit\u00e9 du dipl\u00f4me"
       ) %>% 
-      dplyr::mutate_at("champ", factor, levels = c("Niveau d'études", "Spécialité du diplôme")) %>% 
-      dplyr::mutate_at("valeur", factor, levels = c("Tout à fait", "Plutôt", "Peu", "Pas du tout"))
+      dplyr::mutate_at("champ", factor, levels = c("Niveau d'\u00e9tudes", "Sp\u00e9cialit\u00e9 du dipl\u00f4me")) %>% 
+      dplyr::mutate_at("valeur", factor, levels = c("Tout \u00e0 fait", "Plut\u00f4t", "Peu", "Pas du tout"))
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     graphr::shiny_barplot_horizontal_multi(
@@ -106,24 +106,24 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character) %>%
       dplyr::mutate_at(
         "champ", dplyr::recode, 
-        "emploi_n2_adequation_niveau" = "Niveau d'études",
-        "emploi_n2_adequation_spe" = "Spécialité du diplôme"
+        "emploi_n2_adequation_niveau" = "Niveau d'\u00e9tudes",
+        "emploi_n2_adequation_spe" = "Sp\u00e9cialit\u00e9 du dipl\u00f4me"
       ) %>% 
-      dplyr::mutate_at("champ", factor, levels = c("Niveau d'études", "Spécialité du diplôme")) %>% 
-      dplyr::mutate(adequation_ok = dplyr::if_else(valeur %in% c("Tout à fait", "Plutôt"), "oui", "non")) %>% 
+      dplyr::mutate_at("champ", factor, levels = c("Niveau d'\u00e9tudes", "Sp\u00e9cialit\u00e9 du dipl\u00f4me")) %>% 
+      dplyr::mutate(adequation_ok = dplyr::if_else(valeur %in% c("Tout \u00e0 fait", "Plut\u00f4t"), "oui", "non")) %>% 
       dplyr::count(annee, champ, adequation_ok) %>% 
       tidyr::spread(adequation_ok, n, fill = 0) %>% 
       dplyr::mutate(pct = oui / (oui + non) * 100)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
-      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),
+      need(length(unique(data$annee)) >= 2, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     graphr::shiny_line_percent_multi(
       data$annee, data$champ, data$pct,
-      title_x = "Année universitaire", 
-      title_y = "Taux d'adéquation (tout à fait ou plutôt)",
+      title_x = "Ann\u00e9e universitaire", 
+      title_y = "Taux d'ad\u00e9quation (tout \u00e0 fait ou plut\u00f4t)",
       colors = c("#313131", "#4b4b4b", "#646464", "#7e7e7e"),
       font_family = golem::get_golem_options("graph_font_family")
     )
@@ -139,14 +139,14 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
         "champ", 
         dplyr::recode, 
         "emploi_n2_satis_missions" = "Nature des missions",
-        "emploi_n2_satis_resp" = "Niveau de responsabilité",
+        "emploi_n2_satis_resp" = "Niveau de responsabilit\u00e9",
         "emploi_n2_satis_salaire" = "Montant du salaire"
       ) %>% 
-      dplyr::mutate_at("champ", factor, levels = c("Nature des missions", "Niveau de responsabilité", "Montant du salaire")) %>% 
-      dplyr::mutate_at("valeur", factor, levels = c("Tout à fait", "Plutôt", "Peu", "Pas du tout"))
+      dplyr::mutate_at("champ", factor, levels = c("Nature des missions", "Niveau de responsabilit\u00e9", "Montant du salaire")) %>% 
+      dplyr::mutate_at("valeur", factor, levels = c("Tout \u00e0 fait", "Plut\u00f4t", "Peu", "Pas du tout"))
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     graphr::shiny_barplot_horizontal_multi(
@@ -171,24 +171,24 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
       dplyr::mutate_at(
         "champ", dplyr::recode, 
         "emploi_n2_satis_missions" = "Nature des missions",
-        "emploi_n2_satis_resp" = "Niveau de responsabilité",
+        "emploi_n2_satis_resp" = "Niveau de responsabilit\u00e9",
         "emploi_n2_satis_salaire" = "Montant du salaire"
       ) %>% 
-      dplyr::mutate_at("champ", factor, levels = c("Nature des missions", "Niveau de responsabilité", "Montant du salaire")) %>% 
-      dplyr::mutate(satisfaction_ok = dplyr::if_else(valeur %in% c("Tout à fait", "Plutôt"), "oui", "non")) %>% 
+      dplyr::mutate_at("champ", factor, levels = c("Nature des missions", "Niveau de responsabilit\u00e9", "Montant du salaire")) %>% 
+      dplyr::mutate(satisfaction_ok = dplyr::if_else(valeur %in% c("Tout \u00e0 fait", "Plut\u00f4t"), "oui", "non")) %>% 
       dplyr::count(annee, champ, satisfaction_ok) %>% 
       tidyr::spread(satisfaction_ok, n, fill = 0) %>% 
       dplyr::mutate(pct = oui / (oui + non) * 100)
     
     validate(
-      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés"),
-      need(length(unique(data$annee)) >= 2, "Pas de données disponibles avec les filtres sélectionnés")
+      need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),
+      need(length(unique(data$annee)) >= 2, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     graphr::shiny_line_percent_multi(
       data$annee, data$champ, data$pct,
-      title_x = "Année universitaire", 
-      title_y = "Taux de satisfaction (tout à fait ou plutôt)",
+      title_x = "Ann\u00e9e universitaire", 
+      title_y = "Taux de satisfaction (tout \u00e0 fait ou plut\u00f4t)",
       colors = c("#313131", "#4b4b4b", "#646464", "#7e7e7e"),
       font_family = golem::get_golem_options("graph_font_family")
     )
