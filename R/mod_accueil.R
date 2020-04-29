@@ -80,12 +80,12 @@ mod_accueil_server <- function(input, output, session){
     annee_debut <- golem::get_golem_options("data") %>% 
       dplyr::pull(annee) %>% 
       levels() %>% 
-      tail(1)
+      utils::tail(1)
     
     annee_fin <- golem::get_golem_options("data") %>% 
       dplyr::pull(annee) %>% 
       levels() %>% 
-      head(1)
+      utils::head(1)
     
     div(style = "font-size: 12pt;",
       p(HTML("Dans le cadre de l'enqu\u00eate nationale minist\u00e9rielle sur la <b>situation \u00e0 30 mois</b> des dipl\u00f4m\u00e9-e-s, l'observatoire de la vie \u00e9tudiante interroge chaque ann\u00e9e les \u00e9tudiant-e-s ayant valid\u00e9 leur <b>DUT</b>, <b>Licence professionnelle</b> ou <b>Master</b>.")),

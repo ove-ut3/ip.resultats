@@ -212,7 +212,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       )
     
     valueBox(
-      median(emploi_n2_insertion$emploi_n2_salaire, na.rm = TRUE) %>% 
+      stats::median(emploi_n2_insertion$emploi_n2_salaire, na.rm = TRUE) %>% 
         round() %>% 
         scales::number(big.mark = "\u202F"),
       HTML("Salaire net m\u00e9dian<sup>4</sup>"), icon = icon("euro"), color = "black"

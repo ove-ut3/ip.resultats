@@ -202,7 +202,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     )
 
     valueBox(
-      value <- median(data$emploi_n2_salaire) %>% 
+      value <- stats::median(data$emploi_n2_salaire) %>% 
         round() %>% 
         scales::number(big.mark = "\u202F"),
       "Salaire net m\u00e9dian", icon = icon("euro"), color = "black"
@@ -222,7 +222,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
       dplyr::mutate_at("annee", as.character) %>% 
       dplyr::group_by(annee) %>% 
       dplyr::summarise(
-        emploi_n2_salaire = median(emploi_n2_salaire, na.rm = TRUE),
+        emploi_n2_salaire = stats::median(emploi_n2_salaire, na.rm = TRUE),
         n = dplyr::n()
       ) %>% 
       dplyr::ungroup() %>% 
