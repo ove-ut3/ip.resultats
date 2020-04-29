@@ -7,10 +7,12 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    config,
     dplyr,
     DT,
     extrafont,
     fresh,
+    glue,
     golem,
     graphr,
     htmltools,
@@ -18,9 +20,9 @@ Imports:
     purrr,
     scales,
     shiny,
+    shiny.modules,
     shinydashboard,
     shinydashboardPlus,
-    shinymanager,
     shinyWidgets,
     tidyr
 RoxygenNote: 7.1.0
@@ -28,4 +30,5 @@ Suggests:
     testthat
 Remotes:
     ove-ut3/graphr,
+    ove-ut3/shiny.modules,
     stephLH/shinydashboard@tabpanel_footer
