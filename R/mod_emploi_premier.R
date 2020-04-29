@@ -277,10 +277,16 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   
   output$emploi_premier_moyen <- plotly::renderPlotly({
     
-    rv$dt_emploi_occupe() %>%
-      tidyr::drop_na(emploi_premier_moyen) %>% 
+    data <- rv$dt_emploi_occupe() %>%
+      tidyr::drop_na(emploi_premier_moyen)
+    
+    validate(
+      need(nrow(data) >= 1, "Pas de données disponibles avec les filtres sélectionnés")
+    )
+    
+    data %>% 
       dplyr::pull(emploi_premier_moyen) %>%
-      droplevels() %>% 
+      as.character() %>% 
       graphr::shiny_barplot_horizontal(
         color = "#585858", 
         alpha = 0.8,
