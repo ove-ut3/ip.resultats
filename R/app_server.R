@@ -30,7 +30,7 @@ app_server <- function(input, output, session) {
     
     golem::get_golem_options("data") %>% 
       dplyr::semi_join(rv$dt_filtre(), by = rv$filter_vars[-which(rv$filter_vars == "annee")]) %>% 
-      dplyr::group_by(annee, code_etudiant) %>% 
+      dplyr::group_by(.data$annee, .data$code_etudiant) %>% 
       dplyr::filter(dplyr::row_number() == 1) %>% 
       dplyr::ungroup()
     
@@ -39,34 +39,34 @@ app_server <- function(input, output, session) {
   rv$dt_diplomes <- reactive({
     
     rv$dt_filtre() %>% 
-      dplyr::group_by(annee, code_etudiant) %>% 
+      dplyr::group_by(.data$annee, .data$code_etudiant) %>% 
       dplyr::filter(dplyr::row_number() == 1) %>% 
       dplyr::ungroup()
   })
   
   rv$dt_reponses <- reactive({
     rv$dt_diplomes() %>% 
-      dplyr::filter(repondant)
+      dplyr::filter(.data$repondant)
   })
   
   rv$dt_etudes <- reactive({
     rv$dt_reponses() %>% 
-      dplyr::filter(parcours %in% c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes"))
+      dplyr::filter(.data$parcours %in% c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes"))
   })
   
   rv$dt_vad <- reactive({
     rv$dt_reponses() %>% 
-      dplyr::filter(parcours == "Vie active durable")
+      dplyr::filter(.data$parcours == "Vie active durable")
   })
   
   rv$dt_emploi_occupe <- reactive({
     rv$dt_vad() %>% 
-      dplyr::filter(emploi_occupe == "Oui")
+      dplyr::filter(.data$emploi_occupe == "Oui")
   })
   
   rv$dt_emploi_30mois <- reactive({
     rv$dt_vad() %>% 
-      dplyr::filter(situation_pro_n2 == "En emploi")
+      dplyr::filter(.data$situation_pro_n2 == "En emploi")
   })
   
   callModule(mod_chiffres_cles_server, "chiffres_cles_ui", rv)

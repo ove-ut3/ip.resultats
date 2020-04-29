@@ -78,12 +78,12 @@ mod_accueil_server <- function(input, output, session){
   output$source <- renderUI({
     
     annee_debut <- golem::get_golem_options("data") %>% 
-      dplyr::pull(annee) %>% 
+      dplyr::pull(.data$annee) %>% 
       levels() %>% 
       utils::tail(1)
     
     annee_fin <- golem::get_golem_options("data") %>% 
-      dplyr::pull(annee) %>% 
+      dplyr::pull(.data$annee) %>% 
       levels() %>% 
       utils::head(1)
     

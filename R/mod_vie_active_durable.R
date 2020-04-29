@@ -89,12 +89,12 @@ mod_vie_active_durable_server <- function(input, output, session, rv){
   output$vie_active_durable_histo <- plotly::renderPlotly({
     
     data <- rv$dt_evolution() %>%
-      dplyr::filter(repondant == 1) %>% 
+      dplyr::filter(.data$repondant) %>% 
       dplyr::mutate_at("annee", as.character) %>%
-      dplyr::mutate(vie_active_durable = dplyr::if_else(parcours == "Vie active durable", "oui", "non")) %>% 
-      dplyr::count(annee, vie_active_durable) %>% 
-      tidyr::spread(vie_active_durable, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non))
+      dplyr::mutate(vie_active_durable = dplyr::if_else(.data$parcours == "Vie active durable", "oui", "non")) %>% 
+      dplyr::count(.data$annee, .data$vie_active_durable) %>% 
+      tidyr::spread(.data$vie_active_durable, .data$n, fill = 0) %>% 
+      dplyr::mutate(pct = .data$oui / (.data$oui + .data$non))
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),
@@ -156,9 +156,9 @@ mod_vie_active_durable_server <- function(input, output, session, rv){
     
     data <- rv$dt_evolution() %>%
       dplyr::mutate_at("annee", as.character) %>% 
-      dplyr::filter(parcours == "Vie active durable") %>% 
-      dplyr::select(annee, dplyr::matches("^situation_pro")) %>% 
-      tidyr::gather("champ", "valeur", -annee, na.rm = TRUE) %>% 
+      dplyr::filter(.data$parcours == "Vie active durable") %>% 
+      dplyr::select(.data$annee, dplyr::matches("^situation_pro")) %>% 
+      tidyr::gather("champ", "valeur", -.data$annee, na.rm = TRUE) %>% 
       dplyr::mutate_at(
         "champ", 
         dplyr::recode, 
@@ -166,7 +166,7 @@ mod_vie_active_durable_server <- function(input, output, session, rv){
         "situation_pro_n1" = "18 mois",
         "situation_pro_n2" = "30 mois"
       ) %>% 
-      dplyr::filter(champ %in% input$filtre_situation_pro_histo) %>% 
+      dplyr::filter(.data$champ %in% input$filtre_situation_pro_histo) %>% 
       dplyr::mutate_at(
         "valeur", 
         dplyr::recode, 

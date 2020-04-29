@@ -88,14 +88,14 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
   output$emploi_30mois_employeur_type <- plotly::renderPlotly({
     
     data <- rv$dt_emploi_30mois() %>%  
-      tidyr::drop_na(emploi_n2_type_ent)
+      tidyr::drop_na(.data$emploi_n2_type_ent)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 
-      dplyr::pull(emploi_n2_type_ent) %>% 
+      dplyr::pull(.data$emploi_n2_type_ent) %>% 
       graphr::shiny_barplot_horizontal(
         color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a", "#cccccc"),
         alpha = 0.8,
@@ -108,10 +108,10 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     
     data <- rv$dt_evolution() %>%
       dplyr::filter(
-        parcours == "Vie active durable",
-        situation_pro_n2 == "En emploi"
+        .data$parcours == "Vie active durable",
+        .data$situation_pro_n2 == "En emploi"
       ) %>% 
-      tidyr::drop_na(emploi_n2_type_ent) %>% 
+      tidyr::drop_na(.data$emploi_n2_type_ent) %>% 
       dplyr::mutate_at("annee", as.character)
     
     validate(
@@ -131,14 +131,14 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
   output$emploi_30mois_employeur_localisation <- plotly::renderPlotly({
     
     data <- rv$dt_emploi_occupe() %>%
-      tidyr::drop_na(emploi_n2_localisation)
+      tidyr::drop_na(.data$emploi_n2_localisation)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 
-      dplyr::pull(emploi_n2_localisation) %>%
+      dplyr::pull(.data$emploi_n2_localisation) %>%
       graphr::shiny_barplot_horizontal(
         color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a"),
         alpha = 0.8,
@@ -151,10 +151,10 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     
     data <- rv$dt_evolution() %>%
       dplyr::filter(
-        parcours == "Vie active durable",
-        emploi_occupe == "Oui"
+        .data$parcours == "Vie active durable",
+        .data$emploi_occupe == "Oui"
       ) %>% 
-      tidyr::drop_na(emploi_n2_localisation) %>% 
+      tidyr::drop_na(.data$emploi_n2_localisation) %>% 
       dplyr::mutate_at("annee", as.character)
     
     validate(
@@ -174,14 +174,14 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
   output$emploi_30mois_employeur_taille <- plotly::renderPlotly({
     
     data <- rv$dt_emploi_occupe() %>%
-      tidyr::drop_na(emploi_n2_taille_entreprise)
+      tidyr::drop_na(.data$emploi_n2_taille_entreprise)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 
-      dplyr::pull(emploi_n2_taille_entreprise) %>%
+      dplyr::pull(.data$emploi_n2_taille_entreprise) %>%
       graphr::shiny_barplot_horizontal(
         color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a"),
         alpha = 0.8,
@@ -194,10 +194,10 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     
     data <- rv$dt_evolution() %>%
       dplyr::filter(
-        parcours == "Vie active durable",
-        emploi_occupe == "Oui"
+        .data$parcours == "Vie active durable",
+        .data$emploi_occupe == "Oui"
       ) %>% 
-      tidyr::drop_na(emploi_n2_taille_entreprise) %>% 
+      tidyr::drop_na(.data$emploi_n2_taille_entreprise) %>% 
       dplyr::mutate_at("annee", as.character)
     
     validate(
@@ -221,14 +221,14 @@ mod_emploi_30mois_employeur_server <- function(input, output, session, rv){
     )
     
     data <- rv$dt_emploi_occupe() %>%
-      tidyr::drop_na(emploi_n2_secteur_ent)
+      tidyr::drop_na(.data$emploi_n2_secteur_ent)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 
-      dplyr::pull(emploi_n2_secteur_ent) %>%
+      dplyr::pull(.data$emploi_n2_secteur_ent) %>%
       graphr::shiny_barplot_horizontal(
         colors = "#585858",
         alpha = 0.8,

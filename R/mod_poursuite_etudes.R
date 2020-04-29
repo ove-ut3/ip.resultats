@@ -119,12 +119,12 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   output$poursuite_etudes_histo <- plotly::renderPlotly({
     
     data <- rv$dt_evolution() %>%
-      dplyr::filter(repondant == 1) %>% 
+      dplyr::filter(.data$repondant) %>% 
       dplyr::mutate_at("annee", as.character) %>%
-      dplyr::mutate(poursuite_etudes = dplyr::if_else(parcours %in% c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes"), "oui", "non")) %>% 
-      dplyr::count(annee, poursuite_etudes) %>% 
-      tidyr::spread(poursuite_etudes, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non))
+      dplyr::mutate(poursuite_etudes = dplyr::if_else(.data$parcours %in% c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes"), "oui", "non")) %>% 
+      dplyr::count(.data$annee, .data$poursuite_etudes) %>% 
+      tidyr::spread(.data$poursuite_etudes, .data$n, fill = 0) %>% 
+      dplyr::mutate(pct = .data$oui / (.data$oui + .data$non))
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),
@@ -144,7 +144,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   output$pourcentage_poursuite_etudes_directe <- renderValueBox({
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(rv$dt_etudes(), parcours == "Poursuite d'\u00e9tudes directe")) / nrow(rv$dt_etudes()),
+        nrow(dplyr::filter(rv$dt_etudes(), .data$parcours == "Poursuite d'\u00e9tudes directe")) / nrow(rv$dt_etudes()),
         suffix = NULL),
       HTML("Taux de poursuite d'\u00e9tudes directes<sup>2</sup>"), icon = icon("percent"), color = "yellow"
     )
@@ -153,7 +153,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   output$pourcentage_reprise_etudes <- renderValueBox({
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(rv$dt_etudes(), parcours == "Reprise d'\u00e9tudes")) / nrow(rv$dt_etudes()),
+        nrow(dplyr::filter(rv$dt_etudes(), .data$parcours == "Reprise d'\u00e9tudes")) / nrow(rv$dt_etudes()),
         suffix = NULL),
       HTML("Taux de reprise d'\u00e9tudes<sup>3</sup>"), icon = icon("percent"), color = "yellow"
     )
@@ -161,14 +161,14 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   
   output$effectif_poursuite_etudes_directe <- renderValueBox({
     valueBox(
-      nrow(dplyr::filter(rv$dt_etudes(), parcours == "Poursuite d'\u00e9tudes directe")) %>% scales::number(big.mark = "\u202F"),
+      nrow(dplyr::filter(rv$dt_etudes(), .data$parcours == "Poursuite d'\u00e9tudes directe")) %>% scales::number(big.mark = "\u202F"),
       HTML("Nombre de poursuites d'\u00e9tudes directes<sup>2</sup>"), icon = icon("users"), color = "yellow"
     )
   })
   
   output$effectif_reprise_etudes <- renderValueBox({
     valueBox(
-      nrow(dplyr::filter(rv$dt_etudes(), parcours == "Reprise d'\u00e9tudes")) %>% scales::number(big.mark = "\u202F"),
+      nrow(dplyr::filter(rv$dt_etudes(), .data$parcours == "Reprise d'\u00e9tudes")) %>% scales::number(big.mark = "\u202F"),
       HTML("Nombre de reprises d'\u00e9tudes<sup>3</sup>"), icon = icon("users"), color = "yellow"
     )
   })
@@ -176,7 +176,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   output$type_poursuite_etudes_histo <- plotly::renderPlotly({
     
     data <- rv$dt_evolution() %>%
-      dplyr::filter(parcours %in% c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes")) %>% 
+      dplyr::filter(.data$parcours %in% c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes")) %>% 
       dplyr::mutate_at("annee", as.character) %>% 
       dplyr::mutate_at("parcours", droplevels)
     
@@ -198,7 +198,14 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   
   output$input_poursuite_etudes <- renderUI({
     
-    selectInput(ns("filtre_type_poursuite_etudes"), label = "Type de poursuite d'\u00e9tudes :", choices = c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes"), selected = c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes"), multiple = TRUE, selectize = TRUE)
+    selectInput(
+      ns("filtre_type_poursuite_etudes"),
+      label = "Type de poursuite d'\u00e9tudes :",
+      choices = c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes"),
+      selected = c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes"),
+      multiple = TRUE,
+      selectize = TRUE
+    )
     
   })
   
@@ -207,15 +214,14 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
     req(input$filtre_type_poursuite_etudes)
     
     data <- rv$dt_etudes() %>% 
-      dplyr::filter(type_diplome == golem::get_golem_options("diplome")) %>% 
-      dplyr::filter(parcours %in% c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes")) %>% 
-      dplyr::filter(parcours %in% input$filtre_type_poursuite_etudes)
+      dplyr::filter(.data$type_diplome == golem::get_golem_options("diplome")) %>% 
+      dplyr::filter(.data$parcours %in% c("Poursuite d'\u00e9tudes directe", "Reprise d'\u00e9tudes")) %>% 
+      dplyr::filter(.data$parcours %in% input$filtre_type_poursuite_etudes)
     
     graphr::shiny_treemap_bi(
       data$niveau_diplome_vise,
       data$diplome_vise, 
       colors = c("#af8c00", "#fbca00", "#ffdb49"),
-      #colors = c("#434078", "#605ca8", "#918ec3"),
       font_family = golem::get_golem_options("graph_font_family")
     )
 
@@ -224,17 +230,17 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
   output$raisons_poursuite_etudes <- plotly::renderPlotly({
     
     data <- rv$dt_etudes() %>% 
-      dplyr::filter(parcours == "Poursuite d'\u00e9tudes directe") %>% 
-      dplyr::select(pours_etud_n_n1_raison) %>% 
+      dplyr::filter(.data$parcours == "Poursuite d'\u00e9tudes directe") %>% 
+      dplyr::select(.data$pours_etud_n_n1_raison) %>% 
       tidyr::unnest_legacy() %>% 
-      tidyr::drop_na(pours_etud_n_n1_raison)
+      tidyr::drop_na(.data$pours_etud_n_n1_raison)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 
-      dplyr::pull(pours_etud_n_n1_raison) %>% 
+      dplyr::pull(.data$pours_etud_n_n1_raison) %>% 
       graphr::shiny_barplot_horizontal(
         colors = "#fbca00", 
         alpha = 0.8,

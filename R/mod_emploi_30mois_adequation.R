@@ -71,7 +71,7 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
   output$emploi_30mois_adequation <- plotly::renderPlotly({
     
     data <- rv$dt_emploi_30mois() %>% 
-      dplyr::select(emploi_n2_adequation_niveau, emploi_n2_adequation_spe) %>% 
+      dplyr::select(.data$emploi_n2_adequation_niveau, .data$emploi_n2_adequation_spe) %>% 
       tidyr::gather("champ", "valeur", na.rm = TRUE) %>% 
       dplyr::mutate_at(
         "champ", dplyr::recode, 
@@ -98,11 +98,11 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
     
     data <- rv$dt_evolution() %>%
       dplyr::filter(
-        parcours == "Vie active durable",
-        situation_pro_n2 == "En emploi"
+        .data$parcours == "Vie active durable",
+        .data$situation_pro_n2 == "En emploi"
       ) %>% 
-      dplyr::select(annee, emploi_n2_adequation_niveau, emploi_n2_adequation_spe) %>% 
-      tidyr::gather("champ", "valeur", -annee, na.rm = TRUE) %>% 
+      dplyr::select(.data$annee, .data$emploi_n2_adequation_niveau, .data$emploi_n2_adequation_spe) %>% 
+      tidyr::gather("champ", "valeur", -.data$annee, na.rm = TRUE) %>% 
       dplyr::mutate_at("annee", as.character) %>%
       dplyr::mutate_at(
         "champ", dplyr::recode, 
@@ -110,10 +110,10 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
         "emploi_n2_adequation_spe" = "Sp\u00e9cialit\u00e9 du dipl\u00f4me"
       ) %>% 
       dplyr::mutate_at("champ", factor, levels = c("Niveau d'\u00e9tudes", "Sp\u00e9cialit\u00e9 du dipl\u00f4me")) %>% 
-      dplyr::mutate(adequation_ok = dplyr::if_else(valeur %in% c("Tout \u00e0 fait", "Plut\u00f4t"), "oui", "non")) %>% 
-      dplyr::count(annee, champ, adequation_ok) %>% 
-      tidyr::spread(adequation_ok, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non) * 100)
+      dplyr::mutate(adequation_ok = dplyr::if_else(.data$valeur %in% c("Tout \u00e0 fait", "Plut\u00f4t"), "oui", "non")) %>% 
+      dplyr::count(.data$annee, .data$champ, .data$adequation_ok) %>% 
+      tidyr::spread(.data$adequation_ok, .data$n, fill = 0) %>% 
+      dplyr::mutate(pct = .data$oui / (.data$oui + .data$non) * 100)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),
@@ -162,11 +162,11 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
     
     data <- rv$dt_evolution() %>%
       dplyr::filter(
-        parcours == "Vie active durable",
-        situation_pro_n2 == "En emploi"
+        .data$parcours == "Vie active durable",
+        .data$situation_pro_n2 == "En emploi"
       ) %>% 
-      dplyr::select(annee, dplyr::starts_with("emploi_n2_satis")) %>% 
-      tidyr::gather("champ", "valeur", -annee, na.rm = TRUE) %>% 
+      dplyr::select(.data$annee, dplyr::starts_with("emploi_n2_satis")) %>% 
+      tidyr::gather("champ", "valeur", -.data$annee, na.rm = TRUE) %>% 
       dplyr::mutate_at("annee", as.character) %>%
       dplyr::mutate_at(
         "champ", dplyr::recode, 
@@ -175,10 +175,10 @@ mod_emploi_30mois_adequation_server <- function(input, output, session, rv){
         "emploi_n2_satis_salaire" = "Montant du salaire"
       ) %>% 
       dplyr::mutate_at("champ", factor, levels = c("Nature des missions", "Niveau de responsabilit\u00e9", "Montant du salaire")) %>% 
-      dplyr::mutate(satisfaction_ok = dplyr::if_else(valeur %in% c("Tout \u00e0 fait", "Plut\u00f4t"), "oui", "non")) %>% 
-      dplyr::count(annee, champ, satisfaction_ok) %>% 
-      tidyr::spread(satisfaction_ok, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non) * 100)
+      dplyr::mutate(satisfaction_ok = dplyr::if_else(.data$valeur %in% c("Tout \u00e0 fait", "Plut\u00f4t"), "oui", "non")) %>% 
+      dplyr::count(.data$annee, .data$champ, .data$satisfaction_ok) %>% 
+      tidyr::spread(.data$satisfaction_ok, .data$n, fill = 0) %>% 
+      dplyr::mutate(pct = .data$oui / (.data$oui + .data$non) * 100)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),

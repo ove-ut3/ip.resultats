@@ -80,7 +80,7 @@ mod_filtre_control_bar_server <- function(input, output, session, rv){
   rv$dt_filtre <- callModule(
     module = shinyWidgets::selectizeGroupServer,
     id = "filtre-donnees",
-    data = dplyr::filter(golem::get_golem_options("data"), type_diplome == golem::get_golem_options("diplome")),
+    data = dplyr::filter(golem::get_golem_options("data"), .data$type_diplome == golem::get_golem_options("diplome")),
     vars = filter_vars
   )
   

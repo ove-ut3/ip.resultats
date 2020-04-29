@@ -18,6 +18,7 @@ Imports:
     htmltools,
     plotly,
     purrr,
+    rlang,
     scales,
     shiny,
     shiny.modules,

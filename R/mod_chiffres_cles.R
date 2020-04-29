@@ -146,8 +146,8 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
     
     rv$dt_etudes() %>%
       dplyr::mutate_at("niveau_diplome_vise", factor, levels = levels) %>%
-      tidyr::drop_na(niveau_diplome_vise) %>%
-      dplyr::pull(niveau_diplome_vise) %>%
+      tidyr::drop_na(.data$niveau_diplome_vise) %>%
+      dplyr::pull(.data$niveau_diplome_vise) %>%
       graphr::shiny_treemap(
         alpha = 0.8, 
         colors = c("#af8c00", "#fbca00", "#ffdb49"),
@@ -159,11 +159,11 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   output$emploi_premier_duree_recherche <- renderValueBox({
     
     emploi_premier_duree_recherche <- rv$dt_vad() %>% 
-      tidyr::drop_na(emploi_premier_duree_recherche)
+      tidyr::drop_na(.data$emploi_premier_duree_recherche)
     
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(emploi_premier_duree_recherche, emploi_premier_duree_recherche <= 3)) / nrow(emploi_premier_duree_recherche), 
+        nrow(dplyr::filter(emploi_premier_duree_recherche, .data$emploi_premier_duree_recherche <= 3)) / nrow(emploi_premier_duree_recherche), 
         suffix = "\u202F%"
         ),
       "Taux d'acc\u00e8s au 1er emploi en 3 mois ou moins", icon = icon("clock"), color = "black"
@@ -174,11 +174,11 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   output$emploi_n2_insertion <- renderValueBox({
     
     emploi_n2_insertion <- rv$dt_vad() %>% 
-      dplyr::filter(situation_pro_n2 %in% c("En emploi", "En recherche d'emploi", "Promesse d'embauche"))
+      dplyr::filter(.data$situation_pro_n2 %in% c("En emploi", "En recherche d'emploi", "Promesse d'embauche"))
     
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(emploi_n2_insertion, situation_pro_n2 == "En emploi")) / nrow(emploi_n2_insertion),
+        nrow(dplyr::filter(emploi_n2_insertion, .data$situation_pro_n2 == "En emploi")) / nrow(emploi_n2_insertion),
         suffix = NULL
         ),
       HTML("Taux d'insertion \u00e0 30 mois<sup>3</sup>"), icon = icon("percent"), color = "black"
@@ -189,8 +189,8 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   output$emploi_30mois_niveau <- plotly::renderPlotly({
     
     rv$dt_vad() %>%  
-      tidyr::drop_na(emploi_n2_niveau) %>% 
-      dplyr::pull(emploi_n2_niveau) %>% 
+      tidyr::drop_na(.data$emploi_n2_niveau) %>% 
+      dplyr::pull(.data$emploi_n2_niveau) %>% 
       graphr::shiny_pie(
         alpha = 0.8,
         donut = TRUE,
@@ -206,9 +206,9 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
     
     emploi_n2_insertion <- rv$dt_vad() %>% 
       dplyr::filter(
-        situation_pro_n2 == "En emploi",
-        emploi_n2_temoin_temps_partiel == "Non",
-        emploi_n2_departement != "99"
+        .data$situation_pro_n2 == "En emploi",
+        .data$emploi_n2_temoin_temps_partiel == "Non",
+        .data$emploi_n2_departement != "99"
       )
     
     validate(
@@ -227,11 +227,11 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   output$cdi_assimiles <- renderValueBox({
     
     cdi_assimiles <- rv$dt_vad() %>% 
-      dplyr::filter(situation_pro_n2 == "En emploi")
+      dplyr::filter(.data$situation_pro_n2 == "En emploi")
     
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(cdi_assimiles, emploi_n2_type %in% c("CDI", "Profession lib\u00e9rale, ind\u00e9pendant, chef-fe d'entreprise, auto-entrepreneur", "Fonctionnaire"))) / nrow(cdi_assimiles),
+        nrow(dplyr::filter(cdi_assimiles, .data$emploi_n2_type %in% c("CDI", "Profession lib\u00e9rale, ind\u00e9pendant, chef-fe d'entreprise, auto-entrepreneur", "Fonctionnaire"))) / nrow(cdi_assimiles),
         suffix = NULL
       ),
       HTML("Taux de CDI et assimil\u00e9s<sup>5</sup>"), icon = icon("percent"), color = "black"
@@ -242,11 +242,11 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
   output$occitanie <- renderValueBox({
     
     occitanie <- rv$dt_vad() %>% 
-      dplyr::filter(situation_pro_n2 == "En emploi")
+      dplyr::filter(.data$situation_pro_n2 == "En emploi")
     
     valueBox(
       scales::percent(
-        nrow(dplyr::filter(occitanie, emploi_n2_departement %in% c("009", "011", "012", "030", "031", "032", "034", "046", "048", "065", "066", "081", "082"))) / nrow(occitanie), 
+        nrow(dplyr::filter(occitanie, .data$emploi_n2_departement %in% c("009", "011", "012", "030", "031", "032", "034", "046", "048", "065", "066", "081", "082"))) / nrow(occitanie), 
         suffix = "\u202F%"
       ),
       HTML("Taux d'emploi en r\u00e9gion Occitanie"), icon = icon("map-marker-alt"), color = "black"

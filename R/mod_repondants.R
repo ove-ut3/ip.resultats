@@ -65,11 +65,11 @@ mod_repondants_server <- function(input, output, session, rv){
   output$repondants_histo <- plotly::renderPlotly({
     
     data <- rv$dt_evolution() %>%
-      dplyr::mutate(repondant = dplyr::if_else(repondant, "oui", "non", "non")) %>% 
+      dplyr::mutate(repondant = dplyr::if_else(.data$repondant, "oui", "non", "non")) %>% 
       dplyr::mutate_at("annee", as.character) %>%
-      dplyr::count(annee, repondant) %>% 
-      tidyr::spread(repondant, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non))
+      dplyr::count(.data$annee, .data$repondant) %>% 
+      tidyr::spread(.data$repondant, .data$n, fill = 0) %>% 
+      dplyr::mutate(pct = .data$oui / (.data$oui + .data$non))
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),
@@ -87,10 +87,3 @@ mod_repondants_server <- function(input, output, session, rv){
   })
   
 }
-    
-## To be copied in the UI
-# 
-    
-## To be copied in the server
-# 
- 

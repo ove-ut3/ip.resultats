@@ -106,7 +106,7 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
   output$tx_insertion_pro <- renderValueBox({
     
     recherche <- rv$dt_vad() %>% 
-      dplyr::filter(situation_pro_n2 %in% c("En emploi", "En recherche d'emploi", "Promesse d'embauche"))
+      dplyr::filter(.data$situation_pro_n2 %in% c("En emploi", "En recherche d'emploi", "Promesse d'embauche"))
     
     valueBox(
       scales::percent(nrow(rv$dt_emploi_30mois()) / nrow(recherche), suffix = NULL),
@@ -119,14 +119,14 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     
     data <- rv$dt_evolution() %>%
       dplyr::filter(
-        parcours == "Vie active durable",
-        situation_pro_n2 %in% c("En emploi", "En recherche d'emploi", "Promesse d'embauche")
+        .data$parcours == "Vie active durable",
+        .data$situation_pro_n2 %in% c("En emploi", "En recherche d'emploi", "Promesse d'embauche")
       ) %>% 
       dplyr::mutate_at("annee", as.character) %>%
-      dplyr::mutate(insertion_pro = dplyr::recode(situation_pro_n2, "En emploi" = "oui", "En recherche d'emploi" = "non", "Promesse d'embauche" = "non")) %>% 
-      dplyr::count(annee, insertion_pro) %>% 
-      tidyr::spread(insertion_pro, n, fill = 0) %>% 
-      dplyr::mutate(pct = oui / (oui + non))
+      dplyr::mutate(insertion_pro = dplyr::recode(.data$situation_pro_n2, "En emploi" = "oui", "En recherche d'emploi" = "non", "Promesse d'embauche" = "non")) %>% 
+      dplyr::count(.data$annee, .data$insertion_pro) %>% 
+      tidyr::spread(.data$insertion_pro, .data$n, fill = 0) %>% 
+      dplyr::mutate(pct = .data$oui / (.data$oui + .data$non))
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s"),
@@ -146,14 +146,14 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
   output$emploi_30mois_niveau <- plotly::renderPlotly({
     
     data <- rv$dt_emploi_30mois() %>%  
-      tidyr::drop_na(emploi_n2_niveau)
+      tidyr::drop_na(.data$emploi_n2_niveau)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 
-      dplyr::pull(emploi_n2_niveau) %>% 
+      dplyr::pull(.data$emploi_n2_niveau) %>% 
       graphr::shiny_pie(
         alpha = 0.8, 
         donut = TRUE, 
@@ -167,10 +167,10 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     
     data <- rv$dt_evolution() %>%
       dplyr::filter(
-        parcours == "Vie active durable",
-        situation_pro_n2 == "En emploi"
+        .data$parcours == "Vie active durable",
+        .data$situation_pro_n2 == "En emploi"
       ) %>% 
-      tidyr::drop_na(emploi_n2_niveau) %>% 
+      tidyr::drop_na(.data$emploi_n2_niveau) %>% 
       dplyr::mutate_at("annee", as.character)
     
     validate(
@@ -191,11 +191,11 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     
     data <- rv$dt_emploi_30mois() %>% 
       dplyr::filter(
-        situation_pro_n2 == "En emploi",
-        emploi_n2_temoin_temps_partiel == "Non",
-        emploi_n2_departement != "99"
+        .data$situation_pro_n2 == "En emploi",
+        .data$emploi_n2_temoin_temps_partiel == "Non",
+        .data$emploi_n2_departement != "99"
       ) %>% 
-      tidyr::drop_na(emploi_n2_salaire)
+      tidyr::drop_na(.data$emploi_n2_salaire)
     
     validate(
       need(nrow(data) >= 3, "Il n'y a pas suffisamment d'observations pour afficher cette valeur.")
@@ -214,15 +214,15 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     
     data <- rv$dt_evolution() %>%
       dplyr::filter(
-        parcours == "Vie active durable",
-        situation_pro_n2 == "En emploi",
-        emploi_n2_temoin_temps_partiel == "Non",
-        emploi_n2_departement != "99"
+        .data$parcours == "Vie active durable",
+        .data$situation_pro_n2 == "En emploi",
+        .data$emploi_n2_temoin_temps_partiel == "Non",
+        .data$emploi_n2_departement != "99"
       ) %>% 
       dplyr::mutate_at("annee", as.character) %>% 
-      dplyr::group_by(annee) %>% 
+      dplyr::group_by(.data$annee) %>% 
       dplyr::summarise(
-        emploi_n2_salaire = stats::median(emploi_n2_salaire, na.rm = TRUE),
+        emploi_n2_salaire = stats::median(.data$emploi_n2_salaire, na.rm = TRUE),
         n = dplyr::n()
       ) %>% 
       dplyr::ungroup() %>% 
@@ -246,14 +246,14 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
   output$emploi_30mois_type <- plotly::renderPlotly({
 
     data <- rv$dt_emploi_30mois() %>%  
-      tidyr::drop_na(emploi_n2_type)
+      tidyr::drop_na(.data$emploi_n2_type)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 
-      dplyr::pull(emploi_n2_type) %>% 
+      dplyr::pull(.data$emploi_n2_type) %>% 
       graphr::shiny_barplot_horizontal(
         color = c("#313131", "#4b4b4b", "#646464", "#7e7e7e", "#9a9a9a"),
         alpha = 0.8,
@@ -266,10 +266,10 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     
     data <- rv$dt_evolution() %>%
       dplyr::filter(
-        parcours == "Vie active durable",
-        situation_pro_n2 == "En emploi"
+        .data$parcours == "Vie active durable",
+        .data$situation_pro_n2 == "En emploi"
       ) %>% 
-      tidyr::drop_na(emploi_n2_type) %>% 
+      tidyr::drop_na(.data$emploi_n2_type) %>% 
       dplyr::mutate_at("annee", as.character)
     
     validate(
@@ -293,14 +293,14 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     )
     
     data <- rv$dt_emploi_occupe() %>%
-      tidyr::drop_na(emploi_n2_fonctions)
+      tidyr::drop_na(.data$emploi_n2_fonctions)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
     data %>% 
-      dplyr::pull(emploi_n2_fonctions) %>%
+      dplyr::pull(.data$emploi_n2_fonctions) %>%
       graphr::shiny_barplot_horizontal(
         colors = "#585858", 
         alpha = 0.8,
@@ -316,13 +316,13 @@ mod_emploi_30mois_poste_server <- function(input, output, session, rv){
     )
     
     data <- rv$dt_emploi_occupe() %>%
-      tidyr::drop_na(emploi_n2_intitule)
+      tidyr::drop_na(.data$emploi_n2_intitule)
     
     validate(
       need(nrow(data) >= 1, "Pas de donn\u00e9es disponibles avec les filtres s\u00e9lectionn\u00e9s")
     )
     
-    data <- dplyr::pull(data, emploi_n2_intitule)
+    data <- dplyr::pull(data, .data$emploi_n2_intitule)
     
     if (length(data) > 18) {
       data <- c(sample(data, 18), "...")
