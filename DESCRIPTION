@@ -31,4 +31,4 @@ Suggests:
 Remotes:
     ove-ut3/graphr,
     ove-ut3/shiny.modules,
-    stephLH/shinydashboard@tabpanel_footer
+    ove-ut3/shinydashboard@tabpanel_footer
