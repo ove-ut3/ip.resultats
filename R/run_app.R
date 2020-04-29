@@ -1,5 +1,9 @@
 #' Run the Shiny Application
-#'
+#' 
+#' @param data \dots
+#' @param diplome \dots
+#' @param graph_font_family \dots
+#' 
 #' @export
 #' @importFrom shiny shinyApp
 #' @importFrom golem with_golem_options

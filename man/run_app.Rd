@@ -6,6 +6,13 @@
 \usage{
 run_app(data, diplome, graph_font_family = NULL)
 }
+\arguments{
+\item{data}{\dots}
+
+\item{diplome}{\dots}
+
+\item{graph_font_family}{\dots}
+}
 \description{
 Run the Shiny Application
 }
