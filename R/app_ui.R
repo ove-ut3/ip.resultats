@@ -51,7 +51,7 @@ app_ui <- function() {
               width = "35px"
             )
           ),
-          HTML("Université <strong>TOULOUSE <font color='#fbca00'>III</font>-PAUL SABATIER</strong>")
+          HTML("UNIVERSITÉ <strong>TOULOUSE <font color='#fbca00'>III</font>-PAUL SABATIER</strong>")
         ),
         left_menu = tagList(
           div(

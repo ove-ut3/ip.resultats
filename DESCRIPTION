@@ -9,6 +9,7 @@ LazyData: true
 Imports: 
     dplyr,
     DT,
+    extrafont,
     fresh,
     golem,
     graphr,

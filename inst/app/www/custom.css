@@ -20,8 +20,12 @@
   height: 50px;
 }
 
-h1, p, a, div {
+h1 {
   font-family: "Roboto Slab";
+}
+
+p, a, div {
+  font-family: "Roboto";
 }
 
 .box,
@@ -34,8 +38,15 @@ h1, p, a, div {
 }
 
 a.sidebar-toggle {
-  text-align: right;
-  height: 50px;
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  a.sidebar-toggle {
+    display: block;
+    text-align: right;
+    height: 50px;
+  }
 }
 
 .main-header .sidebar-toggle {
