@@ -46,7 +46,7 @@ app_ui <- function() {
           tags$a(
             href = "http://www.univ-tlse3.fr",
             tags$img(
-              src = "https://www.univ-tlse3.fr/uas/ups/LOGO/logo_ups_blanc_et_jaune_petit.png", 
+              src = "www/logo UT3 RVB web.png", 
               height = "35px", 
               width = "35px"
             )
