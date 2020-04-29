@@ -89,14 +89,14 @@ mod_accueil_server <- function(input, output, session){
     
     div(style = "font-size: 12pt;",
       p(HTML("Dans le cadre de l'enqu\u00eate nationale minist\u00e9rielle sur la <b>situation \u00e0 30 mois</b> des dipl\u00f4m\u00e9-e-s, l'observatoire de la vie \u00e9tudiante interroge chaque ann\u00e9e les \u00e9tudiant-e-s ayant valid\u00e9 leur <b>DUT</b>, <b>Licence professionnelle</b> ou <b>Master</b>.")),
-      p("A partir des r\u00e9ponses donn\u00e9es par les anciens dipl\u00f4m\u00e9-e-s, ces enqu\u00eates ont pour objectif d\u0092informer sur les d\u00e9bouch\u00e9s accessibles \u00e0 l\u0092issue des formations propos\u00e9es par l\u0092Universit\u00e9 Toulouse III - Paul Sabatier."),
+      p("A partir des r\u00e9ponses donn\u00e9es par les anciens dipl\u00f4m\u00e9-e-s, ces enqu\u00eates ont pour objectif d'informer sur les d\u00e9bouch\u00e9s accessibles \u00e0 l'issue des formations propos\u00e9es par l'Universit\u00e9 Toulouse III - Paul Sabatier."),
       p("Le questionnaire permet de d\u00e9crire le parcours post-dipl\u00f4me :",
         tags$ul(
-          tags$li("soit la poursuite d\u0092\u00e9tudes engag\u00e9e, et donc de conna\u00eetre le dernier dipl\u00f4me vis\u00e9 apr\u00e8s l\u0092obtention du dipl\u00f4me \u00e0 UT3"),
-          tags$li("soit la situation professionnelle de l\u0092\u00e9tudiant-e s\u0092\u00e9tant pr\u00e9sent\u00e9-e sur le march\u00e9 du travail : taux d\u0092insertion, caract\u00e9ristiques du poste de travail, de l\u0092employeur et ad\u00e9quation de l\u0092emploi occup\u00e9 avec le dipl\u00f4m\u00e9 obtenu")
+          tags$li("soit la poursuite d'\u00e9tudes engag\u00e9e, et donc de conna\u00eetre le dernier dipl\u00f4me vis\u00e9 apr\u00e8s l'obtention du dipl\u00f4me \u00e0 UT3"),
+          tags$li("soit la situation professionnelle de l'\u00e9tudiant-e s'\u00e9tant pr\u00e9sent\u00e9-e sur le march\u00e9 du travail : taux d'insertion, caract\u00e9ristiques du poste de travail, de l'employeur et ad\u00e9quation de l'emploi occup\u00e9 avec le dipl\u00f4m\u00e9 obtenu")
           )
       ),
-      p(HTML(glue::glue("Le temps d\u0092enqu\u00eate de 30 mois apr\u00e8s la dipl\u00f4mation explique le d\u00e9calage assez important entre l\u0092ann\u00e9e universitaire en cours et la derni\u00e8re promotion interrog\u00e9e. L'historique pr\u00e9sent\u00e9 commence \u00e0 l'ann\u00e9e {annee_debut} et la derni\u00e8re promotion interrog\u00e9e concerne les dipl\u00f4m\u00e9s de <b>l\u0092ann\u00e9e universitaire {annee_fin}</b>.")))
+      p(HTML(glue::glue("Le temps d'enqu\u00eate de 30 mois apr\u00e8s la dipl\u00f4mation explique le d\u00e9calage assez important entre l'ann\u00e9e universitaire en cours et la derni\u00e8re promotion interrog\u00e9e. L'historique pr\u00e9sent\u00e9 commence \u00e0 l'ann\u00e9e {annee_debut} et la derni\u00e8re promotion interrog\u00e9e concerne les dipl\u00f4m\u00e9s de <b>l'ann\u00e9e universitaire {annee_fin}</b>.")))
     )
     
   })
