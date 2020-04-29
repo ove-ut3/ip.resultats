@@ -22,7 +22,7 @@ mod_accueil_ui <- function(id){
         div(
           a(
             href = "http://www.univ-tlse3.fr",
-            tags$img(src = "www/logo UT3 RVB web.png", height = "55px", width = "163px")
+            tags$img(src = "www/logo UT3 RVB web.png", height = "55px", width = "188px")
           ),
           style = "text-align: left; display: inline-block; width: 15%;"
         ),
