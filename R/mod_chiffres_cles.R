@@ -211,6 +211,10 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
         emploi_n2_departement != "99"
       )
     
+    validate(
+      need(nrow(data) >= 3, "Il n'y a pas suffisamment d'observations pour afficher cette valeur.")
+    )
+    
     valueBox(
       stats::median(emploi_n2_insertion$emploi_n2_salaire, na.rm = TRUE) %>% 
         round() %>% 
