@@ -21,7 +21,7 @@ mod_poursuite_etudes_ui <- function(id){
     list = list(
       
       fluidRow(
-        tabBox(
+        tabBox_footer(
           title = "Poursuite d'études", width = 12,
           tabPanel(
             "Années sélectionnées",
@@ -37,7 +37,7 @@ mod_poursuite_etudes_ui <- function(id){
           ),
           footer = HTML("<sup>1</sup> Sont retenus les diplômés n'ayant pas interrompu deux ans ou plus leurs études entre le baccalauréat et l'obtention du diplôme à l'Université Toulouse III - Paul Sabatier.<br>Les résultats présentés concernent le public assimilé à la formation initiale.")
         ),
-        tabBox(
+        tabBox_footer(
           title = "Poursuite d'études directe ou reprise d'études ?", width = 12,
           tabPanel(
             "Pourcentages",

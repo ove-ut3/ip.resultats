@@ -17,7 +17,7 @@ mod_vie_active_durable_ui <- function(id){
   ns <- NS(id)
   tagList(
     fluidRow(
-      tabBox(
+      tabBox_footer(
         title = "Vie active durable", width = 12,
         tabPanel(
           "Années sélectionnées",

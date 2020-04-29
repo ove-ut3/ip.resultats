@@ -17,7 +17,7 @@ mod_emploi_30mois_poste_ui <- function(id){
   ns <- NS(id)
   tagList(
     fluidRow(
-      tabBox(
+      tabBox_footer(
         title = "Insertion professionnelle à 30 mois", width = 12,
         tabPanel(
           "Années sélectionnées",
@@ -45,7 +45,7 @@ mod_emploi_30mois_poste_ui <- function(id){
           plotly::plotlyOutput(ns("emploi_30mois_niveau_histo"))
         )
       ),
-      tabBox(
+      tabBox_footer(
         title = HTML("Salaire<sup>2</sup>"), width = 4,
         tabPanel(
           "Années sélectionnées",
