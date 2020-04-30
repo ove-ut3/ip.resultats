@@ -24,7 +24,7 @@ mod_accueil_ui <- function(id){
             href = "http://www.univ-tlse3.fr",
             tags$img(src = "www/logo_UT3_RVB_web.png", height = "55px", width = "188px")
           ),
-          style = "text-align: left; display: inline-block; width: 15%;"
+          style = "text-align: left; display: block; width: 15%;"
         ),
         div(
           h1(
@@ -32,13 +32,13 @@ mod_accueil_ui <- function(id){
               paste0("<b>Devenir des dipl\u00f4m\u00e9s de ", golem::get_golem_options("diplome"), "</b>")
             )
           ),
-          style = "text-align: center; display: inline-block; width: 70%;"),
+          style = "text-align: center; display: block; width: 70%;"),
         div(
           a(
             href = "http://www.univ-tlse3.fr/devenir-des-diplomes/",
             tags$img(src = "http://www.univ-tlse3.fr/medias/photo/img_1290420257773.jpg", height = "55px", width = "150px")
           ),
-          style = "text-align: right; display: inline-block; width: 13%;"
+          style = "text-align: right; display: block; width: 13%;"
         )
       )
     ),
