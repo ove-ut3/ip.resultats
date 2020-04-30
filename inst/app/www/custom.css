@@ -9,15 +9,27 @@
 }
 
 .main-header { 
-  position: fixed; 
-  width: 100%; 
+  position: fixed;
+  width: 100%;
+  min-height: 50px;
+  max-height: 200px;
+}
+
+.logo > div {
+  max-height: 200px;
+  font-size: 16px;
 }
 
 .navbar { 
   font-size: 22px;
   color: #fbca00;
   font-family: "Roboto Slab";
-  height: 50px;
+  min-height: 50px;
+}
+
+.navbar-custom-menu .navbar-nav > li > a {
+  padding-top: 14px;
+  padding-bottom: 14px;
 }
 
 h1 {
@@ -41,16 +53,36 @@ a.sidebar-toggle {
   display: none;
 }
 
-@media screen and (max-width: 768px) {
-  a.sidebar-toggle {
-    display: block;
-    text-align: right;
-    height: 50px;
-  }
+.content { 
+  margin-top: 50px;
+  font-family: "Roboto";
 }
 
-.sidebar-toggle {
-  padding: 10px;
+@media screen and (max-width: 768px) {
+
+  .logo > div {
+  	font-size: 14px;
+  }
+
+  .navbar-custom-menu-ove {
+  	display: none;
+  }
+
+  a.sidebar-toggle {
+    display: block;
+    min-height: 50px;
+  }
+
+  .main-header .sidebar-toggle {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .content { 
+    margin-top: 100px;
+    font-family: "Roboto";
+  }
+
 }
 
 .sidebar { 
@@ -63,17 +95,9 @@ a.sidebar-toggle {
 }
 
 .control-sidebar { 
-	position: fixed;
+  position: fixed;
 }
 
-/*.main-footer {
-  background-color: #353535;
-}*/
-
-.content { 
-	margin-top: 50px;
-  font-family: "Roboto";
-}
 
 hr {border-top: 1px solid #fbca00;}
 
