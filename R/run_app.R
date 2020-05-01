@@ -12,8 +12,7 @@ run_app <- function(data, diplome, graph_font_family = NULL) {
  with_golem_options(
     app = shinyApp(
       ui = app_ui,
-      server = app_server,
-      options = list(host = "192.168.1.25", port = 1234)
+      server = app_server
     ), 
     golem_opts = list(
       data = data,
