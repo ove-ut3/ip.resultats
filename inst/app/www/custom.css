@@ -15,6 +15,10 @@
   max-height: 200px;
 }
 
+.skin-blue .main-header .logo {
+  text-align: left;
+}
+
 .logo > div {
   max-height: 200px;
   font-size: 16px;
@@ -62,10 +66,6 @@ a.sidebar-toggle {
 
   .logo > div {
   	font-size: 14px;
-  }
-
-  .navbar-custom-menu-ove {
-  	display: none;
   }
 
   a.sidebar-toggle {

@@ -40,9 +40,9 @@ app_ui <- function() {
     dashboardPagePlus(
       title = paste0("Devenir des dipl\u00f4m\u00e9s de ", golem::get_golem_options("diplome")),
       dashboardHeaderPlus(
-        titleWidth = 410,
+        titleWidth = 810,
         title = div(
-          style = "text-align: left; display: inline-block;",
+          style = "display: inline-block;",
           tags$a(
             href = "http://www.univ-tlse3.fr",
             tags$img(
@@ -51,13 +51,20 @@ app_ui <- function() {
               width = "35px"
             )
           ),
-          HTML("UNIVERSIT\u00c9 <strong>TOULOUSE <font color='#fbca00'>III</font>-PAUL SABATIER</strong>")
-        ),
-        left_menu = tagList(
-          p(
-            HTML(paste0("<strong>Devenir des dipl\u00f4m\u00e9s de ", golem::get_golem_options("diplome"), "</strong>"))
+          HTML("UNIVERSIT\u00c9 <strong>TOULOUSE <font color='#fbca00'>III</font>-PAUL SABATIER</strong>"),
+          HTML(rep("&nbsp;", 7)),
+          div(
+            style = "display: inline-block; font-size: 22px; color: #fbca00; font-family: \"Roboto Slab\";",
+            p(
+              HTML(paste0("<strong>Devenir des dipl\u00f4m\u00e9s de ", golem::get_golem_options("diplome"), "</strong>"))
+            )
           )
         ),
+        # left_menu = tagList(
+        #   p(
+        #     HTML(paste0("<strong>Devenir des dipl\u00f4m\u00e9s de ", golem::get_golem_options("diplome"), "</strong>"))
+        #   )
+        # ),
         enable_rightsidebar = TRUE,
         rightSidebarIcon = "filter"
       ),
