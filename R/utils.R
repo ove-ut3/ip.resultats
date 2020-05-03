@@ -15,14 +15,14 @@ convertMenuItem <- function(tabName, mi, request) {
   mi$children[[2]]$attribs['class'] <- "treeview-menu-custom"
   mi$children[[2]]$attribs['style'] <- "display: block;"
   
-  if (grepl("state", request$QUERY_STRING)) {
+  if (grepl("state=", request$QUERY_STRING)) {
     
     state_id <- request$QUERY_STRING %>%
       stringr::str_match("=(.+)$") %>%
       .[, 2]
 
-    bookmark_menu_selected <- list.files(pattern = paste0(state_id, "/input.rds"), full.names = TRUE, recursive = TRUE) %>% 
-      readRDS() %>%
+    bookmark_menu_selected <- list.files("/home/shiny/shiny", pattern = paste0(state_id, "/input.rds"), full.names = TRUE, recursive = TRUE) %>% 
+    readRDS(rds_file) %>%
       .[["menus"]]
 
     num_menu <- which(purrr::map_lgl(mi$children[[2]]$children, ~ stringr::str_detect(paste(., collapse = ""), bookmark_menu_selected)))
