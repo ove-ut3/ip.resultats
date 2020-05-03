@@ -21,7 +21,8 @@ convertMenuItem <- function(tabName, mi, request) {
       stringr::str_match("=(.+)$") %>%
       .[, 2]
 
-    bookmark_menu_selected <- readRDS(paste0("shiny_bookmarks/", state_id, "/input.rds")) %>%
+    bookmark_menu_selected <- list.files(pattern = paste0(state_id, "/input.rds"), full.names = TRUE, recursive = TRUE) %>% 
+      readRDS() %>%
       .[["menus"]]
 
     num_menu <- which(purrr::map_lgl(mi$children[[2]]$children, ~ stringr::str_detect(paste(., collapse = ""), bookmark_menu_selected)))
