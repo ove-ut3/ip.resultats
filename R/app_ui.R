@@ -28,7 +28,7 @@ app_ui <- function() {
       list_menu_items[1:2],
       list_menu_items[4],
       list_menu_items[3],
-      list_menu_items[5:8]
+      list_menu_items[5:list_menu_items]
     )
     
   }
