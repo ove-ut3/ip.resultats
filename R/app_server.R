@@ -2,10 +2,6 @@
 app_server <- function(input, output, session) {
   # List the first level callModules here
 
-  # removeUI(
-  #   selector = "a.sidebar-toggle"
-  # )
-  
   rv <- reactiveValues()
   
   rv <- callModule(mod_filtre_control_bar_server, "filtre_control_bar_ui", rv)

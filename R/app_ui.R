@@ -1,5 +1,5 @@
 #' @import shiny shinydashboard shinydashboardPlus
-app_ui <- function() {
+app_ui <- function(request) {
   
   list_menu_items <- list(
     menuItem("Accueil", tabName = "tab_home", icon = icon("home")),
@@ -13,12 +13,15 @@ app_ui <- function() {
         menuSubItem("Emploi \u00e0 30 mois", tabName = "tab_emploi_30mois_poste", icon = icon("user-tie")),
         menuSubItem("Employeur \u00e0 30 mois", tabName = "tab_emploi_30mois_employeur", icon = icon("building")),
         menuSubItem("Satisfaction \u00e0 30 mois", tabName = "tab_emploi_30mois_adequation", icon = icon("smile"))
-      )
+      ),
+      request
     ),
     menuItem("Taux de r\u00e9ponse", tabName = "tab_repondants", icon = icon("clipboard-check")),
     hr(),
     menuItem("Filtres s\u00e9lectionn\u00e9s", icon = icon("filter")),
-    shiny.modules::selected_filters_ui("selected_filters_ui")
+    shiny.modules::selected_filters_ui("selected_filters_ui"),
+    hr(),
+    bookmarkButton(label = "Partager une vue", title = "Enregistrer un lien pour partager cette vue de l'application.")
   )
   
   # Poursuite d'\u00e9tudes apr\u00e8s l'emploi
@@ -28,7 +31,7 @@ app_ui <- function() {
       list_menu_items[1:2],
       list_menu_items[4],
       list_menu_items[3],
-      list_menu_items[5:list_menu_items]
+      list_menu_items[5:length(list_menu_items)]
     )
     
   }
@@ -60,16 +63,12 @@ app_ui <- function() {
             )
           )
         ),
-        # left_menu = tagList(
-        #   p(
-        #     HTML(paste0("<strong>Devenir des dipl\u00f4m\u00e9s de ", golem::get_golem_options("diplome"), "</strong>"))
-        #   )
-        # ),
         enable_rightsidebar = TRUE,
         rightSidebarIcon = "filter"
       ),
       dashboardSidebar(
         sidebarMenu(
+          id = "menus",
           .list = list_menu_items
         )
       ),

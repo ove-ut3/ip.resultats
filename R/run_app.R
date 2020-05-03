@@ -12,7 +12,8 @@ run_app <- function(data, diplome, graph_font_family = NULL) {
  with_golem_options(
     app = shinyApp(
       ui = app_ui,
-      server = app_server
+      server = app_server,
+      enableBookmarking = "server"
     ), 
     golem_opts = list(
       data = data,

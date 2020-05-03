@@ -54,7 +54,7 @@ mod_filtre_control_bar_ui <- function(id){
   }
   
   tagList(
-    shinyWidgets::selectizeGroupUI(
+    selectizeGroupUI(
       ns("filtre-donnees"),
       inline = FALSE,
       btn_label = "Supprimer les filtres",
@@ -80,11 +80,29 @@ mod_filtre_control_bar_server <- function(input, output, session, rv){
   )
   
   rv$dt_filtre <- callModule(
-    module = shinyWidgets::selectizeGroupServer,
+    module = selectizeGroupServer,
     id = "filtre-donnees",
     data = dplyr::filter(golem::get_golem_options("data"), .data$type_diplome == golem::get_golem_options("diplome")),
     vars = filter_vars
   )
+  
+  onRestored(function(state) {
+
+    input_list <- state$input %>%
+      .[stringr::str_detect(names(.), "-(selectized|reset_all)$", negate = TRUE)] %>%
+      { Filter(Negate(is.null), .) }
+    
+    if (length(input_list) >= 1) {
+      for (num_filtre in seq_along(input_list)) {
+        updateSelectInput(
+          session,
+          inputId = names(input_list)[num_filtre],
+          selected = input_list[[num_filtre]]
+        )
+      }
+    }
+
+  })
   
   rv$filter_vars <- filter_vars
   rv$inputs <- input
