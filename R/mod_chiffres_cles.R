@@ -212,7 +212,7 @@ mod_chiffres_cles_server <- function(input, output, session, rv){
       )
     
     validate(
-      need(nrow(data) >= 3, "Il n'y a pas suffisamment d'observations pour afficher cette valeur.")
+      need(nrow(emploi_n2_insertion) >= 3, "Il n'y a pas suffisamment d'observations pour afficher cette valeur.")
     )
     
     valueBox(
