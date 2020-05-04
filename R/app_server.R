@@ -2,6 +2,8 @@
 app_server <- function(input, output, session) {
   # List the first level callModules here
 
+  shinyjs::runjs("$('body').addClass('control-sidebar-open');")
+  
   rv <- reactiveValues()
   
   rv <- callModule(mod_filtre_control_bar_server, "filtre_control_bar_ui", rv)
