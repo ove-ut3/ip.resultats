@@ -186,7 +186,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
       dplyr::mutate_at("var", dplyr::recode, "en_emploi" = "En emploi", "non_emploi" = "En recherche d'emploi") %>% 
       dplyr::mutate_at("var", factor, levels = c("En emploi", "En recherche d'emploi")) %>% 
       dplyr::mutate(list = purrr::map(.data$n, ~ 1:.)) %>% 
-      tidyr::unnest_legacy() %>% 
+      tidyr::unnest(list) %>% 
       dplyr::filter(.data$n != 0)
     
     validate(
@@ -298,7 +298,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   output$emploi_premier_tx_difficultes <- renderValueBox({
     
     data <- rv$dt_emploi_occupe() %>% 
-      tidyr::unnest_legacy(.data$emploi_premier_difficulte_acces) %>% 
+      tidyr::unnest(.data$emploi_premier_difficulte_acces) %>% 
       tidyr::drop_na(.data$emploi_premier_difficulte_acces) %>% 
       dplyr::count(.data$annee, .data$code_etudiant)
     
@@ -319,7 +319,7 @@ mod_emploi_premier_server <- function(input, output, session, rv){
   output$emploi_premier_difficultes <- plotly::renderPlotly({
     
     data <- rv$dt_emploi_occupe() %>%
-      tidyr::unnest_legacy(.data$emploi_premier_difficulte_acces) %>% 
+      tidyr::unnest(.data$emploi_premier_difficulte_acces) %>% 
       tidyr::drop_na(.data$emploi_premier_difficulte_acces)
     
     validate(

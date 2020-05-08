@@ -232,7 +232,7 @@ mod_poursuite_etudes_server <- function(input, output, session, rv){
     data <- rv$dt_etudes() %>% 
       dplyr::filter(.data$parcours == "Poursuite d'\u00e9tudes directe") %>% 
       dplyr::select(.data$pours_etud_n_n1_raison) %>% 
-      tidyr::unnest_legacy() %>% 
+      tidyr::unnest(.data$pours_etud_n_n1_raison) %>% 
       tidyr::drop_na(.data$pours_etud_n_n1_raison)
     
     validate(
