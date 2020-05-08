@@ -121,7 +121,7 @@ hr {border-top: 1px solid #fbca00;}
   margin: 0;
 }
 .sidebar-menu .treeview-menu-custom > li > a {
-  padding: 5px 5px 5px 15px;
+  padding: 5px 5px 5px 20px;
   display: block;
   font-size: 14px;
   font-family: "Roboto";
@@ -144,6 +144,11 @@ hr {border-top: 1px solid #fbca00;}
 .skin-blue .treeview-menu-custom > li.active > a,
 .skin-blue .treeview-menu-custom > li > a:hover {
   color: #fbca00;
+}
+
+.skin-blue .sidebar-menu > li.active > a,
+.skin-blue .treeview-menu-custom > li.active > a {
+  border-left-color: #fbca00;
 }
 
 .skin-blue .main-header .logo {
