@@ -1,8 +1,8 @@
 #' Run the Shiny Application
 #' 
-#' @param data \dots
-#' @param diplome \dots
-#' @param graph_font_family \dots
+#' @param data Table de données source
+#' @param diplome Type de diplôme
+#' @param graph_font_family Police de caractère utilisée
 #' 
 #' @export
 #' @importFrom shiny shinyApp

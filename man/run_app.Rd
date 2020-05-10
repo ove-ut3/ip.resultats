@@ -7,11 +7,11 @@
 run_app(data, diplome, graph_font_family = NULL)
 }
 \arguments{
-\item{data}{\dots}
+\item{data}{Table de données source}
 
-\item{diplome}{\dots}
+\item{diplome}{Type de diplôme}
 
-\item{graph_font_family}{\dots}
+\item{graph_font_family}{Police de caractère utilisée}
 }
 \description{
 Run the Shiny Application

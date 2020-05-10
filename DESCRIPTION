@@ -1,13 +1,12 @@
 Package: ip.resultats
 Title: Résultats des enquetes d'insertion professionnelle
-Version: 0.0.0.9000
+Version: 0.1
 Authors@R: person('OVE UT3', email = 'ove@univ-tlse3.fr', role = c('cre', 'aut'))
 Description: Les résultats des enquêtes d'insertion professionnelle sont proposés grâce à une application shiny.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    config,
     dplyr,
     DT,
     extrafont,
@@ -26,10 +25,9 @@ Imports:
     shinydashboardPlus,
     shinyjs,
     shinyWidgets,
+    stringr,
     tidyr
 RoxygenNote: 7.1.0
-Suggests: 
-    testthat
 Remotes:
     ove-ut3/graphr,
     ove-ut3/shiny.modules
